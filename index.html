@@ -67,7 +67,6 @@
     }
     .card:hover { transform: translateY(-5px); border-color: #2563eb; }
     
-    /* Image Area Adjusted without increasing box size */
     .card img { 
       width: 100%; 
       height: 230px; 
@@ -146,7 +145,29 @@
     }
 
     .section-title { font-size: 15px; margin-bottom: 8px; color: #38bdf8; font-weight: bold; }
-    .btn-group { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
+
+    /* ==========================================
+       BUTTON GROUP: 6 PER ROW FIXED SIZE
+       ========================================== */
+    .btn-group { 
+      display: grid;
+      grid-template-columns: repeat(6, 1fr); /* প্রতি সারিতে ৬টি করে সমান বাটন */
+      gap: 8px; 
+      margin-bottom: 15px; 
+    }
+
+    /* সব বাটন এক সাইজের রাখা */
+    .btn-group button {
+      width: 100%;
+      height: 38px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: 600;
+      font-size: 13px;
+    }
 
     /* Channel Item */
     .channel-item {
@@ -212,6 +233,7 @@
       .player-container { flex-direction: column; height: auto; }
       .video-box { height: 250px; }
       .sidebar-box { height: 300px; }
+      .btn-group { grid-template-columns: repeat(4, 1fr); } /* ছোট স্ক্রিনে ৪টি করে */
     }
   </style>
 </head>
@@ -307,7 +329,7 @@
 
   <script>
     /* ========================================================
-       1. ADBLOCKER DETECTION SYSTEM (RUNS EVERY 1 SECOND)
+       1. ADBLOCKER DETECTION SYSTEM
        ======================================================== */
     let isAdBlockActive = false;
 
@@ -317,12 +339,10 @@
       
       let blocked = false;
 
-      // Check 1: Bait element CSS / display status
       if (!bait || bait.offsetParent === null || bait.offsetHeight === 0 || bait.offsetWidth === 0) {
         blocked = true;
       }
 
-      // Check 2: Try fetching known ad script
       if (!blocked) {
         try {
           const request = new Request('https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js', {
@@ -346,7 +366,6 @@
       }
     }
 
-    // Run check immediately and repeat every 1 second (1000ms)
     checkAdBlocker();
     setInterval(checkAdBlocker, 1000);
 
@@ -479,7 +498,7 @@
     }
 
     function openItem(nameOrCountry, type, m3ulink) {
-      if (isAdBlockActive) return; // Block opening player if AdBlocker is enabled
+      if (isAdBlockActive) return;
 
       document.getElementById('player-overlay').style.display = 'block';
       document.getElementById('current-stream-title').innerText = nameOrCountry || 'WEB-XBD STREAM';
@@ -538,8 +557,10 @@
       const seasons = {};
       Object.keys(item.episodes).forEach(epKey => {
         const sName = epKey.substring(0, 2);
+        const cleanEpKey = epKey.replace(/^S\d+/i, '');
+
         if (!seasons[sName]) seasons[sName] = [];
-        seasons[sName].push({ key: epKey, url: item.episodes[epKey] });
+        seasons[sName].push({ key: cleanEpKey, url: item.episodes[epKey] });
       });
 
       Object.keys(seasons).forEach((sKey, index) => {
