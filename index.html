@@ -47,10 +47,10 @@
     }
     button:hover, button.active { background: #2563eb; color: #fff; border-color: #2563eb; }
 
-    /* Gallery Grid */
+    /* Gallery Grid - ডানে ও বামে হালকা বড় করার জন্য minmax বাড়িয়ে 170px করা হয়েছে */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
       gap: 15px;
     }
 
@@ -67,10 +67,11 @@
     }
     .card:hover { transform: translateY(-5px); border-color: #2563eb; }
     
+    /* উপরের দিকে হালকা বড় করার জন্য উচ্চতা 230px থেকে বাড়িয়ে 250px করা হয়েছে */
     .card img { 
       width: 100%; 
-      height: 230px; 
-      object-fit: fill; /* ছবিটিকে টেনে বক্সের ১০০% জুড়ে ফিট করবে, ফলে ফাঁকা বা কালো অংশ থাকবে না */
+      height: 250px; 
+      object-fit: fill; 
       background: #0f172a; 
       display: block;
     }
@@ -78,9 +79,9 @@
     .card-title { font-size: 13px; font-weight: bold; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .card-tag { font-size: 10px; background: #334155; padding: 2px 5px; border-radius: 4px; display: inline-block; text-transform: uppercase; }
 
-    /* Square Card Style for TV Channel Flags */
+    /* Square Card Style for TV Channel Flags - উচ্চতা 160px থেকে বাড়িয়ে 180px করা হয়েছে */
     .card.square-card img {
-      height: 160px;
+      height: 180px;
       object-fit: fill;
     }
 
@@ -146,9 +147,7 @@
 
     .section-title { font-size: 15px; margin-bottom: 8px; color: #38bdf8; font-weight: bold; }
 
-    /* ==========================================
-       BUTTON GROUP: 6 PER ROW FIXED SIZE
-       ========================================== */
+    /* BUTTON GROUP */
     .btn-group { 
       display: grid;
       grid-template-columns: repeat(6, 1fr);
