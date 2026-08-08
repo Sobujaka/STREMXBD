@@ -385,7 +385,6 @@
     /* ========================================================
        2. STREAMING & DATA LOGIC
        ======================================================== */
-    // Cloudflare Worker URL
     const JSON_URL = 'https://tiny-cherry-4a41.jahangir339932.workers.dev/';
     let allData = [];
     let currentFilter = 'all';
@@ -750,52 +749,17 @@
       `).join('');
     }
 
-    /* ----------------------------------------------------
-       UPDATED PROTECTED STREAM PLAYER (BLOB URL SYSTEM)
-       ---------------------------------------------------- */
-    async function playStream(playerId, url) {
+    function playStream(playerId, url) {
       if (isAdBlockActive) return;
 
       const player = document.getElementById(playerId);
-      if (!url) {
-        alert("Streaming link missing!");
-        return;
-      }
-
-      // ১. MP4 টাইপ ভিডিও হলে Blob তৈরি করে প্লে করবে (আসল লিংক লুকিয়ে যাবে)
-      if (url.includes('.mp4')) {
-        try {
-          player.poster = "https://via.placeholder.com/600x350?text=Loading+Protected+Stream...";
-          const response = await fetch(url);
-          const blob = await response.blob();
-          const blobUrl = URL.createObjectURL(blob);
-          
-          player.src = blobUrl;
-          player.play();
-        } catch (e) {
-          // Fetch এ সমস্যা বা CORS ইস্যু থাকলে ডাইরেক্ট লিঙ্ক দিয়ে ফলব্যাক প্লে
-          player.src = url;
-          player.play().catch(err => console.log("Autoplay issue"));
-        }
-      } else {
-        // ২. M3U বা অন্যান্য স্ট্রিমিং লিঙ্কের জন্য
+      if (url) {
         player.src = url;
         player.play().catch(e => console.log("Autoplay blocked or invalid stream link"));
+      } else {
+        alert("Streaming link missing!");
       }
     }
-
-    /* ========================================================
-       3. ANTI-DEVTOOLS & RIGHT-CLICK LOCK SECURITY
-       ======================================================== */
-    // রাইট ক্লিক ডিজেবল
-    document.addEventListener('contextmenu', event => event.preventDefault());
-
-    // F12, Ctrl+U, Ctrl+Shift+I শর্টকাট বন্ধ করা
-    document.onkeydown = function(e) {
-      if (e.keyCode == 123) return false; // F12
-      if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false; // Ctrl+Shift+I / J
-      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; // Ctrl+U
-    };
 
     loadData();
   </script>
