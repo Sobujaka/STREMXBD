@@ -23,11 +23,11 @@
   },
   {
     "type": "movie",
-    "name": "Demon Slayer: Mugen Train",
-    "image": "https://example.com/ds_movie.jpg",
+    "name": "David",
+    "image": "https://images1.discoveryftp.net/media/1080/Movies/Animation/2025/David/poster.jpg",
     "category": "ANIMATION",
     "language": "HINDI",
-    "movielink": "https://example.com/ds_movie.mp4"
+    "movielink": "https://cdn1.discoveryftp.net/Movies/Animation/2025/David/David.2025.1080p.WEb-Dl.Hindi-Dual.ESub.x264.mkv"
   },
   {
     "type": "tv-channel",
