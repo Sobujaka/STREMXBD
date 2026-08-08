@@ -5,14 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Full Height Stream Portal</title>
   
-  <!-- HLS.JS Library Included for Live TV & Stream Support -->
+  <!-- 1. HLS.JS Library Included for Live TV (.m3u8) Support -->
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background: #0f172a; color: #fff; padding: 15px; }
 
-    /* Header Navigation */
     header {
       display: flex;
       flex-wrap: wrap;
@@ -48,7 +47,6 @@
     select { color: #38bdf8; font-weight: bold; }
     button:hover, button.active { background: #2563eb; color: #fff; border-color: #2563eb; }
 
-    /* Gallery Grid */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
@@ -74,7 +72,6 @@
 
     .card.square-card img { height: 180px; object-fit: fill; }
 
-    /* Full Screen Overlay Page */
     #player-overlay {
       display: none;
       position: fixed;
@@ -102,7 +99,6 @@
     .channel-item:hover { background: #334155; }
     .channel-item img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
 
-    /* AdBlocker Detector Modal Popup */
     #adblock-popup {
       display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background: rgba(15, 23, 42, 0.98); z-index: 999999; justify-content: center; align-items: center; text-align: center; padding: 20px;
@@ -122,10 +118,8 @@
 </head>
 <body>
 
-  <!-- AdBlock Bait Element -->
   <div class="adsbox" style="position:absolute; left:-9999px; top:-9999px; height:1px; width:1px;"></div>
 
-  <!-- AdBlock Warning Popup -->
   <div id="adblock-popup">
     <div class="adblock-box">
       <h2>⚠️ AdBlocker Detected!</h2>
@@ -134,7 +128,6 @@
     </div>
   </div>
 
-  <!-- Header -->
   <header>
     <div class="search-bar">
       <input type="text" id="search-input" placeholder="Search title or group..." oninput="filterGrid()">
@@ -156,22 +149,19 @@
     </div>
   </header>
 
-  <!-- Gallery Grid -->
   <div class="grid" id="content-grid">
     <p style="text-align:center; grid-column: 1/-1;">Loading streams...</p>
   </div>
 
-  <!-- Full Screen Player View -->
   <div id="player-overlay">
     <div class="overlay-header">
       <h2 id="current-stream-title" style="color: #38bdf8;">WEB-XBD PLAYER</h2>
       <button class="close-btn" onclick="closePlayer()">✕ Close Player</button>
     </div>
 
-    <!-- ANIME & TV SERIES PLAYER -->
     <div id="player-type-series" class="player-container" style="display:none;">
       <div class="video-box">
-        <video id="series-video" controls playsinline preload="metadata" poster="https://via.placeholder.com/600x350?text=Select+Episode"></video>
+        <video id="series-video" controls poster="https://via.placeholder.com/600x350?text=Select+Episode"></video>
       </div>
       <div class="sidebar-box">
         <div class="section-title">Select Language:</div>
@@ -183,10 +173,9 @@
       </div>
     </div>
 
-    <!-- MOVIE PLAYER -->
     <div id="player-type-movie" class="player-container" style="display:none;">
       <div class="video-box">
-        <video id="movie-video" controls playsinline preload="metadata" poster="https://via.placeholder.com/600x350?text=Select+Language"></video>
+        <video id="movie-video" controls poster="https://via.placeholder.com/600x350?text=Select+Language"></video>
       </div>
       <div class="sidebar-box">
         <div class="section-title">Select Language:</div>
@@ -194,10 +183,9 @@
       </div>
     </div>
 
-    <!-- LIVE TV PLAYER -->
     <div id="player-type-tv" class="player-container" style="display:none;">
       <div class="video-box">
-        <video id="tv-video" controls playsinline preload="metadata" poster="https://via.placeholder.com/600x350?text=Select+Channel"></video>
+        <video id="tv-video" controls poster="https://via.placeholder.com/600x350?text=Select+Channel"></video>
       </div>
       <div class="sidebar-box">
         <div class="section-title">Select Channel Group:</div>
@@ -212,7 +200,7 @@
 
   <script>
     let isAdBlockActive = false;
-    let hlsInstance = null;
+    let hlsInstance = null; // Global HLS Player Instance
 
     async function checkAdBlocker() {
       const bait = document.querySelector('.adsbox');
@@ -529,7 +517,7 @@
           playStream('tv-video', loadedM3UChannels[0].url);
         }
       } catch (err) {
-        container.innerHTML = "Failed to load M3U channels list.";
+        container.innerHTML = "Failed to load M3U channels list (CORS Blocked).";
       }
     }
 
@@ -569,7 +557,7 @@
       `).join('');
     }
 
-    /* SMOOTH BUFFER & AUTO-QUALITY ENHANCED PLAYSTREAM FUNCTION */
+    /* Updated PlayStream Function supporting HLS.js for Live Streams */
     function playStream(playerId, url) {
       if (isAdBlockActive) return;
 
@@ -581,58 +569,20 @@
       }
 
       if (url) {
-        const isHls = url.includes('.m3u8') || playerId === 'tv-video';
-
-        if (isHls && Hls.isSupported()) {
-          hlsInstance = new Hls({
-            autoStartLoad: true,
-            startLevel: -1,             // নেটের স্পিড দেখে উপযুক্ত রেজোলিউশন অটো বাছবে
-            capLevelToPlayerSize: true, 
-
-            // বাফারিং ও স্মুথ প্লেব্যাক কনফিগারেশন
-            maxBufferLength: 60,        // সর্বোচ্চ ৬০ সেকেন্ড বাফার করবে
-            maxMaxBufferLength: 120,
-            maxBufferHole: 0.5,
-            lowLatencyMode: false,
-
-            // নেটওয়ার্ক রিট্রাই সেটআপ
-            manifestLoadingTimeOut: 20000,
-            manifestLoadingMaxRetry: 4,
-            levelLoadingTimeOut: 20000,
-            levelLoadingMaxRetry: 4
-          });
-
+        if (Hls.isSupported() && (url.includes('.m3u8') || playerId === 'tv-video')) {
+          hlsInstance = new Hls();
           hlsInstance.loadSource(url);
           hlsInstance.attachMedia(video);
-          
           hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
-            hlsInstance.currentLevel = -1; // Auto Quality Active
-            video.play().catch(e => console.log("Autoplay error: ", e));
+            video.play().catch(e => console.log("Autoplay blocked"));
           });
-
-          // নেটওয়ার্ক ড্রপ হলে অটো-রিকভারি
-          hlsInstance.on(Hls.Events.ERROR, function (event, data) {
-            if (data.fatal) {
-              switch (data.type) {
-                case Hls.ErrorTypes.NETWORK_ERROR:
-                  hlsInstance.startLoad();
-                  break;
-                case Hls.ErrorTypes.MEDIA_ERROR:
-                  hlsInstance.recoverMediaError();
-                  break;
-                default:
-                  hlsInstance.destroy();
-                  break;
-              }
-            }
-          });
-
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+          // Native Safari Support
           video.src = url;
-          video.play().catch(e => console.log("Autoplay error: ", e));
+          video.play().catch(e => console.log("Autoplay blocked"));
         } else {
           video.src = url;
-          video.play().catch(e => console.log("Autoplay error: ", e));
+          video.play().catch(e => console.log("Autoplay blocked"));
         }
       } else {
         alert("Streaming link missing!");
