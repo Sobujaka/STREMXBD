@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Full Height Stream Portal</title>
+  <title>Full Height HD Stream Portal</title>
   
-  <!-- 1. HLS.JS Library Included for Live TV (.m3u8) Support -->
+  <!-- 1. HLS.JS Library Included for Live TV & HD Streaming Support -->
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
   <style>
@@ -159,9 +159,10 @@
       <button class="close-btn" onclick="closePlayer()">✕ Close Player</button>
     </div>
 
+    <!-- ANIME & TV SERIES PLAYER -->
     <div id="player-type-series" class="player-container" style="display:none;">
       <div class="video-box">
-        <video id="series-video" controls poster="https://via.placeholder.com/600x350?text=Select+Episode"></video>
+        <video id="series-video" controls playsinline preload="metadata" poster="https://via.placeholder.com/600x350?text=Select+Episode"></video>
       </div>
       <div class="sidebar-box">
         <div class="section-title">Select Language:</div>
@@ -173,9 +174,10 @@
       </div>
     </div>
 
+    <!-- MOVIE PLAYER -->
     <div id="player-type-movie" class="player-container" style="display:none;">
       <div class="video-box">
-        <video id="movie-video" controls poster="https://via.placeholder.com/600x350?text=Select+Language"></video>
+        <video id="movie-video" controls playsinline preload="metadata" poster="https://via.placeholder.com/600x350?text=Select+Language"></video>
       </div>
       <div class="sidebar-box">
         <div class="section-title">Select Language:</div>
@@ -183,9 +185,10 @@
       </div>
     </div>
 
+    <!-- LIVE TV PLAYER -->
     <div id="player-type-tv" class="player-container" style="display:none;">
       <div class="video-box">
-        <video id="tv-video" controls poster="https://via.placeholder.com/600x350?text=Select+Channel"></video>
+        <video id="tv-video" controls playsinline preload="metadata" poster="https://via.placeholder.com/600x350?text=Select+Channel"></video>
       </div>
       <div class="sidebar-box">
         <div class="section-title">Select Channel Group:</div>
@@ -200,7 +203,7 @@
 
   <script>
     let isAdBlockActive = false;
-    let hlsInstance = null; // Global HLS Player Instance
+    let hlsInstance = null;
 
     async function checkAdBlocker() {
       const bait = document.querySelector('.adsbox');
@@ -517,7 +520,7 @@
           playStream('tv-video', loadedM3UChannels[0].url);
         }
       } catch (err) {
-        container.innerHTML = "Failed to load M3U channels list (CORS Blocked).";
+        container.innerHTML = "Failed to load M3U channels list.";
       }
     }
 
@@ -557,7 +560,7 @@
       `).join('');
     }
 
-    /* Updated PlayStream Function supporting HLS.js for Live Streams */
+    /* HD ENHANCED PLAYSTREAM FUNCTION */
     function playStream(playerId, url) {
       if (isAdBlockActive) return;
 
@@ -569,20 +572,34 @@
       }
 
       if (url) {
-        if (Hls.isSupported() && (url.includes('.m3u8') || playerId === 'tv-video')) {
-          hlsInstance = new Hls();
+        const isHls = url.includes('.m3u8') || playerId === 'tv-video';
+
+        if (isHls && Hls.isSupported()) {
+          // HLS Config Optimized for High HD Quality & Performance
+          hlsInstance = new Hls({
+            startLevel: -1,              // Automatically select best start level
+            capLevelToPlayerSize: true,  // Optimize resolution according to screen size
+            maxBufferLength: 30,         // Buffer up to 30s for smooth HD playback
+            maxMaxBufferLength: 60
+          });
+
           hlsInstance.loadSource(url);
           hlsInstance.attachMedia(video);
-          hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
-            video.play().catch(e => console.log("Autoplay blocked"));
+          
+          hlsInstance.on(Hls.Events.MANIFEST_PARSED, function(event, data) {
+            // Automatically switch to highest available quality level
+            hlsInstance.currentLevel = data.levels.length - 1; 
+            video.play().catch(e => console.log("Autoplay policy error: ", e));
           });
+
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          // Native Safari Support
+          // Safari Native HLS Support
           video.src = url;
-          video.play().catch(e => console.log("Autoplay blocked"));
+          video.play().catch(e => console.log("Autoplay policy error: ", e));
         } else {
+          // Direct MP4 / Video Links (Movie / Anime / Series)
           video.src = url;
-          video.play().catch(e => console.log("Autoplay blocked"));
+          video.play().catch(e => console.log("Autoplay policy error: ", e));
         }
       } else {
         alert("Streaming link missing!");
