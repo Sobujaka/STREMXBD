@@ -72,7 +72,7 @@
     "type": "tv-channel",
     "image": "https://flagcdn.com/w320/bd.png",
     "country": "Bangladesh",
-    "m3ulink": "https://raw.githubusercontent.com/Sobujaka/m3u8test/refs/heads/main/Live_Channels_Filtered.m3u"
+    "m3ulink": "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/BD.m3u"
   },
   {
     "type": "tv-series",
