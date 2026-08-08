@@ -1,89 +1,32 @@
 [
   {
-    "type": "anime",
-    "name": "Solo Leveling",
-    "image": "https://pbcdnw.aoneroom.com/image/2026/07/24/9fbf48d699c40795c62eb8ed28f7dbb8.jpg?x-oss-process=image/resize%2Cw_250",
-    "category": "ANIMATION",
-    "language": "ENGLISH",
-    "episodes": {
-      "S1EP1": "http://172.16.50.14/DHAKA-FLIX-14/Animation%20Movies/%282000%29%20%26%20Before/A%20Bug%27s%20Life%20%281998%29%20720p/A.Bugs.Life.1998.720p.BluRay.x264.YIFY.mp4",
-      "S1EP2": "",
-      "S1EP3": "",
-      "S1EP4": "",
-      "S1EP5": "",
-      "S1EP6": "",
-      "S1EP7": "",
-      "S1EP8": "",
-      "S1EP9": "",
-      "S1EP10":"",
-      "S1EP11":"",
-      "S1EP12": "",
-      "S2EP1": ""
-    }
-  },
-  {
-    "type": "movie",
-    "name": "Demon Slayer: Mugen Train",
-    "image": "https://example.com/ds_movie.jpg",
-    "category": "ANIMATION",
-    "language": "HINDI",
-    "movielink": "https://example.com/ds_movie.mp4"
-  },
-  {
-    "type": "tv-channel",
-    "image": "https://flagcdn.com/w320/in.png",
-    "country": "India",
-    "m3ulink": "https://raw.githubusercontent.com/Sobujaka/m3u8test/refs/heads/main/Live_Channels_Filtered.m3u"
-  },
-  {
-    "type": "tv-series",
     "name": "Naruto",
-    "image": "https://example.com/naruto.jpg",
-    "category": "ANIMATION",
-    "language": "HINDI",
-    "episodes": {
-      "S1EP1": "https://example.com/naruto_s1e1.mp4",
-      "S1EP2": "https://example.com/naruto_s1e2.mp4",
-      "S2EP1": "https://example.com/naruto_s2e1.mp4",
-      "S2EP2": "https://example.com/naruto_s2e2.mp4"
-    }
-  },
-  {
-    "type": "movie",
-    "name": "Demon Slayer: Mugen Train",
-    "image": "https://example.com/jjk0.jpg",
-    "category": "ANIMATION",
-    "language": "ENGLISH",
-    "movielink": "https://example.com/jjk0.mp4"
-  },
-  {
     "type": "anime",
-    "name": "Death Note",
-    "image": "https://pbcdnw.aoneroom.com/image/2026/01/27/6e1df13360d1167d1b4fc42cb868763a.jpg?x-oss-process=image/resize%2Cw_250",
-    "category": "ANIMATION",
-    "language": "HINDI",
+    "category": "Action",
+    "language": "Hindi",
+    "image": "https://example.com/images/naruto.jpg",
     "episodes": {
-      "S1EP1": "https://example.com/dn_s1e1.mp4",
-      "S1EP2": "https://example.com/dn_s1e2.mp4",
-      "S2EP1": "https://example.com/dn_s2e1.mp4"
+      "S01E01": "https://example.com/videos/naruto_s1_e1.m3u8",
+      "S01E02": "https://example.com/videos/naruto_s1_e2.m3u8"
     }
   },
   {
-    "type": "tv-channel",
-    "image": "https://flagcdn.com/w320/bd.png",
-    "country": "Bangladesh",
-    "m3ulink": "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/BD.m3u"
+    "name": "Inception",
+    "type": "movie",
+    "category": "Sci-Fi",
+    "language": "English",
+    "image": "https://example.com/images/inception.jpg",
+    "movielink": "https://example.com/videos/inception.mp4"
   },
   {
+    "name": "Stranger Things",
     "type": "tv-series",
-    "name": "One Piece",
-    "image": "https://example.com/op.jpg",
-    "category": "ANIMATION",
-    "language": "HINDI",
+    "category": "Drama",
+    "language": "English",
+    "image": "https://example.com/images/stranger_things.jpg",
     "episodes": {
-      "S1EP1": "https://example.com/op_s1e1.mp4",
-      "S1EP2": "https://example.com/op_s1e2.mp4",
-      "S2EP1": "https://example.com/op_s2e1.mp4"
+      "S01E01": "https://example.com/videos/st_s1_e1.mp4",
+      "S01E02": "https://example.com/videos/st_s1_e2.mp4"
     }
   }
 ]
