@@ -50,11 +50,11 @@
   },
   {
     "type": "movie",
-    "name": "Demon Slayer: Mugen Train",
-    "image": "https://example.com/jjk0.jpg",
+    "name": "Your Name",
+    "image": "https://images1.discoveryftp.net/media/1080/Movies/Animation/2016/Your%20Name/poster.jpg",
     "category": "ANIMATION",
-    "language": "ENGLISH",
-    "movielink": "https://example.com/jjk0.mp4"
+    "language": "HINDI",
+    "movielink": "https://cdn1.discoveryftp.net/Movies/Animation/2016/Your%20Name/Your.Name.2016.1080p.BluRay.Hindi.2.0-English.5.1.ESub.x264-Dual.mkv"
   },
   {
     "type": "anime",
