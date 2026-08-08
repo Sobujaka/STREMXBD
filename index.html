@@ -33,7 +33,7 @@
       outline: none;
     }
     .nav-buttons { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-    button, select, input[type="file"] {
+    button, select {
       background: #1e293b;
       color: #cbd5e1;
       border: 1px solid #334155;
@@ -139,9 +139,6 @@
       <!-- Live TV Button Directly Triggers Player Overlay -->
       <button style="background: #059669; color: white;" onclick="openTVDirectly()">📺 Live TV</button>
 
-      <!-- Upload M3U File Option -->
-      <input type="file" id="m3u-file-input" accept=".m3u,.m3u8" onchange="handleM3UUpload(event)" title="Upload Custom M3U File" style="max-width: 150px;">
-
       <select id="category-select" onchange="filterGrid()">
         <option value="all">Category: All</option>
       </select>
@@ -216,8 +213,8 @@
     let isAdBlockActive = false;
     let hlsInstance = null;
 
-    // DIRECT M3U LINK: আপলোড না করে সরাসরি লিংক চালাতে চাইলে নিচে M3U লিংক বসিয়ে দিন
-    const DIRECT_M3U_URL = ""; 
+    // GitHub M3U RAW LINK: আপনার GitHub-এ আপলোড করা M3U ফাইলের Raw লিংকটি নিচে বসান
+    const DIRECT_M3U_URL = "https://raw.githubusercontent.com/username/repository/main/playlist.m3u"; 
 
     async function checkAdBlocker() {
       const bait = document.querySelector('.adsbox');
@@ -382,7 +379,7 @@
         if (DIRECT_M3U_URL) {
           parseM3UFromUrl(DIRECT_M3U_URL);
         } else {
-          document.getElementById('tv-channel-list').innerHTML = "<p style='color:#cbd5e1; font-size:12px;'>Please upload an M3U file above or specify DIRECT_M3U_URL.</p>";
+          document.getElementById('tv-channel-list').innerHTML = "<p style='color:#cbd5e1; font-size:12px;'>Please specify DIRECT_M3U_URL in the script.</p>";
         }
       }
     }
@@ -482,19 +479,6 @@
       const selectedIndex = document.getElementById('movie-lang-select').value;
       const item = currentMovieData[selectedIndex];
       if (item && item.movielink) playStream('movie-video', item.movielink);
-    }
-
-    // M3U File Upload Reader
-    function handleM3UUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        parseM3UContent(e.target.result);
-        openTVDirectly();
-      };
-      reader.readAsText(file);
     }
 
     async function parseM3UFromUrl(url) {
