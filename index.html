@@ -47,7 +47,7 @@
     }
     button:hover, button.active { background: #2563eb; color: #fff; border-color: #2563eb; }
 
-    /* Gallery Grid - ডানে ও বামে হালকা বড় করার জন্য minmax বাড়িয়ে 170px করা হয়েছে */
+    /* Gallery Grid */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
@@ -67,7 +67,6 @@
     }
     .card:hover { transform: translateY(-5px); border-color: #2563eb; }
     
-    /* উপরের দিকে হালকা বড় করার জন্য উচ্চতা 230px থেকে বাড়িয়ে 250px করা হয়েছে */
     .card img { 
       width: 100%; 
       height: 250px; 
@@ -79,7 +78,7 @@
     .card-title { font-size: 13px; font-weight: bold; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .card-tag { font-size: 10px; background: #334155; padding: 2px 5px; border-radius: 4px; display: inline-block; text-transform: uppercase; }
 
-    /* Square Card Style for TV Channel Flags - উচ্চতা 160px থেকে বাড়িয়ে 180px করা হয়েছে */
+    /* Square Card Style for TV Channel Flags */
     .card.square-card img {
       height: 180px;
       object-fit: fill;
@@ -145,9 +144,20 @@
       overflow-y: auto;
     }
 
-    .section-title { font-size: 15px; margin-bottom: 8px; color: #38bdf8; font-weight: bold; }
+    .section-title { font-size: 14px; margin-bottom: 6px; color: #38bdf8; font-weight: bold; }
 
-    /* BUTTON GROUP */
+    /* Dropdown Styling inside Sidebar */
+    .sidebar-select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      background: #1e293b;
+      color: #38bdf8;
+      border: 1px solid #334155;
+    }
+
+    /* BUTTON GROUP FOR EPISODES */
     .btn-group { 
       display: grid;
       grid-template-columns: repeat(6, 1fr);
@@ -252,7 +262,7 @@
   <!-- Top Navigation & Search -->
   <header>
     <div class="search-bar">
-      <input type="text" id="search-input" placeholder="Search title or country..." oninput="filterGrid()">
+      <input type="text" id="search-input" placeholder="Search title or group..." oninput="filterGrid()">
     </div>
     <div class="nav-buttons">
       <button class="active" onclick="filterType('all', this)">All</button>
@@ -292,9 +302,11 @@
       </div>
       <div class="sidebar-box">
         <div class="section-title">Select Language:</div>
-        <div class="btn-group" id="series-lang-buttons"></div>
-        <div class="section-title">Seasons:</div>
-        <div class="btn-group" id="series-season-buttons"></div>
+        <select id="series-lang-select" class="sidebar-select" onchange="onSeriesLangChange()"></select>
+        
+        <div class="section-title">Select Season:</div>
+        <select id="series-season-select" class="sidebar-select" onchange="onSeriesSeasonChange()"></select>
+        
         <div class="section-title">Episodes:</div>
         <div class="btn-group" id="series-episode-buttons"></div>
       </div>
@@ -307,7 +319,7 @@
       </div>
       <div class="sidebar-box">
         <div class="section-title">Select Language:</div>
-        <div class="btn-group" id="movie-lang-buttons"></div>
+        <select id="movie-lang-select" class="sidebar-select" onchange="onMovieLangChange()"></select>
       </div>
     </div>
 
@@ -317,8 +329,11 @@
         <video id="tv-video" controls poster="https://via.placeholder.com/600x350?text=Select+Channel"></video>
       </div>
       <div class="sidebar-box">
-        <div class="section-title">Select Country:</div>
-        <div class="btn-group" id="tv-country-buttons"></div>
+        <div class="section-title">Select Channel Group:</div>
+        <select id="tv-group-select" class="sidebar-select" onchange="filterM3UByGroup()">
+          <option value="all">All Groups</option>
+        </select>
+        
         <div class="section-title">Channels List:</div>
         <div id="tv-channel-list">Loading channels...</div>
       </div>
@@ -373,6 +388,10 @@
     const JSON_URL = 'https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/all.json';
     let allData = [];
     let currentFilter = 'all';
+    let loadedM3UChannels = []; 
+    let currentSeriesData = [];
+    let currentMovieData = [];
+    let currentParsedSeasons = {};
 
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
@@ -513,7 +532,7 @@
         setupMoviePlayer(nameOrCountry);
       } else if (type === 'tv-channel') {
         document.getElementById('player-type-tv').style.display = 'flex';
-        setupTVPlayer(nameOrCountry, m3ulink);
+        setupTVPlayer(m3ulink);
       }
     }
 
@@ -526,55 +545,57 @@
       });
     }
 
+    /* ----------------------------------------------------
+       ANIME & TV SERIES PLAYER (DROPDOWN BASED)
+       ---------------------------------------------------- */
     function setupSeriesPlayer(targetName) {
-      const seriesList = allData.filter(i => (i.type === 'anime' || i.type === 'tv-series') && i.name.toLowerCase() === targetName.toLowerCase());
-      const langContainer = document.getElementById('series-lang-buttons');
-      langContainer.innerHTML = '';
+      currentSeriesData = allData.filter(i => (i.type === 'anime' || i.type === 'tv-series') && i.name.toLowerCase() === targetName.toLowerCase());
+      const langSelect = document.getElementById('series-lang-select');
+      langSelect.innerHTML = '';
 
-      seriesList.forEach((item, index) => {
-        const btn = document.createElement('button');
-        btn.innerText = item.language || 'Default';
-        if (index === 0) btn.classList.add('active');
-        btn.onclick = () => {
-          document.querySelectorAll('#series-lang-buttons button').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          loadSeriesEpisodes(item);
-        };
-        langContainer.appendChild(btn);
+      currentSeriesData.forEach((item, index) => {
+        const opt = document.createElement('option');
+        opt.value = index;
+        opt.innerText = item.language || 'Default';
+        langSelect.appendChild(opt);
       });
 
-      if (seriesList.length > 0) loadSeriesEpisodes(seriesList[0]);
+      if (currentSeriesData.length > 0) {
+        onSeriesLangChange();
+      }
     }
 
-    function loadSeriesEpisodes(item) {
-      const seasonContainer = document.getElementById('series-season-buttons');
-      seasonContainer.innerHTML = '';
+    function onSeriesLangChange() {
+      const selectedIndex = document.getElementById('series-lang-select').value;
+      const item = currentSeriesData[selectedIndex];
+      if (!item || !item.episodes) return;
 
-      if (!item.episodes) return;
-
-      const seasons = {};
+      currentParsedSeasons = {};
       Object.keys(item.episodes).forEach(epKey => {
         const sName = epKey.substring(0, 2);
         const cleanEpKey = epKey.replace(/^S\d+/i, '');
 
-        if (!seasons[sName]) seasons[sName] = [];
-        seasons[sName].push({ key: cleanEpKey, url: item.episodes[epKey] });
+        if (!currentParsedSeasons[sName]) currentParsedSeasons[sName] = [];
+        currentParsedSeasons[sName].push({ key: cleanEpKey, url: item.episodes[epKey] });
       });
 
-      Object.keys(seasons).forEach((sKey, index) => {
-        const sBtn = document.createElement('button');
-        sBtn.innerText = sKey;
-        if (index === 0) sBtn.classList.add('active');
-        sBtn.onclick = () => {
-          document.querySelectorAll('#series-season-buttons button').forEach(b => b.classList.remove('active'));
-          sBtn.classList.add('active');
-          renderEpisodes(seasons[sKey]);
-        };
-        seasonContainer.appendChild(sBtn);
+      const seasonSelect = document.getElementById('series-season-select');
+      seasonSelect.innerHTML = '';
+
+      Object.keys(currentParsedSeasons).forEach(sKey => {
+        const opt = document.createElement('option');
+        opt.value = sKey;
+        opt.innerText = `Season ${sKey.replace('S', '')}`;
+        seasonSelect.appendChild(opt);
       });
 
-      const firstKey = Object.keys(seasons)[0];
-      if (firstKey) renderEpisodes(seasons[firstKey]);
+      onSeriesSeasonChange();
+    }
+
+    function onSeriesSeasonChange() {
+      const selectedSeason = document.getElementById('series-season-select').value;
+      const epList = currentParsedSeasons[selectedSeason] || [];
+      renderEpisodes(epList);
     }
 
     function renderEpisodes(epList) {
@@ -593,48 +614,43 @@
       });
     }
 
+    /* ----------------------------------------------------
+       MOVIE PLAYER (DROPDOWN BASED)
+       ---------------------------------------------------- */
     function setupMoviePlayer(targetName) {
-      const movieList = allData.filter(i => i.type === 'movie' && i.name.toLowerCase() === targetName.toLowerCase());
-      const langContainer = document.getElementById('movie-lang-buttons');
-      langContainer.innerHTML = '';
+      currentMovieData = allData.filter(i => i.type === 'movie' && i.name.toLowerCase() === targetName.toLowerCase());
+      const langSelect = document.getElementById('movie-lang-select');
+      langSelect.innerHTML = '';
 
-      movieList.forEach((item, index) => {
-        const btn = document.createElement('button');
-        btn.innerText = item.language || 'Default';
-        if (index === 0) {
-          btn.classList.add('active');
-          playStream('movie-video', item.movielink);
-        }
-        btn.onclick = () => {
-          document.querySelectorAll('#movie-lang-buttons button').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          playStream('movie-video', item.movielink);
-        };
-        langContainer.appendChild(btn);
+      currentMovieData.forEach((item, index) => {
+        const opt = document.createElement('option');
+        opt.value = index;
+        opt.innerText = item.language || 'Default';
+        langSelect.appendChild(opt);
       });
+
+      if (currentMovieData.length > 0) {
+        onMovieLangChange();
+      }
     }
 
-    function setupTVPlayer(selectedCountry, m3uUrl) {
-      const tvList = allData.filter(i => i.type === 'tv-channel');
-      const countryContainer = document.getElementById('tv-country-buttons');
-      countryContainer.innerHTML = '';
+    function onMovieLangChange() {
+      const selectedIndex = document.getElementById('movie-lang-select').value;
+      const item = currentMovieData[selectedIndex];
+      if (item && item.movielink) {
+        playStream('movie-video', item.movielink);
+      }
+    }
 
-      const countries = [...new Set(tvList.map(i => i.country).filter(Boolean))];
-
-      countries.forEach((country) => {
-        const btn = document.createElement('button');
-        btn.innerText = country;
-        if (country === selectedCountry) btn.classList.add('active');
-        btn.onclick = () => {
-          document.querySelectorAll('#tv-country-buttons button').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          const matched = tvList.find(c => c.country === country);
-          if (matched) loadM3UChannels(matched.m3ulink);
-        };
-        countryContainer.appendChild(btn);
-      });
-
-      if (m3uUrl) loadM3UChannels(m3uUrl);
+    /* ----------------------------------------------------
+       LIVE TV PLAYER (DROPDOWN BASED)
+       ---------------------------------------------------- */
+    function setupTVPlayer(m3uUrl) {
+      if (m3uUrl) {
+        loadM3UChannels(m3uUrl);
+      } else {
+        document.getElementById('tv-channel-list').innerHTML = "M3U Link Not Found!";
+      }
     }
 
     async function loadM3UChannels(url) {
@@ -645,43 +661,92 @@
         const res = await fetch(url);
         const text = await res.text();
         const lines = text.split('\n');
-        const channels = [];
+        loadedM3UChannels = [];
         let currentChannel = {};
 
         lines.forEach(line => {
           line = line.trim();
           if (line.startsWith('#EXTINF:')) {
-            const nameMatch = line.split(',')[1];
-            currentChannel.name = nameMatch ? nameMatch.trim() : 'Live Channel';
+            const parts = line.split(',');
+            if (parts.length > 1) {
+              currentChannel.name = parts.slice(1).join(',').trim();
+            } else {
+              currentChannel.name = 'Live Channel';
+            }
             
-            const logoMatch = line.match(/tvg-logo="(.*?)"/);
-            currentChannel.logo = logoMatch ? logoMatch[1] : 'https://via.placeholder.com/35';
+            const logoMatch = line.match(/tvg-logo="(.*?)"/i);
+            currentChannel.logo = logoMatch ? logoMatch[1] : 'https://via.placeholder.com/35?text=TV';
+
+            const groupMatch = line.match(/group-title="(.*?)"/i);
+            currentChannel.group = groupMatch ? groupMatch[1] : 'General';
+
           } else if (line && !line.startsWith('#')) {
             currentChannel.url = line;
-            channels.push(currentChannel);
+            if (!currentChannel.name) currentChannel.name = 'Live Channel';
+            if (!currentChannel.logo) currentChannel.logo = 'https://via.placeholder.com/35?text=TV';
+            if (!currentChannel.group) currentChannel.group = 'General';
+            
+            loadedM3UChannels.push(currentChannel);
             currentChannel = {};
           }
         });
 
-        if (channels.length === 0) {
+        if (loadedM3UChannels.length === 0) {
           container.innerHTML = "No channels found in M3U file.";
           return;
         }
 
-        container.innerHTML = channels.map(ch => `
-          <div class="channel-item" onclick="playStream('tv-video', '${ch.url}')">
-            <img src="${ch.logo}" alt="logo">
-            <span>${ch.name}</span>
-          </div>
-        `).join('');
+        populateGroupDropdown();
+        renderM3UChannels(loadedM3UChannels);
 
-        if (channels[0] && channels[0].url) {
-          playStream('tv-video', channels[0].url);
+        if (loadedM3UChannels[0] && loadedM3UChannels[0].url) {
+          playStream('tv-video', loadedM3UChannels[0].url);
         }
       } catch (err) {
         container.innerHTML = "Failed to load M3U channels list.";
         console.error(err);
       }
+    }
+
+    function populateGroupDropdown() {
+      const groupSelect = document.getElementById('tv-group-select');
+      groupSelect.innerHTML = '<option value="all">All Groups</option>';
+
+      const groups = [...new Set(loadedM3UChannels.map(ch => ch.group).filter(Boolean))];
+      groups.forEach(grp => {
+        const opt = document.createElement('option');
+        opt.value = grp;
+        opt.innerText = grp;
+        groupSelect.appendChild(opt);
+      });
+    }
+
+    function filterM3UByGroup() {
+      const selectedGroup = document.getElementById('tv-group-select').value;
+      if (selectedGroup === 'all') {
+        renderM3UChannels(loadedM3UChannels);
+      } else {
+        const filtered = loadedM3UChannels.filter(ch => ch.group === selectedGroup);
+        renderM3UChannels(filtered);
+      }
+    }
+
+    function renderM3UChannels(channels) {
+      const container = document.getElementById('tv-channel-list');
+      if (channels.length === 0) {
+        container.innerHTML = "No channels in this group.";
+        return;
+      }
+
+      container.innerHTML = channels.map(ch => `
+        <div class="channel-item" onclick="playStream('tv-video', '${ch.url}')">
+          <img src="${ch.logo}" onerror="this.src='https://via.placeholder.com/35?text=TV'" alt="logo">
+          <div style="display:flex; flex-direction:column;">
+            <span>${ch.name}</span>
+            <small style="color:#94a3b8; font-size:10px;">${ch.group}</small>
+          </div>
+        </div>
+      `).join('');
     }
 
     function playStream(playerId, url) {
