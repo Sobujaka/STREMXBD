@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Full Height HD Stream Portal</title>
+  <title>Full Height Stream Portal</title>
   
-  <!-- 1. HLS.JS Library Included for Live TV & HD Streaming Support -->
+  <!-- HLS.JS Library Included for Live TV & Stream Support -->
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background: #0f172a; color: #fff; padding: 15px; }
 
+    /* Header Navigation */
     header {
       display: flex;
       flex-wrap: wrap;
@@ -47,6 +48,7 @@
     select { color: #38bdf8; font-weight: bold; }
     button:hover, button.active { background: #2563eb; color: #fff; border-color: #2563eb; }
 
+    /* Gallery Grid */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
@@ -72,6 +74,7 @@
 
     .card.square-card img { height: 180px; object-fit: fill; }
 
+    /* Full Screen Overlay Page */
     #player-overlay {
       display: none;
       position: fixed;
@@ -99,6 +102,7 @@
     .channel-item:hover { background: #334155; }
     .channel-item img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
 
+    /* AdBlocker Detector Modal Popup */
     #adblock-popup {
       display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background: rgba(15, 23, 42, 0.98); z-index: 999999; justify-content: center; align-items: center; text-align: center; padding: 20px;
@@ -118,8 +122,10 @@
 </head>
 <body>
 
+  <!-- AdBlock Bait Element -->
   <div class="adsbox" style="position:absolute; left:-9999px; top:-9999px; height:1px; width:1px;"></div>
 
+  <!-- AdBlock Warning Popup -->
   <div id="adblock-popup">
     <div class="adblock-box">
       <h2>⚠️ AdBlocker Detected!</h2>
@@ -128,6 +134,7 @@
     </div>
   </div>
 
+  <!-- Header -->
   <header>
     <div class="search-bar">
       <input type="text" id="search-input" placeholder="Search title or group..." oninput="filterGrid()">
@@ -149,10 +156,12 @@
     </div>
   </header>
 
+  <!-- Gallery Grid -->
   <div class="grid" id="content-grid">
     <p style="text-align:center; grid-column: 1/-1;">Loading streams...</p>
   </div>
 
+  <!-- Full Screen Player View -->
   <div id="player-overlay">
     <div class="overlay-header">
       <h2 id="current-stream-title" style="color: #38bdf8;">WEB-XBD PLAYER</h2>
@@ -560,7 +569,7 @@
       `).join('');
     }
 
-    /* HD ENHANCED PLAYSTREAM FUNCTION */
+    /* SMOOTH BUFFER & AUTO-QUALITY ENHANCED PLAYSTREAM FUNCTION */
     function playStream(playerId, url) {
       if (isAdBlockActive) return;
 
@@ -575,31 +584,55 @@
         const isHls = url.includes('.m3u8') || playerId === 'tv-video';
 
         if (isHls && Hls.isSupported()) {
-          // HLS Config Optimized for High HD Quality & Performance
           hlsInstance = new Hls({
-            startLevel: -1,              // Automatically select best start level
-            capLevelToPlayerSize: true,  // Optimize resolution according to screen size
-            maxBufferLength: 30,         // Buffer up to 30s for smooth HD playback
-            maxMaxBufferLength: 60
+            autoStartLoad: true,
+            startLevel: -1,             // নেটের স্পিড দেখে উপযুক্ত রেজোলিউশন অটো বাছবে
+            capLevelToPlayerSize: true, 
+
+            // বাফারিং ও স্মুথ প্লেব্যাক কনফিগারেশন
+            maxBufferLength: 60,        // সর্বোচ্চ ৬০ সেকেন্ড বাফার করবে
+            maxMaxBufferLength: 120,
+            maxBufferHole: 0.5,
+            lowLatencyMode: false,
+
+            // নেটওয়ার্ক রিট্রাই সেটআপ
+            manifestLoadingTimeOut: 20000,
+            manifestLoadingMaxRetry: 4,
+            levelLoadingTimeOut: 20000,
+            levelLoadingMaxRetry: 4
           });
 
           hlsInstance.loadSource(url);
           hlsInstance.attachMedia(video);
           
-          hlsInstance.on(Hls.Events.MANIFEST_PARSED, function(event, data) {
-            // Automatically switch to highest available quality level
-            hlsInstance.currentLevel = data.levels.length - 1; 
-            video.play().catch(e => console.log("Autoplay policy error: ", e));
+          hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
+            hlsInstance.currentLevel = -1; // Auto Quality Active
+            video.play().catch(e => console.log("Autoplay error: ", e));
+          });
+
+          // নেটওয়ার্ক ড্রপ হলে অটো-রিকভারি
+          hlsInstance.on(Hls.Events.ERROR, function (event, data) {
+            if (data.fatal) {
+              switch (data.type) {
+                case Hls.ErrorTypes.NETWORK_ERROR:
+                  hlsInstance.startLoad();
+                  break;
+                case Hls.ErrorTypes.MEDIA_ERROR:
+                  hlsInstance.recoverMediaError();
+                  break;
+                default:
+                  hlsInstance.destroy();
+                  break;
+              }
+            }
           });
 
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          // Safari Native HLS Support
           video.src = url;
-          video.play().catch(e => console.log("Autoplay policy error: ", e));
+          video.play().catch(e => console.log("Autoplay error: ", e));
         } else {
-          // Direct MP4 / Video Links (Movie / Anime / Series)
           video.src = url;
-          video.play().catch(e => console.log("Autoplay policy error: ", e));
+          video.play().catch(e => console.log("Autoplay error: ", e));
         }
       } else {
         alert("Streaming link missing!");
