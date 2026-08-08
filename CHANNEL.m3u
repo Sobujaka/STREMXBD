@@ -1,14 +1,15 @@
+
 #EXTM3U
 
 #EXTINF:-1 tvg-logo="https://tse3.mm.bing.net/th/id/OIP.1zcoxkCkcDIwDoH-kPco9wAAAA?r=0&w=400&h=400&rs=1&pid=ImgDetMain&o=7&rm=3" group-title="News" tvg-country="Bangladesh", BTV News
-http://localhost:3000/play/somoy_tv?token=9c23139df3a315bb3ab6093e129dfc0e&expires=1788786411
+http://localhost:3000/play/somoy_tv?token=28862059d86ccf276da23ed4c2f46c97&expires=1788787399
 
 #EXTINF:-1 tvg-logo="https://tse4.mm.bing.net/th/id/OIP.rpzxn2ed6nyI2TEAIs8GtwAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" group-title="ALL" tvg-country="Bangladesh", Deepto TV
-http://localhost:3000/play/jamuna_tv?token=74014825dd091eea052d7d810ccaf937&expires=1788786411
+http://localhost:3000/play/jamuna_tv?token=0261d452fd57e32313d40f90b616608d&expires=1788787399
 
 #EXTINF:-1 tvg-logo="https://images.seeklogo.com/logo-png/17/1/boishakhi-tv-logo-png_seeklogo-175644.png" group-title="ALL" tvg-country="Bangladesh", Boishakhi TV
-http://localhost:3000/play/star_sports?token=f91240635e23b7f127265bf094d23a21&expires=1788786411
+http://localhost:3000/play/star_sports?token=4f2a8b265c58e190feb5755529e204fb&expires=1788787399
 
 #EXTINF:-1 tvg-logo="https://rtvonline.com/Images/rtv-logo.svg" group-title="KID" tvg-country="Bangladesh", RTV
-http://localhost:3000/play/cnn_news?token=59d423d5cdcd4a508f78f7491470c865&expires=1788786411
+http://localhost:3000/play/cnn_news?token=ae25bcc5f63fe24c4973b61e294fb948&expires=1788787399
 
