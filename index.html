@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Full Height Stream Portal</title>
   
-  <!-- HLS.JS Library Included for Live TV (.m3u8) Support -->
+  <!-- 1. HLS.JS Library Included for Live TV (.m3u8) Support -->
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
   <style>
@@ -70,6 +70,8 @@
     .card-title { font-size: 13px; font-weight: bold; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .card-tag { font-size: 10px; background: #334155; padding: 2px 5px; border-radius: 4px; display: inline-block; text-transform: uppercase; }
 
+    .card.square-card img { height: 180px; object-fit: fill; }
+
     #player-overlay {
       display: none;
       position: fixed;
@@ -128,16 +130,14 @@
 
   <header>
     <div class="search-bar">
-      <input type="text" id="search-input" placeholder="Search title or category..." oninput="filterGrid()">
+      <input type="text" id="search-input" placeholder="Search title or group..." oninput="filterGrid()">
     </div>
     <div class="nav-buttons">
       <button class="active" onclick="filterType('all', this)">All</button>
       <button onclick="filterType('anime', this)">Anime</button>
       <button onclick="filterType('movie', this)">Movie</button>
       <button onclick="filterType('tv-series', this)">TV Series</button>
-      
-      <!-- Live TV Button Directly Triggers Player Overlay -->
-      <button style="background: #059669; color: white;" onclick="openTVDirectly()">📺 Live TV</button>
+      <button onclick="filterType('tv-channel', this)">Live TV</button>
 
       <select id="category-select" onchange="filterGrid()">
         <option value="all">Category: All</option>
@@ -159,7 +159,6 @@
       <button class="close-btn" onclick="closePlayer()">✕ Close Player</button>
     </div>
 
-    <!-- Series Player -->
     <div id="player-type-series" class="player-container" style="display:none;">
       <div class="video-box">
         <video id="series-video" controls poster="https://via.placeholder.com/600x350?text=Select+Episode"></video>
@@ -174,7 +173,6 @@
       </div>
     </div>
 
-    <!-- Movie Player -->
     <div id="player-type-movie" class="player-container" style="display:none;">
       <div class="video-box">
         <video id="movie-video" controls poster="https://via.placeholder.com/600x350?text=Select+Language"></video>
@@ -185,24 +183,15 @@
       </div>
     </div>
 
-    <!-- Live TV Player -->
     <div id="player-type-tv" class="player-container" style="display:none;">
       <div class="video-box">
         <video id="tv-video" controls poster="https://via.placeholder.com/600x350?text=Select+Channel"></video>
       </div>
       <div class="sidebar-box">
-        <!-- Country Filter Section -->
-        <div class="section-title">Select Country:</div>
-        <select id="tv-country-select" class="sidebar-select" onchange="onTVCountryChange()">
-          <option value="all">All Countries</option>
-        </select>
-
-        <!-- Group Filter Section -->
-        <div class="section-title">Select Group:</div>
-        <select id="tv-group-select" class="sidebar-select" onchange="filterTVChannels()">
+        <div class="section-title">Select Channel Group:</div>
+        <select id="tv-group-select" class="sidebar-select" onchange="filterM3UByGroup()">
           <option value="all">All Groups</option>
         </select>
-
         <div class="section-title">Channels List:</div>
         <div id="tv-channel-list">Loading channels...</div>
       </div>
@@ -211,10 +200,7 @@
 
   <script>
     let isAdBlockActive = false;
-    let hlsInstance = null;
-
-    // GitHub M3U RAW LINK: আপনার GitHub-এ আপলোড করা M3U ফাইলের Raw লিংকটি নিচে বসান
-    const DIRECT_M3U_URL = "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/CHANNEL.m3u"; 
+    let hlsInstance = null; // Global HLS Player Instance
 
     async function checkAdBlocker() {
       const bait = document.querySelector('.adsbox');
@@ -258,10 +244,6 @@
       try {
         const response = await fetch(JSON_URL);
         allData = await response.json();
-        
-        // Exclude tv-channel from main JSON array to hide Live TV image boxes
-        allData = allData.filter(item => item.type !== 'tv-channel');
-        
         populateDropdowns();
         filterGrid();
       } catch (err) {
@@ -293,7 +275,7 @@
     function renderGrid(data) {
       const grid = document.getElementById('content-grid');
       if (data.length === 0) {
-        grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No content found.</p>';
+        grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No streams found.</p>';
         return;
       }
 
@@ -301,7 +283,8 @@
       const seenNames = new Set();
 
       data.forEach(item => {
-        const key = (item.name || 'unnamed').toLowerCase() + '_' + item.type;
+        const identifier = item.type === 'tv-channel' ? item.country : item.name;
+        const key = (identifier || 'unnamed').toLowerCase() + '_' + item.type;
         if (!seenNames.has(key)) {
           seenNames.add(key);
           uniqueItems.push(item);
@@ -310,16 +293,30 @@
 
       const randomItems = shuffleArray([...uniqueItems]);
 
-      grid.innerHTML = randomItems.map(item => `
-        <div class="card" onclick="openItem('${item.name}', '${item.type}')">
-          <img src="${item.image || 'https://via.placeholder.com/160x230?text=No+Image'}" alt="${item.name}">
-          <div class="card-details">
-            <div class="card-title">${item.name || 'Unnamed'}</div>
-            <span class="card-tag">${item.type}</span>
-            ${item.language ? `<span class="card-tag" style="background:#2563eb;">${item.language}</span>` : ''}
-          </div>
-        </div>
-      `).join('');
+      grid.innerHTML = randomItems.map(item => {
+        if (item.type === 'tv-channel') {
+          return `
+            <div class="card square-card" onclick="openItem('${item.country}', '${item.type}', '${item.m3ulink}')">
+              <img src="${item.image || 'https://via.placeholder.com/160x160?text=Flag'}" alt="${item.country}">
+              <div class="card-details">
+                <div class="card-title">${item.country || 'Live TV'}</div>
+                <span class="card-tag" style="background:#059669;">TV CHANNEL</span>
+              </div>
+            </div>
+          `;
+        } else {
+          return `
+            <div class="card" onclick="openItem('${item.name}', '${item.type}')">
+              <img src="${item.image || 'https://via.placeholder.com/160x230?text=No+Image'}" alt="${item.name}">
+              <div class="card-details">
+                <div class="card-title">${item.name || 'Unnamed'}</div>
+                <span class="card-tag">${item.type}</span>
+                ${item.language ? `<span class="card-tag" style="background:#2563eb;">${item.language}</span>` : ''}
+              </div>
+            </div>
+          `;
+        }
+      }).join('');
     }
 
     function filterType(type, btn) {
@@ -335,10 +332,11 @@
       const selectedLang = document.getElementById('language-select').value;
 
       const filtered = allData.filter(item => {
-        let matchesType = (currentFilter === 'all') || (item.type === currentFilter);
+        let matchesType = (currentFilter === 'all') ? (item.type !== 'tv-channel') : (item.type === currentFilter);
         const matchesCat = (selectedCat === 'all') || (item.category === selectedCat);
         const matchesLang = (selectedLang === 'all') || (item.language === selectedLang);
-        const matchesSearch = (item.name || '').toLowerCase().includes(query);
+        const searchTarget = item.type === 'tv-channel' ? (item.country || '') : (item.name || '');
+        const matchesSearch = searchTarget.toLowerCase().includes(query);
 
         return matchesType && matchesCat && matchesLang && matchesSearch;
       });
@@ -346,11 +344,11 @@
       renderGrid(filtered);
     }
 
-    function openItem(name, type) {
+    function openItem(nameOrCountry, type, m3ulink) {
       if (isAdBlockActive) return;
 
       document.getElementById('player-overlay').style.display = 'block';
-      document.getElementById('current-stream-title').innerText = name || 'WEB-XBD STREAM';
+      document.getElementById('current-stream-title').innerText = nameOrCountry || 'WEB-XBD STREAM';
       
       document.getElementById('player-type-series').style.display = 'none';
       document.getElementById('player-type-movie').style.display = 'none';
@@ -358,29 +356,13 @@
 
       if (type === 'anime' || type === 'tv-series') {
         document.getElementById('player-type-series').style.display = 'flex';
-        setupSeriesPlayer(name);
+        setupSeriesPlayer(nameOrCountry);
       } else if (type === 'movie') {
         document.getElementById('player-type-movie').style.display = 'flex';
-        setupMoviePlayer(name);
-      }
-    }
-
-    // Direct trigger for Live TV without Image Cards
-    function openTVDirectly() {
-      if (isAdBlockActive) return;
-      document.getElementById('player-overlay').style.display = 'block';
-      document.getElementById('current-stream-title').innerText = 'LIVE TV PLAYER';
-      
-      document.getElementById('player-type-series').style.display = 'none';
-      document.getElementById('player-type-movie').style.display = 'none';
-      document.getElementById('player-type-tv').style.display = 'flex';
-
-      if (loadedM3UChannels.length === 0) {
-        if (DIRECT_M3U_URL) {
-          parseM3UFromUrl(DIRECT_M3U_URL);
-        } else {
-          document.getElementById('tv-channel-list').innerHTML = "<p style='color:#cbd5e1; font-size:12px;'>Please specify DIRECT_M3U_URL in the script.</p>";
-        }
+        setupMoviePlayer(nameOrCountry);
+      } else if (type === 'tv-channel') {
+        document.getElementById('player-type-tv').style.display = 'flex';
+        setupTVPlayer(m3ulink);
       }
     }
 
@@ -481,92 +463,69 @@
       if (item && item.movielink) playStream('movie-video', item.movielink);
     }
 
-    async function parseM3UFromUrl(url) {
+    function setupTVPlayer(m3uUrl) {
+      if (m3uUrl) {
+        loadM3UChannels(m3uUrl);
+      } else {
+        document.getElementById('tv-channel-list').innerHTML = "M3U Link Not Found!";
+      }
+    }
+
+    async function loadM3UChannels(url) {
       const container = document.getElementById('tv-channel-list');
-      container.innerHTML = "Loading M3U Stream...";
+      container.innerHTML = "Loading channels...";
+      
       try {
         const res = await fetch(url);
         const text = await res.text();
-        parseM3UContent(text);
-      } catch (err) {
-        container.innerHTML = "Failed to load M3U Link (CORS Blocked or Invalid URL).";
-      }
-    }
+        const lines = text.split('\n');
+        loadedM3UChannels = [];
+        let currentChannel = {};
 
-    function parseM3UContent(text) {
-      const lines = text.split('\n');
-      loadedM3UChannels = [];
-      let currentChannel = {};
+        lines.forEach(line => {
+          line = line.trim();
+          if (line.startsWith('#EXTINF:')) {
+            const parts = line.split(',');
+            currentChannel.name = parts.length > 1 ? parts.slice(1).join(',').trim() : 'Live Channel';
+            
+            const logoMatch = line.match(/tvg-logo="(.*?)"/i);
+            currentChannel.logo = logoMatch ? logoMatch[1] : 'https://via.placeholder.com/35?text=TV';
 
-      lines.forEach(line => {
-        line = line.trim();
-        if (line.startsWith('#EXTINF:')) {
-          const parts = line.split(',');
-          currentChannel.name = parts.length > 1 ? parts.slice(1).join(',').trim() : 'Live Channel';
-          
-          const logoMatch = line.match(/tvg-logo="(.*?)"/i);
-          currentChannel.logo = logoMatch ? logoMatch[1] : 'https://via.placeholder.com/35?text=TV';
+            const groupMatch = line.match(/group-title="(.*?)"/i);
+            currentChannel.group = groupMatch ? groupMatch[1] : 'General';
 
-          const groupMatch = line.match(/group-title="(.*?)"/i);
-          currentChannel.group = groupMatch ? groupMatch[1] : 'General';
+          } else if (line && !line.startsWith('#')) {
+            currentChannel.url = line;
+            if (!currentChannel.name) currentChannel.name = 'Live Channel';
+            if (!currentChannel.logo) currentChannel.logo = 'https://via.placeholder.com/35?text=TV';
+            if (!currentChannel.group) currentChannel.group = 'General';
+            
+            loadedM3UChannels.push(currentChannel);
+            currentChannel = {};
+          }
+        });
 
-          const countryMatch = line.match(/tvg-country="(.*?)"/i);
-          currentChannel.country = countryMatch ? countryMatch[1] : 'Others';
-
-        } else if (line && !line.startsWith('#')) {
-          currentChannel.url = line;
-          if (!currentChannel.name) currentChannel.name = 'Live Channel';
-          if (!currentChannel.logo) currentChannel.logo = 'https://via.placeholder.com/35?text=TV';
-          if (!currentChannel.group) currentChannel.group = 'General';
-          if (!currentChannel.country) currentChannel.country = 'Others';
-          
-          loadedM3UChannels.push(currentChannel);
-          currentChannel = {};
+        if (loadedM3UChannels.length === 0) {
+          container.innerHTML = "No channels found in M3U file.";
+          return;
         }
-      });
 
-      if (loadedM3UChannels.length === 0) {
-        document.getElementById('tv-channel-list').innerHTML = "No channels found in M3U data.";
-        return;
-      }
+        populateGroupDropdown();
+        renderM3UChannels(loadedM3UChannels);
 
-      populateTVDropdowns();
-      filterTVChannels();
-
-      if (loadedM3UChannels[0] && loadedM3UChannels[0].url) {
-        playStream('tv-video', loadedM3UChannels[0].url);
+        if (loadedM3UChannels[0] && loadedM3UChannels[0].url) {
+          playStream('tv-video', loadedM3UChannels[0].url);
+        }
+      } catch (err) {
+        container.innerHTML = "Failed to load M3U channels list (CORS Blocked).";
       }
     }
 
-    function populateTVDropdowns() {
-      const countrySelect = document.getElementById('tv-country-select');
-      countrySelect.innerHTML = '<option value="all">All Countries</option>';
-      const countries = [...new Set(loadedM3UChannels.map(ch => ch.country).filter(Boolean))];
-      countries.forEach(c => {
-        const opt = document.createElement('option');
-        opt.value = c;
-        opt.innerText = c;
-        countrySelect.appendChild(opt);
-      });
-
-      updateGroupDropdown();
-    }
-
-    function onTVCountryChange() {
-      updateGroupDropdown();
-      filterTVChannels();
-    }
-
-    function updateGroupDropdown() {
-      const selectedCountry = document.getElementById('tv-country-select').value;
+    function populateGroupDropdown() {
       const groupSelect = document.getElementById('tv-group-select');
       groupSelect.innerHTML = '<option value="all">All Groups</option>';
 
-      const filteredChannels = selectedCountry === 'all' 
-        ? loadedM3UChannels 
-        : loadedM3UChannels.filter(ch => ch.country === selectedCountry);
-
-      const groups = [...new Set(filteredChannels.map(ch => ch.group).filter(Boolean))];
+      const groups = [...new Set(loadedM3UChannels.map(ch => ch.group).filter(Boolean))];
       groups.forEach(grp => {
         const opt = document.createElement('option');
         opt.value = grp;
@@ -575,26 +534,15 @@
       });
     }
 
-    function filterTVChannels() {
-      const selectedCountry = document.getElementById('tv-country-select').value;
+    function filterM3UByGroup() {
       const selectedGroup = document.getElementById('tv-group-select').value;
-
-      let filtered = loadedM3UChannels;
-
-      if (selectedCountry !== 'all') {
-        filtered = filtered.filter(ch => ch.country === selectedCountry);
-      }
-      if (selectedGroup !== 'all') {
-        filtered = filtered.filter(ch => ch.group === selectedGroup);
-      }
-
-      renderM3UChannels(filtered);
+      renderM3UChannels(selectedGroup === 'all' ? loadedM3UChannels : loadedM3UChannels.filter(ch => ch.group === selectedGroup));
     }
 
     function renderM3UChannels(channels) {
       const container = document.getElementById('tv-channel-list');
       if (channels.length === 0) {
-        container.innerHTML = "No channels found.";
+        container.innerHTML = "No channels in this group.";
         return;
       }
 
@@ -603,12 +551,13 @@
           <img src="${ch.logo}" onerror="this.src='https://via.placeholder.com/35?text=TV'" alt="logo">
           <div style="display:flex; flex-direction:column;">
             <span>${ch.name}</span>
-            <small style="color:#94a3b8; font-size:10px;">${ch.country} | ${ch.group}</small>
+            <small style="color:#94a3b8; font-size:10px;">${ch.group}</small>
           </div>
         </div>
       `).join('');
     }
 
+    /* Updated PlayStream Function supporting HLS.js for Live Streams */
     function playStream(playerId, url) {
       if (isAdBlockActive) return;
 
@@ -628,6 +577,7 @@
             video.play().catch(e => console.log("Autoplay blocked"));
           });
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+          // Native Safari Support
           video.src = url;
           video.play().catch(e => console.log("Autoplay blocked"));
         } else {
