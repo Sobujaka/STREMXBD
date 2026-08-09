@@ -254,6 +254,7 @@
       const savedData = localStorage.getItem('moviesData');
       const lastUpdate = localStorage.getItem('lastUpdate');
 
+      // প্রতিদিন মাত্র একবার রিকোয়েস্ট পাঠাবে এবং আজকের তারিখ না মিললে নতুন লিংকগুলো নিয়ে নেবে[cite: 1]
       if (lastUpdate !== today || !savedData) {
         try {
           const response = await fetch(JSON_URL, {
@@ -262,7 +263,7 @@
           });
           
           if (!response.ok) {
-            throw new Error("Access Denied from Worker");
+            throw new Error("Access Denied or Unauthorized");
           }
 
           allData = await response.json();
