@@ -239,6 +239,16 @@
     let currentMovieData = [];
     let currentParsedSeasons = {};
 
+    // Fisher-Yates Random Shuffle Function
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
     async function loadData() {
       try {
         const response = await fetch(JSON_URL);
@@ -279,7 +289,6 @@
       }
 
       grid.innerHTML = data.map((item) => {
-        // Find actual index in allData for correct TV selection
         const originalIndex = allData.indexOf(item);
 
         if (item.type === 'tv-channel') {
@@ -319,8 +328,7 @@
       const selectedCat = document.getElementById('category-select').value;
       const selectedLang = document.getElementById('language-select').value;
 
-      const filtered = allData.filter(item => {
-        // "all" চাপলে টিভি চ্যানেল বাদ যাবে (শুধু anime, movie, tv-series দেখাবে)
+      let filtered = allData.filter(item => {
         let matchesType = false;
         if (currentFilter === 'all') {
           matchesType = (item.type !== 'tv-channel');
@@ -336,6 +344,11 @@
 
         return matchesType && matchesCat && matchesLang && matchesSearch;
       });
+
+      // tv-channel বাদে বাকি সব ক্যাটাগরি (All, Anime, Movie, TV Series) Random Load হবে
+      if (currentFilter !== 'tv-channel') {
+        filtered = shuffleArray(filtered);
+      }
 
       renderGrid(filtered);
     }
