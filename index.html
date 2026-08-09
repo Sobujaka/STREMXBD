@@ -331,7 +331,6 @@
       const selectedLang = document.getElementById('language-select').value;
 
       let filtered = allData.filter(item => {
-        // [গুরুত্বপূর্ণ পরিবর্তন]: 'all' সিলেক্ট করলে tv-channel বাদ যাবে
         let matchesType = false;
         if (currentFilter === 'all') {
           matchesType = (item.type !== 'tv-channel');
