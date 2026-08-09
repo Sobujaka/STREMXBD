@@ -32,7 +32,6 @@
       outline: none;
     }
 
-    /* কোড বক্সের ডিজাইন (স্বাভাবিক অবস্থায় সবুজ, মেয়াদের শেষ ১ দিনে লাল) */
     .code-box-container {
       display: flex;
       gap: 8px;
@@ -42,7 +41,7 @@
       flex: 1;
       padding: 8px 12px;
       border-radius: 6px;
-      border: 2px solid #22c55e; /* ডিফল্ট সবুজ বর্ডার */
+      border: 2px solid #22c55e;
       background: #1e293b;
       color: #fff;
       font-size: 13px;
@@ -50,7 +49,7 @@
       transition: border-color 0.3s;
     }
     .code-box-container input.urgent-expiry {
-      border-color: #ef4444 !important; /* মেয়াদের শেষ দিনে লাল বর্ডার */
+      border-color: #ef4444 !important;
     }
     .code-box-container button {
       padding: 8px 14px;
@@ -173,7 +172,7 @@
 
     <!-- গিটহাব কোড বক্স ও চেক বাটন -->
     <div class="code-box-container">
-      <input type="text" id="secret-code-input" class="" placeholder="Enter update code...">
+      <input type="text" id="secret-code-input" placeholder="Enter update code...">
       <button onclick="verifyAndRefresh()">Check</button>
     </div>
 
@@ -273,7 +272,6 @@
     checkAdBlocker();
 
     const JSON_URL = 'https://spring-voice-2488.jahangir339932.workers.dev/';
-    // আপনার গিটহাবের টেক্সট ফাইলের র লিংকটি এখানে দিন
     const GITHUB_TXT_URL = 'https://raw.githubusercontent.com/sobujaka/sobujaka.github.io/main/code.txt';
 
     let allData = [];
@@ -292,24 +290,20 @@
       return arr;
     }
 
-    // প্রতি ৭ দিন পর পর বা কোড দিয়ে চেক করার লজিক
     async function loadData(forceRefresh = false) {
       const now = new Date().getTime();
       const savedTime = localStorage.getItem('fetchTime');
       const savedData = localStorage.getItem('moviesData');
       
-      // ৭ দিন = ৭ * ২৪ * ৬০ * ৬০ * ১০০০ মিলি সেকেন্ড (604800000 ms)
       const sevenDays = 7 * 24 * 60 * 60 * 1000;
       const oneDay = 24 * 60 * 60 * 1000;
 
-      // চেক করা মেয়াদের শেষের ১ দিন বাকি আছে কিনা (যেমন: ৬ দিন পার হয়ে গেছে)
       if (savedTime) {
         const elapsedTime = now - parseInt(savedTime);
         const timeLeft = sevenDays - elapsedTime;
         const inputField = document.getElementById('secret-code-input');
         
         if (timeLeft <= oneDay && timeLeft > 0) {
-          // শেষের ১ দিন বাকী থাকলে ইনপুট বক্স লাল হয়ে যাবে
           inputField.classList.add('urgent-expiry');
         } else {
           inputField.classList.remove('urgent-expiry');
@@ -324,11 +318,10 @@
           localStorage.setItem('moviesData', JSON.stringify(allData));
           localStorage.setItem('fetchTime', now.toString());
           
-          // ডাটা সফলভাবে ডাউনলোড বা আপডেট হলে ইনপুট বক্সের লাল রঙ মুছে সবুজ হবে
           document.getElementById('secret-code-input').classList.remove('urgent-expiry');
-          if (forceRefresh) alert("Cloudflare থেকে নতুন ফাইল সফলভাবে ডাউনলোড হয়েছে!");
+          if (forceRefresh) alert("নতুন ডাটা সফলভাবে আপডেট হয়েছে!");
         } catch (err) {
-          document.getElementById('content-grid').innerHTML = '<p style="color:red; text-align:center; grid-column: 1/-1;">Error loading JSON data!</p>';
+          document.getElementById('content-grid').innerHTML = '<p style="color:red; text-align:center; grid-column: 1/-1;">Error loading data!</p>';
           return;
         }
       } else {
@@ -339,7 +332,6 @@
       filterGrid();
     }
 
-    // গিটহাব কোড মিলিয়ে ক্লাউডফ্লাওয়ার থেকে ফাইল আপডেট করার ফাংশন
     async function verifyAndRefresh() {
       const inputCode = document.getElementById('secret-code-input').value.trim();
       if (!inputCode) {
@@ -349,17 +341,17 @@
 
       try {
         const res = await fetch(GITHUB_TXT_URL + "?t=" + new Date().getTime());
-        if (!res.ok) throw new Error("GitHub file fetch failed");
+        if (!res.ok) throw new Error("GitHub fetch failed");
         
         const githubCode = (await res.text()).trim();
 
         if (inputCode === githubCode) {
-          loadData(true); // ফোর্সবাবে ক্লাউডফ্লাওয়ার থেকে নতুন ফাইল ডাউনলোড করবে
+          loadData(true);
         } else {
-          alert("ভুল কোড! দয়া করে সঠিক কোড দিন।");
+          alert("ভুল কোড!");
         }
       } catch (error) {
-        alert("গিটহাব থেকে কোড যাচাই করা সম্ভব হয়নি।");
+        alert("কোড যাচাই করা সম্ভব হয়নি।");
       }
     }
 
