@@ -208,7 +208,6 @@
   </div>
 
   <script>
-    // Developer console and right-click protection
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.onkeydown = function (e) {
       if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) {
@@ -545,6 +544,7 @@
       playStream('tv-video', url);
     }
 
+    // Fixed playStream function to play HLS streams reliably
     function playStream(playerId, url) {
       if (isAdBlockActive) return;
 
@@ -555,26 +555,48 @@
         hlsInstance = null;
       }
 
-      if (url) {
-        if (Hls.isSupported()) {
-          hlsInstance = new Hls({
-            enableWorker: true,
-            lowLatencyMode: true
-          });
-          hlsInstance.loadSource(url);
-          hlsInstance.attachMedia(video);
-          hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
-            video.play().catch(e => console.log("Autoplay blocked:", e));
-          });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          video.src = url;
-          video.play().catch(e => console.log("Autoplay blocked:", e));
-        } else {
-          video.src = url;
-          video.play().catch(e => console.log("Autoplay blocked:", e));
-        }
-      } else {
+      if (!url) {
         alert("Stream link is unavailable.");
+        return;
+      }
+
+      if (Hls.isSupported()) {
+        hlsInstance = new Hls({
+          enableWorker: true,
+          lowLatencyMode: true,
+          backBufferLength: 90
+        });
+
+        hlsInstance.loadSource(url);
+        hlsInstance.attachMedia(video);
+
+        hlsInstance.on(Hls.Events.MANIFEST_PARSED, function () {
+          video.play().catch(e => console.log("Autoplay blocked/failed:", e));
+        });
+
+        hlsInstance.on(Hls.Events.ERROR, function (event, data) {
+          if (data.fatal) {
+            switch (data.type) {
+              case Hls.ErrorTypes.NETWORK_ERROR:
+                hlsInstance.startLoad();
+                break;
+              case Hls.ErrorTypes.MEDIA_ERROR:
+                hlsInstance.recoverMediaError();
+                break;
+              default:
+                hlsInstance.destroy();
+                break;
+            }
+          }
+        });
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = url;
+        video.addEventListener('loadedmetadata', function () {
+          video.play().catch(e => console.log("Autoplay blocked/failed:", e));
+        });
+      } else {
+        video.src = url;
+        video.play().catch(e => console.log("Autoplay error:", e));
       }
     }
 
