@@ -571,7 +571,6 @@
       `).join('');
     }
 
-    /* Selected Channel Selection & Highlight Handler */
     function selectChannel(element, url) {
       document.querySelectorAll('.channel-item').forEach(item => {
         item.classList.remove('active-channel');
@@ -580,7 +579,7 @@
       playStream('tv-video', url);
     }
 
-    /* Updated PlayStream Function supporting HLS.js for Live Streams */
+    /* Fully Updated PlayStream Function Supporting HLS.js and Proxied Streams */
     function playStream(playerId, url) {
       if (isAdBlockActive) return;
 
@@ -592,20 +591,23 @@
       }
 
       if (url) {
-        if (Hls.isSupported() && (url.includes('.m3u8') || playerId === 'tv-video')) {
-          hlsInstance = new Hls();
+        if (Hls.isSupported()) {
+          hlsInstance = new Hls({
+            enableWorker: true,
+            lowLatencyMode: true
+          });
           hlsInstance.loadSource(url);
           hlsInstance.attachMedia(video);
           hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
-            video.play().catch(e => console.log("Autoplay blocked"));
+            video.play().catch(e => console.log("Autoplay blocked:", e));
           });
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          // Native Safari Support
+          // Native Safari / Mobile Browser Support
           video.src = url;
-          video.play().catch(e => console.log("Autoplay blocked"));
+          video.play().catch(e => console.log("Autoplay blocked:", e));
         } else {
           video.src = url;
-          video.play().catch(e => console.log("Autoplay blocked"));
+          video.play().catch(e => console.log("Autoplay blocked:", e));
         }
       } else {
         alert("Streaming link missing!");
