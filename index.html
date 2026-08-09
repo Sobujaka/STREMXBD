@@ -278,11 +278,13 @@
         return;
       }
 
-      grid.innerHTML = data.map((item, index) => {
-        // TV Channel Item
+      grid.innerHTML = data.map((item) => {
+        // Find actual index in allData for correct TV selection
+        const originalIndex = allData.indexOf(item);
+
         if (item.type === 'tv-channel') {
           return `
-            <div class="card square-card" onclick="openTVChannel(${index})">
+            <div class="card square-card" onclick="openTVChannel(${originalIndex})">
               <img src="${item.image || 'https://via.placeholder.com/160x160?text=TV'}" alt="${item.country}">
               <div class="card-details">
                 <div class="card-title">${item.country || 'Live TV'}</div>
@@ -290,9 +292,7 @@
               </div>
             </div>
           `;
-        } 
-        // Movie / Anime / Series Item
-        else {
+        } else {
           return `
             <div class="card" onclick="openMediaItem('${item.name}', '${item.type}')">
               <img src="${item.image || 'https://via.placeholder.com/160x230?text=Poster'}" alt="${item.name}">
@@ -320,8 +320,13 @@
       const selectedLang = document.getElementById('language-select').value;
 
       const filtered = allData.filter(item => {
-        // Type filter strictly applied
-        let matchesType = (currentFilter === 'all') ? true : (item.type === currentFilter);
+        // "all" চাপলে টিভি চ্যানেল বাদ যাবে (শুধু anime, movie, tv-series দেখাবে)
+        let matchesType = false;
+        if (currentFilter === 'all') {
+          matchesType = (item.type !== 'tv-channel');
+        } else {
+          matchesType = (item.type === currentFilter);
+        }
         
         let matchesCat = (selectedCat === 'all') || (item.category === selectedCat);
         let matchesLang = (selectedLang === 'all') || (item.language === selectedLang);
