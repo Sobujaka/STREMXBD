@@ -331,7 +331,14 @@
       const selectedLang = document.getElementById('language-select').value;
 
       let filtered = allData.filter(item => {
-        let matchesType = (currentFilter === 'all') ? true : (item.type === currentFilter);
+        // [গুরুত্বপূর্ণ পরিবর্তন]: 'all' সিলেক্ট করলে tv-channel বাদ যাবে
+        let matchesType = false;
+        if (currentFilter === 'all') {
+          matchesType = (item.type !== 'tv-channel');
+        } else {
+          matchesType = (item.type === currentFilter);
+        }
+
         let matchesCat = (selectedCat === 'all') || (item.category === selectedCat);
         let matchesLang = (selectedLang === 'all') || (item.language === selectedLang);
         let searchTarget = item.type === 'tv-channel' ? (item.country || '') : (item.name || '');
