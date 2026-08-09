@@ -234,6 +234,7 @@
 
     const JSON_URL = 'https://spring-voice-2488.jahangir339932.workers.dev/';
     let allData = [];
+    let cachedLinks = {};
     let currentFilter = 'all';
     let currentTVChannels = [];
     let currentSeriesData = [];
@@ -252,7 +253,15 @@
     async function loadData() {
       try {
         const response = await fetch(JSON_URL);
-        allData = await response.json();
+        const result = await response.json();
+        
+        if (result.data) {
+          allData = result.data;
+          cachedLinks = result.cached_links || {};
+        } else {
+          allData = result;
+        }
+
         populateDropdowns();
         filterGrid();
       } catch (err) {
