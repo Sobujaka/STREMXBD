@@ -96,23 +96,19 @@
 
     .channel-item { display: flex; align-items: center; gap: 10px; padding: 8px; background: #1e293b; margin-bottom: 5px; border-radius: 5px; cursor: pointer; transition: background 0.2s; }
     .channel-item:hover { background: #334155; }
-    .channel-item img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
 
     .channel-item.active-channel {
       background: #2563eb !important;
       color: #ffffff;
-    }
-    .channel-item.active-channel small {
-      color: #e2e8f0 !important;
     }
 
     #adblock-popup {
       display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
       background: rgba(15, 23, 42, 0.98); z-index: 999999; justify-content: center; align-items: center; text-align: center; padding: 20px;
     }
-    .adblock-box { background: #1e293b; border: 2px solid #ef4444; padding: 30px; border-radius: 12px; max-width: 450px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    .adblock-box { background: #1e293b; border: 2px solid #ef4444; padding: 30px; border-radius: 12px; max-width: 450px; }
     .adblock-box h2 { color: #ef4444; font-size: 22px; margin-bottom: 15px; }
-    .adblock-box p { color: #cbd5e1; font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
+    .adblock-box p { color: #cbd5e1; font-size: 15px; margin-bottom: 20px; }
     .adblock-btn { background: #2563eb; color: white; border: none; padding: 10px 20px; font-size: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; }
 
     @media (max-width: 768px) {
@@ -130,14 +126,14 @@
   <div id="adblock-popup">
     <div class="adblock-box">
       <h2>⚠️ AdBlocker Detected!</h2>
-      <p>আমাদের ওয়েবসাইটটি ব্যবহার করতে অনুগ্রহ করে আপনার ব্রাউজারের <b>AdBlocker বন্ধ করুন</b> এবং পেজটি রিফ্রেশ করুন।</p>
+      <p>অনুগ্রহ করে আপনার ব্রাউজারের <b>AdBlocker বন্ধ করুন</b> এবং পেজটি রিফ্রেশ করুন।</p>
       <button class="adblock-btn" onclick="location.reload()">Refresh Page</button>
     </div>
   </div>
 
   <header>
     <div class="search-bar">
-      <input type="text" id="search-input" placeholder="Search title or group..." oninput="filterGrid()">
+      <input type="text" id="search-input" placeholder="Search title or country..." oninput="filterGrid()">
     </div>
     <div class="nav-buttons">
       <button class="active" onclick="filterType('all', this)">All</button>
@@ -166,6 +162,7 @@
       <button class="close-btn" onclick="closePlayer()">✕ Close Player</button>
     </div>
 
+    <!-- Series Player -->
     <div id="player-type-series" class="player-container" style="display:none;">
       <div class="video-box">
         <video id="series-video" controls poster="https://via.placeholder.com/600x350?text=Select+Episode"></video>
@@ -180,9 +177,10 @@
       </div>
     </div>
 
+    <!-- Movie Player -->
     <div id="player-type-movie" class="player-container" style="display:none;">
       <div class="video-box">
-        <video id="movie-video" controls poster="https://via.placeholder.com/600x350?text=Select+Language"></video>
+        <video id="movie-video" controls poster="https://via.placeholder.com/600x350?text=Movie+Player"></video>
       </div>
       <div class="sidebar-box">
         <div class="section-title">Select Language:</div>
@@ -190,13 +188,14 @@
       </div>
     </div>
 
+    <!-- TV Player -->
     <div id="player-type-tv" class="player-container" style="display:none;">
       <div class="video-box">
         <video id="tv-video" controls poster="https://via.placeholder.com/600x350?text=Select+Channel"></video>
       </div>
       <div class="sidebar-box">
         <div class="section-title">Select Channel Group:</div>
-        <select id="tv-group-select" class="sidebar-select" onchange="filterM3UByGroup()">
+        <select id="tv-group-select" class="sidebar-select" onchange="filterTVByGroup()">
           <option value="all">All Groups</option>
         </select>
         <div class="section-title">Channels List:</div>
@@ -206,7 +205,7 @@
   </div>
 
   <script>
-    // Inspect and Context Menu Security
+    // Security Script
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.onkeydown = function (e) {
       if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) {
@@ -220,13 +219,7 @@
     async function checkAdBlocker() {
       const bait = document.querySelector('.adsbox');
       const popup = document.getElementById('adblock-popup');
-      let blocked = false;
-
       if (!bait || bait.offsetParent === null || bait.offsetHeight === 0 || bait.offsetWidth === 0) {
-        blocked = true;
-      }
-
-      if (blocked) {
         isAdBlockActive = true;
         popup.style.display = 'flex';
         document.body.style.overflow = 'hidden';
@@ -236,25 +229,15 @@
         document.body.style.overflow = 'auto';
       }
     }
-
     checkAdBlocker();
 
-    // আপনার লিঙ্কটি এখানে সেট করা আছে
     const JSON_URL = 'https://spring-voice-2488.jahangir339932.workers.dev/';
     let allData = [];
     let currentFilter = 'all';
-    let loadedM3UChannels = []; 
+    let currentTVChannels = [];
     let currentSeriesData = [];
     let currentMovieData = [];
     let currentParsedSeasons = {};
-
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
-    }
 
     async function loadData() {
       try {
@@ -291,41 +274,30 @@
     function renderGrid(data) {
       const grid = document.getElementById('content-grid');
       if (data.length === 0) {
-        grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No streams found.</p>';
+        grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No content found.</p>';
         return;
       }
 
-      const uniqueItems = [];
-      const seenNames = new Set();
-
-      data.forEach(item => {
-        const identifier = item.type === 'tv-channel' ? item.country : item.name;
-        const key = (identifier || 'unnamed').toLowerCase() + '_' + item.type;
-        if (!seenNames.has(key)) {
-          seenNames.add(key);
-          uniqueItems.push(item);
-        }
-      });
-
-      const randomItems = shuffleArray([...uniqueItems]);
-
-      grid.innerHTML = randomItems.map(item => {
+      grid.innerHTML = data.map((item, index) => {
+        // TV Channel Item
         if (item.type === 'tv-channel') {
           return `
-            <div class="card square-card" onclick="openItem('${item.country}', '${item.type}', ${JSON.stringify(item.CN || {}).replace(/"/g, '&quot;')})">
-              <img src="${item.image || 'https://via.placeholder.com/160x160?text=Flag'}" alt="${item.country}">
+            <div class="card square-card" onclick="openTVChannel(${index})">
+              <img src="${item.image || 'https://via.placeholder.com/160x160?text=TV'}" alt="${item.country}">
               <div class="card-details">
                 <div class="card-title">${item.country || 'Live TV'}</div>
-                <span class="card-tag" style="background:#059669;">TV CHANNEL</span>
+                <span class="card-tag" style="background:#059669;">LIVE TV</span>
               </div>
             </div>
           `;
-        } else {
+        } 
+        // Movie / Anime / Series Item
+        else {
           return `
-            <div class="card" onclick="openItem('${item.name}', '${item.type}')">
-              <img src="${item.image || 'https://via.placeholder.com/160x230?text=No+Image'}" alt="${item.name}">
+            <div class="card" onclick="openMediaItem('${item.name}', '${item.type}')">
+              <img src="${item.image || 'https://via.placeholder.com/160x230?text=Poster'}" alt="${item.name}">
               <div class="card-details">
-                <div class="card-title">${item.name || 'Unnamed'}</div>
+                <div class="card-title">${item.name || 'Untitled'}</div>
                 <span class="card-tag">${item.type}</span>
                 ${item.language ? `<span class="card-tag" style="background:#2563eb;">${item.language}</span>` : ''}
               </div>
@@ -348,11 +320,14 @@
       const selectedLang = document.getElementById('language-select').value;
 
       const filtered = allData.filter(item => {
+        // Type filter strictly applied
         let matchesType = (currentFilter === 'all') ? true : (item.type === currentFilter);
-        const matchesCat = (selectedCat === 'all') || (item.category === selectedCat);
-        const matchesLang = (selectedLang === 'all') || (item.language === selectedLang);
-        const searchTarget = item.type === 'tv-channel' ? (item.country || '') : (item.name || '');
-        const matchesSearch = searchTarget.toLowerCase().includes(query);
+        
+        let matchesCat = (selectedCat === 'all') || (item.category === selectedCat);
+        let matchesLang = (selectedLang === 'all') || (item.language === selectedLang);
+        
+        let searchTarget = item.type === 'tv-channel' ? (item.country || '') : (item.name || '');
+        let matchesSearch = searchTarget.toLowerCase().includes(query);
 
         return matchesType && matchesCat && matchesLang && matchesSearch;
       });
@@ -360,11 +335,11 @@
       renderGrid(filtered);
     }
 
-    function openItem(nameOrCountry, type, cnObject) {
+    function openMediaItem(name, type) {
       if (isAdBlockActive) return;
 
       document.getElementById('player-overlay').style.display = 'block';
-      document.getElementById('current-stream-title').innerText = nameOrCountry || 'WEB-XBD STREAM';
+      document.getElementById('current-stream-title').innerText = name;
       
       document.getElementById('player-type-series').style.display = 'none';
       document.getElementById('player-type-movie').style.display = 'none';
@@ -372,14 +347,25 @@
 
       if (type === 'anime' || type === 'tv-series') {
         document.getElementById('player-type-series').style.display = 'flex';
-        setupSeriesPlayer(nameOrCountry);
+        setupSeriesPlayer(name);
       } else if (type === 'movie') {
         document.getElementById('player-type-movie').style.display = 'flex';
-        setupMoviePlayer(nameOrCountry);
-      } else if (type === 'tv-channel') {
-        document.getElementById('player-type-tv').style.display = 'flex';
-        setupTVPlayerCN(cnObject);
+        setupMoviePlayer(name);
       }
+    }
+
+    function openTVChannel(dataIndex) {
+      if (isAdBlockActive) return;
+
+      const item = allData[dataIndex];
+      document.getElementById('player-overlay').style.display = 'block';
+      document.getElementById('current-stream-title').innerText = item.country || 'Live TV';
+
+      document.getElementById('player-type-series').style.display = 'none';
+      document.getElementById('player-type-movie').style.display = 'none';
+      document.getElementById('player-type-tv').style.display = 'flex';
+
+      setupTVPlayerCN(item.CN || {});
     }
 
     function closePlayer() {
@@ -480,10 +466,10 @@
     }
 
     function setupTVPlayerCN(cnObj) {
-      loadedM3UChannels = [];
+      currentTVChannels = [];
       if (cnObj) {
         Object.keys(cnObj).forEach(k => {
-          loadedM3UChannels.push({
+          currentTVChannels.push({
             name: cnObj[k].name || 'Channel',
             group: cnObj[k].group || 'General',
             url: cnObj[k].url
@@ -491,21 +477,21 @@
         });
       }
 
-      populateGroupDropdown();
-      renderM3UChannels(loadedM3UChannels);
+      populateTVGroupDropdown();
+      renderTVChannels(currentTVChannels);
 
-      if (loadedM3UChannels.length > 0 && loadedM3UChannels[0].url) {
-        playStream('tv-video', loadedM3UChannels[0].url);
-        const firstBtn = document.querySelector('.channel-item');
-        if (firstBtn) firstBtn.classList.add('active-channel');
+      if (currentTVChannels.length > 0 && currentTVChannels[0].url) {
+        playStream('tv-video', currentTVChannels[0].url);
+        const firstItem = document.querySelector('.channel-item');
+        if (firstItem) firstItem.classList.add('active-channel');
       }
     }
 
-    function populateGroupDropdown() {
+    function populateTVGroupDropdown() {
       const groupSelect = document.getElementById('tv-group-select');
       groupSelect.innerHTML = '<option value="all">All Groups</option>';
 
-      const groups = [...new Set(loadedM3UChannels.map(ch => ch.group).filter(Boolean))];
+      const groups = [...new Set(currentTVChannels.map(ch => ch.group).filter(Boolean))];
       groups.forEach(grp => {
         const opt = document.createElement('option');
         opt.value = grp;
@@ -514,20 +500,20 @@
       });
     }
 
-    function filterM3UByGroup() {
+    function filterTVByGroup() {
       const selectedGroup = document.getElementById('tv-group-select').value;
-      renderM3UChannels(selectedGroup === 'all' ? loadedM3UChannels : loadedM3UChannels.filter(ch => ch.group === selectedGroup));
+      renderTVChannels(selectedGroup === 'all' ? currentTVChannels : currentTVChannels.filter(ch => ch.group === selectedGroup));
     }
 
-    function renderM3UChannels(channels) {
+    function renderTVChannels(channels) {
       const container = document.getElementById('tv-channel-list');
       if (channels.length === 0) {
-        container.innerHTML = "No channels in this group.";
+        container.innerHTML = "No channels available.";
         return;
       }
 
       container.innerHTML = channels.map(ch => `
-        <div class="channel-item" onclick="selectChannel(this, '${ch.url}')">
+        <div class="channel-item" onclick="selectTVChannel(this, '${ch.url}')">
           <div style="display:flex; flex-direction:column;">
             <span style="font-weight:bold;">${ch.name}</span>
             <small style="color:#94a3b8; font-size:11px;">${ch.group}</small>
@@ -536,7 +522,7 @@
       `).join('');
     }
 
-    function selectChannel(element, url) {
+    function selectTVChannel(element, url) {
       document.querySelectorAll('.channel-item').forEach(item => {
         item.classList.remove('active-channel');
       });
@@ -562,15 +548,12 @@
           hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
             video.play().catch(e => console.log("Autoplay blocked"));
           });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          video.src = url;
-          video.play().catch(e => console.log("Autoplay blocked"));
         } else {
           video.src = url;
           video.play().catch(e => console.log("Autoplay blocked"));
         }
       } else {
-        alert("Streaming link missing!");
+        alert("Stream link is unavailable.");
       }
     }
 
