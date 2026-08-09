@@ -94,7 +94,6 @@
     .btn-group { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 15px; }
     .btn-group button { width: 100%; height: 38px; padding: 0; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 600; font-size: 13px; }
 
-    /* Channel Item with TV Logo Styling */
     .channel-item { display: flex; align-items: center; gap: 12px; padding: 8px 10px; background: #1e293b; margin-bottom: 6px; border-radius: 6px; cursor: pointer; transition: background 0.2s; border: 1px solid #334155; }
     .channel-item:hover { background: #334155; }
     .channel-item img { width: 40px; height: 40px; object-fit: contain; background: #0f172a; border-radius: 4px; padding: 2px; border: 1px solid #475569; }
@@ -208,7 +207,6 @@
   </div>
 
   <script>
-    // Security Script
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.onkeydown = function (e) {
       if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) {
@@ -242,7 +240,6 @@
     let currentMovieData = [];
     let currentParsedSeasons = {};
 
-    // Fisher-Yates Random Shuffle Function
     function shuffleArray(array) {
       const arr = [...array];
       for (let i = arr.length - 1; i > 0; i--) {
@@ -348,7 +345,6 @@
         return matchesType && matchesCat && matchesLang && matchesSearch;
       });
 
-      // tv-channel বাদে বাকি সব ক্যাটাগরি (All, Anime, Movie, TV Series) Random Load হবে
       if (currentFilter !== 'tv-channel') {
         filtered = shuffleArray(filtered);
       }
@@ -564,16 +560,22 @@
       }
 
       if (url) {
-        if (Hls.isSupported() && (url.includes('.m3u8') || playerId === 'tv-video')) {
-          hlsInstance = new Hls();
+        if (Hls.isSupported()) {
+          hlsInstance = new Hls({
+            enableWorker: true,
+            lowLatencyMode: true
+          });
           hlsInstance.loadSource(url);
           hlsInstance.attachMedia(video);
           hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
-            video.play().catch(e => console.log("Autoplay blocked"));
+            video.play().catch(e => console.log("Autoplay blocked:", e));
           });
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+          video.src = url;
+          video.play().catch(e => console.log("Autoplay blocked:", e));
         } else {
           video.src = url;
-          video.play().catch(e => console.log("Autoplay blocked"));
+          video.play().catch(e => console.log("Autoplay blocked:", e));
         }
       } else {
         alert("Stream link is unavailable.");
