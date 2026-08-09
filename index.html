@@ -233,7 +233,6 @@
     }
     checkAdBlocker();
 
-    // Cloudflare Worker URL
     const JSON_URL = 'https://spring-voice-2488.jahangir339932.workers.dev/';
     let allData = [];
     let currentFilter = 'all';
@@ -267,6 +266,7 @@
       const languages = [...new Set(allData.map(item => item.language).filter(Boolean))];
 
       const catSelect = document.getElementById('category-select');
+      catSelect.innerHTML = '<option value="all">Category: All</option>';
       categories.forEach(cat => {
         const opt = document.createElement('option');
         opt.value = cat;
@@ -275,6 +275,7 @@
       });
 
       const langSelect = document.getElementById('language-select');
+      langSelect.innerHTML = '<option value="all">Language: All</option>';
       languages.forEach(lang => {
         const opt = document.createElement('option');
         opt.value = lang;
@@ -331,7 +332,7 @@
       const selectedLang = document.getElementById('language-select').value;
 
       let filtered = allData.filter(item => {
-        let matchesType = (currentFilter === 'all') ? (item.type !== 'tv-channel') : (item.type === currentFilter);
+        let matchesType = (currentFilter === 'all') ? true : (item.type === currentFilter);
         let matchesCat = (selectedCat === 'all') || (item.category === selectedCat);
         let matchesLang = (selectedLang === 'all') || (item.language === selectedLang);
         let searchTarget = item.type === 'tv-channel' ? (item.country || '') : (item.name || '');
@@ -544,7 +545,6 @@
       playStream('tv-video', url);
     }
 
-    // Fixed playStream function to play HLS streams reliably
     function playStream(playerId, url) {
       if (isAdBlockActive) return;
 
