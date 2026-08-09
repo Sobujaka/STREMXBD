@@ -13,14 +13,21 @@
 
     header {
       display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #334155;
+    }
+
+    .header-top {
+      display: flex;
       flex-wrap: wrap;
       gap: 10px;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #334155;
     }
+
     .search-bar { flex: 1; min-width: 200px; }
     .search-bar input {
       width: 100%;
@@ -31,6 +38,35 @@
       color: #fff;
       outline: none;
     }
+
+    /* নতুন কোড বক্সের ডিজাইন (সার্চবারের নিচে ছোট করে) */
+    .code-box-container {
+      display: flex;
+      gap: 8px;
+      max-width: 350px;
+    }
+    .code-box-container input {
+      flex: 1;
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: #fff;
+      font-size: 13px;
+      outline: none;
+    }
+    .code-box-container button {
+      padding: 6px 14px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .code-box-container button:hover { background: #1d4ed8; }
+
     .nav-buttons { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
     button, select {
       background: #1e293b;
@@ -134,9 +170,18 @@
   </div>
 
   <header>
-    <div class="search-bar">
-      <input type="text" id="search-input" placeholder="Search title or country..." oninput="filterGrid()">
+    <div class="header-top">
+      <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Search title or country..." oninput="filterGrid()">
+      </div>
+      
+      <!-- গিটহাব চেক করার ছোট কোড ইনপুট বক্স -->
+      <div class="code-box-container">
+        <input type="text" id="secret-code-input" placeholder="Enter update code...">
+        <button onclick="verifyAndRefresh()">Check</button>
+      </div>
     </div>
+
     <div class="nav-buttons">
       <button class="active" onclick="filterType('all', this)">All</button>
       <button onclick="filterType('anime', this)">Anime</button>
@@ -233,6 +278,11 @@
     checkAdBlocker();
 
     const JSON_URL = 'https://spring-voice-2488.jahangir339932.workers.dev/';
+    
+    // আপনার গিটহাবের র টেক্সট (Raw Text) ফাইলের লিংক এখানে দিন
+    // যেমন: https://raw.githubusercontent.com/your-username/your-repo/main/code.txt
+    const GITHUB_TXT_URL = 'https://raw.githubusercontent.com/sobujaka/sobujaka.github.io/main/code.txt'; 
+
     let allData = [];
     let currentFilter = 'all';
     let currentTVChannels = [];
@@ -249,12 +299,12 @@
       return arr;
     }
 
-    async function loadData() {
+    async function loadData(forceRefresh = false) {
       const today = new Date().toISOString().split('T')[0];
       const savedData = localStorage.getItem('moviesData');
       const lastUpdate = localStorage.getItem('lastUpdate');
 
-      if (lastUpdate !== today || !savedData) {
+      if (forceRefresh || lastUpdate !== today || !savedData) {
         try {
           const response = await fetch(JSON_URL, {
             method: "GET",
@@ -268,6 +318,7 @@
           allData = await response.json();
           localStorage.setItem('moviesData', JSON.stringify(allData));
           localStorage.setItem('lastUpdate', today);
+          if (forceRefresh) alert("Data successfully refreshed from Cloudflare!");
         } catch (err) {
           document.getElementById('content-grid').innerHTML = '<p style="color:red; text-align:center; grid-column: 1/-1;">Access Denied or Connection Failed!</p>';
           return;
@@ -278,6 +329,32 @@
 
       populateDropdowns();
       filterGrid();
+    }
+
+    // গিটহাবের টেক্সট ফাইলের সাথে কোড মিলিয়ে ক্লাউডফ্লাওয়ারে রিকোয়েস্ট পাঠানোর ফাংশন
+    async function verifyAndRefresh() {
+      const inputCode = document.getElementById('secret-code-input').value.trim();
+      if (!inputCode) {
+        alert("Please enter a code!");
+        return;
+      }
+
+      try {
+        const res = await fetch(GITHUB_TXT_URL + "?t=" + new Date().getTime());
+        if (!res.ok) throw new Error("Could not fetch GitHub file.");
+        
+        const githubCode = (await res.text()).trim();
+
+        if (inputCode === githubCode) {
+          localStorage.removeItem('moviesData');
+          localStorage.removeItem('lastUpdate');
+          loadData(true); // ফোর্সবাবে নতুন ডাটা লোড করবে
+        } else {
+          alert("Invalid Code! Please check your GitHub text file.");
+        }
+      } catch (error) {
+        alert("Failed to verify code with GitHub.");
+      }
     }
 
     function populateDropdowns() {
