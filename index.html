@@ -5,66 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Full Height Stream Portal</title>
   
-  <!-- 1. HLS.JS Library Included for Live TV (.m3u8) Support -->
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background: #0f172a; color: #fff; padding: 15px; }
+    body { background: #0f172a; color: #fff; padding: 15px; user-select: none; }
 
-    header {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #334155;
-    }
+    header { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #334155; }
     .search-bar { flex: 1; min-width: 200px; }
-    .search-bar input {
-      width: 100%;
-      padding: 10px 15px;
-      border-radius: 20px;
-      border: 1px solid #334155;
-      background: #1e293b;
-      color: #fff;
-      outline: none;
-    }
+    .search-bar input { width: 100%; padding: 10px 15px; border-radius: 20px; border: 1px solid #334155; background: #1e293b; color: #fff; outline: none; }
     .nav-buttons { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-    button, select {
-      background: #1e293b;
-      color: #cbd5e1;
-      border: 1px solid #334155;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: 0.2s;
-      outline: none;
-      font-size: 14px;
-    }
+    button, select { background: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: 0.2s; outline: none; font-size: 14px; }
     select { color: #38bdf8; font-weight: bold; }
     button:hover, button.active { background: #2563eb; color: #fff; border-color: #2563eb; }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-      gap: 15px;
-    }
-
-    .card {
-      background: #1e293b;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid #334155;
-      cursor: pointer;
-      transition: transform 0.2s;
-      display: flex;
-      flex-direction: column;
-    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 15px; }
+    .card { background: #1e293b; border-radius: 8px; overflow: hidden; border: 1px solid #334155; cursor: pointer; transition: transform 0.2s; display: flex; flex-direction: column; }
     .card:hover { transform: translateY(-5px); border-color: #2563eb; }
-    
     .card img { width: 100%; height: 250px; object-fit: fill; background: #0f172a; display: block; }
     .card-details { padding: 8px 10px; }
     .card-title { font-size: 13px; font-weight: bold; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -72,15 +29,7 @@
 
     .card.square-card img { height: 180px; object-fit: fill; }
 
-    #player-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: #0f172a;
-      z-index: 1000;
-      padding: 15px;
-    }
-    
+    #player-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #0f172a; z-index: 1000; padding: 15px; }
     .overlay-header { display: flex; justify-content: space-between; align-items: center; height: 40px; margin-bottom: 10px; }
     .close-btn { background: #ef4444; color: white; border: none; padding: 8px 18px; font-weight: bold; border-radius: 5px; }
 
@@ -92,54 +41,21 @@
     .section-title { font-size: 14px; margin-bottom: 6px; color: #38bdf8; font-weight: bold; }
     .sidebar-select { width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 6px; background: #1e293b; color: #38bdf8; border: 1px solid #334155; }
 
-    .btn-group { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 15px; }
-    .btn-group button { width: 100%; height: 38px; padding: 0; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 600; font-size: 13px; }
-
-    .channel-item { display: flex; align-items: center; gap: 10px; padding: 8px; background: #1e293b; margin-bottom: 5px; border-radius: 5px; cursor: pointer; transition: background 0.2s; }
-    .channel-item:hover { background: #334155; }
-    .channel-item img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
-
-    /* Active Selected Channel Highlight */
-    .channel-item.active-channel {
-      background: #2563eb !important;
-      color: #ffffff;
-    }
-    .channel-item.active-channel small {
-      color: #e2e8f0 !important;
-    }
-
-    #adblock-popup {
-      display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(15, 23, 42, 0.98); z-index: 999999; justify-content: center; align-items: center; text-align: center; padding: 20px;
-    }
-    .adblock-box { background: #1e293b; border: 2px solid #ef4444; padding: 30px; border-radius: 12px; max-width: 450px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-    .adblock-box h2 { color: #ef4444; font-size: 22px; margin-bottom: 15px; }
-    .adblock-box p { color: #cbd5e1; font-size: 15px; margin-bottom: 20px; line-height: 1.5; }
-    .adblock-btn { background: #2563eb; color: white; border: none; padding: 10px 20px; font-size: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; }
+    .btn-group { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 15px; }
+    .btn-group button { width: 100%; height: 38px; font-weight: 600; font-size: 13px; }
 
     @media (max-width: 768px) {
       .player-container { flex-direction: column; height: auto; }
       .video-box { height: 250px; }
       .sidebar-box { height: 300px; }
-      .btn-group { grid-template-columns: repeat(4, 1fr); }
     }
   </style>
 </head>
 <body>
 
-  <div class="adsbox" style="position:absolute; left:-9999px; top:-9999px; height:1px; width:1px;"></div>
-
-  <div id="adblock-popup">
-    <div class="adblock-box">
-      <h2>⚠️ AdBlocker Detected!</h2>
-      <p>আমাদের ওয়েবসাইটটি ব্যবহার করতে অনুগ্রহ করে আপনার ব্রাউজারের <b>AdBlocker বন্ধ করুন</b> এবং পেজটি রিফ্রেশ করুন।</p>
-      <button class="adblock-btn" onclick="location.reload()">Refresh Page</button>
-    </div>
-  </div>
-
   <header>
     <div class="search-bar">
-      <input type="text" id="search-input" placeholder="Search title or group..." oninput="filterGrid()">
+      <input type="text" id="search-input" placeholder="Search title..." oninput="filterGrid()">
     </div>
     <div class="nav-buttons">
       <button class="active" onclick="filterType('all', this)">All</button>
@@ -148,13 +64,8 @@
       <button onclick="filterType('tv-series', this)">TV Series</button>
       <button onclick="filterType('tv-channel', this)">Live TV</button>
 
-      <select id="category-select" onchange="filterGrid()">
-        <option value="all">Category: All</option>
-      </select>
-
-      <select id="language-select" onchange="filterGrid()">
-        <option value="all">Language: All</option>
-      </select>
+      <select id="category-select" onchange="filterGrid()"><option value="all">Category: All</option></select>
+      <select id="language-select" onchange="filterGrid()"><option value="all">Language: All</option></select>
     </div>
   </header>
 
@@ -165,16 +76,12 @@
   <div id="player-overlay">
     <div class="overlay-header">
       <h2 id="current-stream-title" style="color: #38bdf8;">WEB-XBD PLAYER</h2>
-      <button class="close-btn" onclick="closePlayer()">✕ Close Player</button>
+      <button class="close-btn" onclick="closePlayer()">✕ Close</button>
     </div>
 
     <div id="player-type-series" class="player-container" style="display:none;">
-      <div class="video-box">
-        <video id="series-video" controls poster="https://via.placeholder.com/600x350?text=Select+Episode"></video>
-      </div>
+      <div class="video-box"><video id="series-video" controls></video></div>
       <div class="sidebar-box">
-        <div class="section-title">Select Language:</div>
-        <select id="series-lang-select" class="sidebar-select" onchange="onSeriesLangChange()"></select>
         <div class="section-title">Select Season:</div>
         <select id="series-season-select" class="sidebar-select" onchange="onSeriesSeasonChange()"></select>
         <div class="section-title">Episodes:</div>
@@ -183,71 +90,28 @@
     </div>
 
     <div id="player-type-movie" class="player-container" style="display:none;">
-      <div class="video-box">
-        <video id="movie-video" controls poster="https://via.placeholder.com/600x350?text=Select+Language"></video>
-      </div>
-      <div class="sidebar-box">
-        <div class="section-title">Select Language:</div>
-        <select id="movie-lang-select" class="sidebar-select" onchange="onMovieLangChange()"></select>
-      </div>
+      <div class="video-box"><video id="movie-video" controls></video></div>
     </div>
 
     <div id="player-type-tv" class="player-container" style="display:none;">
-      <div class="video-box">
-        <video id="tv-video" controls poster="https://via.placeholder.com/600x350?text=Select+Channel"></video>
-      </div>
-      <div class="sidebar-box">
-        <div class="section-title">Select Channel Group:</div>
-        <select id="tv-group-select" class="sidebar-select" onchange="filterM3UByGroup()">
-          <option value="all">All Groups</option>
-        </select>
-        <div class="section-title">Channels List:</div>
-        <div id="tv-channel-list">Loading channels...</div>
-      </div>
+      <div class="video-box"><video id="tv-video" controls></video></div>
     </div>
   </div>
 
   <script>
-    let isAdBlockActive = false;
-    let hlsInstance = null; // Global HLS Player Instance
-
-    async function checkAdBlocker() {
-      const bait = document.querySelector('.adsbox');
-      const popup = document.getElementById('adblock-popup');
-      let blocked = false;
-
-      if (!bait || bait.offsetParent === null || bait.offsetHeight === 0 || bait.offsetWidth === 0) {
-        blocked = true;
+    // Security Script to disable Inspector & Right Click
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.onkeydown = function (e) {
+      if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) {
+        return false;
       }
+    };
 
-      if (blocked) {
-        isAdBlockActive = true;
-        popup.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-      } else {
-        isAdBlockActive = false;
-        popup.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      }
-    }
-
-    checkAdBlocker();
-
-    const JSON_URL = 'https://tiny-cherry-4a41.jahangir339932.workers.dev/';
+    const JSON_URL = 'https://your-worker-subdomain.workers.dev/data.json'; // আপনার Worker API ডোমেন দিন
     let allData = [];
     let currentFilter = 'all';
-    let loadedM3UChannels = []; 
-    let currentSeriesData = [];
-    let currentMovieData = [];
+    let hlsInstance = null;
     let currentParsedSeasons = {};
-
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
-    }
 
     async function loadData() {
       try {
@@ -256,29 +120,19 @@
         populateDropdowns();
         filterGrid();
       } catch (err) {
-        document.getElementById('content-grid').innerHTML = '<p style="color:red; text-align:center; grid-column: 1/-1;">Error loading JSON data!</p>';
+        document.getElementById('content-grid').innerHTML = '<p style="color:red; text-align:center; grid-column: 1/-1;">Error loading data!</p>';
       }
     }
 
     function populateDropdowns() {
-      const categories = [...new Set(allData.map(item => item.category).filter(Boolean))];
-      const languages = [...new Set(allData.map(item => item.language).filter(Boolean))];
+      const categories = [...new Set(allData.map(i => i.category).filter(Boolean))];
+      const languages = [...new Set(allData.map(i => i.language).filter(Boolean))];
 
       const catSelect = document.getElementById('category-select');
-      categories.forEach(cat => {
-        const opt = document.createElement('option');
-        opt.value = cat;
-        opt.innerText = `Category: ${cat}`;
-        catSelect.appendChild(opt);
-      });
+      categories.forEach(cat => catSelect.innerHTML += `<option value="${cat}">Category: ${cat}</option>`);
 
       const langSelect = document.getElementById('language-select');
-      languages.forEach(lang => {
-        const opt = document.createElement('option');
-        opt.value = lang;
-        opt.innerText = `Language: ${lang}`;
-        langSelect.appendChild(opt);
-      });
+      languages.forEach(lang => langSelect.innerHTML += `<option value="${lang}">Language: ${lang}</option>`);
     }
 
     function renderGrid(data) {
@@ -288,42 +142,25 @@
         return;
       }
 
-      const uniqueItems = [];
-      const seenNames = new Set();
-
-      data.forEach(item => {
-        const identifier = item.type === 'tv-channel' ? item.country : item.name;
-        const key = (identifier || 'unnamed').toLowerCase() + '_' + item.type;
-        if (!seenNames.has(key)) {
-          seenNames.add(key);
-          uniqueItems.push(item);
-        }
-      });
-
-      const randomItems = shuffleArray([...uniqueItems]);
-
-      grid.innerHTML = randomItems.map(item => {
+      grid.innerHTML = data.map((item, index) => {
         if (item.type === 'tv-channel') {
           return `
-            <div class="card square-card" onclick="openItem('${item.country}', '${item.type}', '${item.m3ulink}')">
-              <img src="${item.image || 'https://via.placeholder.com/160x160?text=Flag'}" alt="${item.country}">
+            <div class="card square-card" onclick="openItem(${index})">
+              <img src="${item.image || 'https://via.placeholder.com/160x160?text=TV'}" alt="${item.name}">
               <div class="card-details">
-                <div class="card-title">${item.country || 'Live TV'}</div>
-                <span class="card-tag" style="background:#059669;">TV CHANNEL</span>
+                <div class="card-title">${item.name || 'Live TV'}</div>
+                <span class="card-tag" style="background:#059669;">LIVE TV</span>
               </div>
-            </div>
-          `;
+            </div>`;
         } else {
           return `
-            <div class="card" onclick="openItem('${item.name}', '${item.type}')">
+            <div class="card" onclick="openItem(${index})">
               <img src="${item.image || 'https://via.placeholder.com/160x230?text=No+Image'}" alt="${item.name}">
               <div class="card-details">
-                <div class="card-title">${item.name || 'Unnamed'}</div>
+                <div class="card-title">${item.name}</div>
                 <span class="card-tag">${item.type}</span>
-                ${item.language ? `<span class="card-tag" style="background:#2563eb;">${item.language}</span>` : ''}
               </div>
-            </div>
-          `;
+            </div>`;
         }
       }).join('');
     }
@@ -341,89 +178,54 @@
       const selectedLang = document.getElementById('language-select').value;
 
       const filtered = allData.filter(item => {
-        let matchesType = (currentFilter === 'all') ? (item.type !== 'tv-channel') : (item.type === currentFilter);
+        let matchesType = (currentFilter === 'all') ? true : (item.type === currentFilter);
         const matchesCat = (selectedCat === 'all') || (item.category === selectedCat);
         const matchesLang = (selectedLang === 'all') || (item.language === selectedLang);
-        const searchTarget = item.type === 'tv-channel' ? (item.country || '') : (item.name || '');
-        const matchesSearch = searchTarget.toLowerCase().includes(query);
-
+        const matchesSearch = (item.name || '').toLowerCase().includes(query);
         return matchesType && matchesCat && matchesLang && matchesSearch;
       });
 
       renderGrid(filtered);
     }
 
-    function openItem(nameOrCountry, type, m3ulink) {
-      if (isAdBlockActive) return;
+    function openItem(index) {
+      const item = allData[index];
+      if (!item) return;
 
       document.getElementById('player-overlay').style.display = 'block';
-      document.getElementById('current-stream-title').innerText = nameOrCountry || 'WEB-XBD STREAM';
-      
+      document.getElementById('current-stream-title').innerText = item.name || 'STREAM';
+
       document.getElementById('player-type-series').style.display = 'none';
       document.getElementById('player-type-movie').style.display = 'none';
       document.getElementById('player-type-tv').style.display = 'none';
 
-      if (type === 'anime' || type === 'tv-series') {
+      if (item.type === 'anime' || item.type === 'tv-series') {
         document.getElementById('player-type-series').style.display = 'flex';
-        setupSeriesPlayer(nameOrCountry);
-      } else if (type === 'movie') {
+        setupSeriesPlayer(item);
+      } else if (item.type === 'movie') {
         document.getElementById('player-type-movie').style.display = 'flex';
-        setupMoviePlayer(nameOrCountry);
-      } else if (type === 'tv-channel') {
+        playStream('movie-video', item.movielink);
+      } else if (item.type === 'tv-channel') {
         document.getElementById('player-type-tv').style.display = 'flex';
-        setupTVPlayer(m3ulink);
+        playStream('tv-video', item.m3ulink);
       }
     }
 
-    function closePlayer() {
-      document.getElementById('player-overlay').style.display = 'none';
-      if (hlsInstance) {
-        hlsInstance.destroy();
-        hlsInstance = null;
-      }
-      ['series-video', 'movie-video', 'tv-video'].forEach(id => {
-        const p = document.getElementById(id);
-        p.pause();
-        p.src = "";
-      });
-    }
-
-    function setupSeriesPlayer(targetName) {
-      currentSeriesData = allData.filter(i => (i.type === 'anime' || i.type === 'tv-series') && i.name.toLowerCase() === targetName.toLowerCase());
-      const langSelect = document.getElementById('series-lang-select');
-      langSelect.innerHTML = '';
-
-      currentSeriesData.forEach((item, index) => {
-        const opt = document.createElement('option');
-        opt.value = index;
-        opt.innerText = item.language || 'Default';
-        langSelect.appendChild(opt);
-      });
-
-      if (currentSeriesData.length > 0) onSeriesLangChange();
-    }
-
-    function onSeriesLangChange() {
-      const selectedIndex = document.getElementById('series-lang-select').value;
-      const item = currentSeriesData[selectedIndex];
-      if (!item || !item.episodes) return;
-
+    function setupSeriesPlayer(item) {
       currentParsedSeasons = {};
-      Object.keys(item.episodes).forEach(epKey => {
-        const sName = epKey.substring(0, 2);
-        const cleanEpKey = epKey.replace(/^S\d+/i, '');
-        if (!currentParsedSeasons[sName]) currentParsedSeasons[sName] = [];
-        currentParsedSeasons[sName].push({ key: cleanEpKey, url: item.episodes[epKey] });
-      });
+      if (item.episodes) {
+        Object.keys(item.episodes).forEach(epKey => {
+          const sName = epKey.substring(0, 2);
+          const cleanEpKey = epKey.replace(/^S\d+/i, '');
+          if (!currentParsedSeasons[sName]) currentParsedSeasons[sName] = [];
+          currentParsedSeasons[sName].push({ key: cleanEpKey, url: item.episodes[epKey] });
+        });
+      }
 
       const seasonSelect = document.getElementById('series-season-select');
       seasonSelect.innerHTML = '';
-
       Object.keys(currentParsedSeasons).forEach(sKey => {
-        const opt = document.createElement('option');
-        opt.value = sKey;
-        opt.innerText = `Season ${sKey.replace('S', '')}`;
-        seasonSelect.appendChild(opt);
+        seasonSelect.innerHTML += `<option value="${sKey}">Season ${sKey.replace('S', '')}</option>`;
       });
 
       onSeriesSeasonChange();
@@ -432,10 +234,6 @@
     function onSeriesSeasonChange() {
       const selectedSeason = document.getElementById('series-season-select').value;
       const epList = currentParsedSeasons[selectedSeason] || [];
-      renderEpisodes(epList);
-    }
-
-    function renderEpisodes(epList) {
       const epContainer = document.getElementById('series-episode-buttons');
       epContainer.innerHTML = '';
 
@@ -449,168 +247,37 @@
         };
         epContainer.appendChild(epBtn);
       });
-    }
 
-    function setupMoviePlayer(targetName) {
-      currentMovieData = allData.filter(i => i.type === 'movie' && i.name.toLowerCase() === targetName.toLowerCase());
-      const langSelect = document.getElementById('movie-lang-select');
-      langSelect.innerHTML = '';
-
-      currentMovieData.forEach((item, index) => {
-        const opt = document.createElement('option');
-        opt.value = index;
-        opt.innerText = item.language || 'Default';
-        langSelect.appendChild(opt);
-      });
-
-      if (currentMovieData.length > 0) onMovieLangChange();
-    }
-
-    function onMovieLangChange() {
-      const selectedIndex = document.getElementById('movie-lang-select').value;
-      const item = currentMovieData[selectedIndex];
-      if (item && item.movielink) playStream('movie-video', item.movielink);
-    }
-
-    function setupTVPlayer(m3uUrl) {
-      if (m3uUrl) {
-        loadM3UChannels(m3uUrl);
-      } else {
-        document.getElementById('tv-channel-list').innerHTML = "M3U Link Not Found!";
+      if (epList.length > 0) {
+        epContainer.children[0].click();
       }
     }
 
-    async function loadM3UChannels(url) {
-      const container = document.getElementById('tv-channel-list');
-      container.innerHTML = "Loading channels...";
-      
-      try {
-        const res = await fetch(url);
-        const text = await res.text();
-        const lines = text.split('\n');
-        loadedM3UChannels = [];
-        let currentChannel = {};
-
-        lines.forEach(line => {
-          line = line.trim();
-          if (line.startsWith('#EXTINF:')) {
-            const parts = line.split(',');
-            currentChannel.name = parts.length > 1 ? parts.slice(1).join(',').trim() : 'Live Channel';
-            
-            const logoMatch = line.match(/tvg-logo="(.*?)"/i);
-            currentChannel.logo = logoMatch ? logoMatch[1] : 'https://via.placeholder.com/35?text=TV';
-
-            const groupMatch = line.match(/group-title="(.*?)"/i);
-            currentChannel.group = groupMatch ? groupMatch[1] : 'General';
-
-          } else if (line && !line.startsWith('#')) {
-            currentChannel.url = line;
-            if (!currentChannel.name) currentChannel.name = 'Live Channel';
-            if (!currentChannel.logo) currentChannel.logo = 'https://via.placeholder.com/35?text=TV';
-            if (!currentChannel.group) currentChannel.group = 'General';
-            
-            loadedM3UChannels.push(currentChannel);
-            currentChannel = {};
-          }
-        });
-
-        if (loadedM3UChannels.length === 0) {
-          container.innerHTML = "No channels found in M3U file.";
-          return;
-        }
-
-        populateGroupDropdown();
-        renderM3UChannels(loadedM3UChannels);
-
-        // Auto-play and highlight first channel
-        if (loadedM3UChannels[0] && loadedM3UChannels[0].url) {
-          playStream('tv-video', loadedM3UChannels[0].url);
-          const firstChannelBtn = container.querySelector('.channel-item');
-          if (firstChannelBtn) {
-            firstChannelBtn.classList.add('active-channel');
-          }
-        }
-      } catch (err) {
-        container.innerHTML = "Failed to load M3U channels list (CORS Blocked).";
-      }
-    }
-
-    function populateGroupDropdown() {
-      const groupSelect = document.getElementById('tv-group-select');
-      groupSelect.innerHTML = '<option value="all">All Groups</option>';
-
-      const groups = [...new Set(loadedM3UChannels.map(ch => ch.group).filter(Boolean))];
-      groups.forEach(grp => {
-        const opt = document.createElement('option');
-        opt.value = grp;
-        opt.innerText = grp;
-        groupSelect.appendChild(opt);
+    function closePlayer() {
+      document.getElementById('player-overlay').style.display = 'none';
+      if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
+      ['series-video', 'movie-video', 'tv-video'].forEach(id => {
+        const p = document.getElementById(id);
+        p.pause(); p.src = "";
       });
     }
 
-    function filterM3UByGroup() {
-      const selectedGroup = document.getElementById('tv-group-select').value;
-      renderM3UChannels(selectedGroup === 'all' ? loadedM3UChannels : loadedM3UChannels.filter(ch => ch.group === selectedGroup));
-    }
-
-    function renderM3UChannels(channels) {
-      const container = document.getElementById('tv-channel-list');
-      if (channels.length === 0) {
-        container.innerHTML = "No channels in this group.";
-        return;
-      }
-
-      container.innerHTML = channels.map(ch => `
-        <div class="channel-item" onclick="selectChannel(this, '${ch.url}')">
-          <img src="${ch.logo}" onerror="this.src='https://via.placeholder.com/35?text=TV'" alt="logo">
-          <div style="display:flex; flex-direction:column;">
-            <span>${ch.name}</span>
-            <small style="color:#94a3b8; font-size:10px;">${ch.group}</small>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function selectChannel(element, url) {
-      document.querySelectorAll('.channel-item').forEach(item => {
-        item.classList.remove('active-channel');
-      });
-      element.classList.add('active-channel');
-      playStream('tv-video', url);
-    }
-
-    /* Fully Updated PlayStream Function Supporting HLS.js and Proxied Streams */
     function playStream(playerId, url) {
-      if (isAdBlockActive) return;
-
       const video = document.getElementById(playerId);
-
-      if (hlsInstance) {
-        hlsInstance.destroy();
-        hlsInstance = null;
-      }
+      if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
 
       if (url) {
         if (Hls.isSupported()) {
-          hlsInstance = new Hls({
-            enableWorker: true,
-            lowLatencyMode: true
-          });
+          hlsInstance = new Hls({ enableWorker: true });
           hlsInstance.loadSource(url);
           hlsInstance.attachMedia(video);
-          hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
-            video.play().catch(e => console.log("Autoplay blocked:", e));
-          });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          // Native Safari / Mobile Browser Support
-          video.src = url;
-          video.play().catch(e => console.log("Autoplay blocked:", e));
+          hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(e => console.log(e)));
         } else {
           video.src = url;
-          video.play().catch(e => console.log("Autoplay blocked:", e));
+          video.play().catch(e => console.log(e));
         }
       } else {
-        alert("Streaming link missing!");
+        alert("Video stream missing!");
       }
     }
 
