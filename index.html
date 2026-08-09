@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Full Height Stream Portal</title>
+  <title>Stream Portal</title>
   
+  <!-- HLS.js Library for M3U8 Streaming -->
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
   <style>
@@ -64,12 +65,12 @@
     }
     .card:hover { transform: translateY(-5px); border-color: #2563eb; }
     
-    .card img { width: 100%; height: 250px; object-fit: fill; background: #0f172a; display: block; }
+    .card img { width: 100%; height: 250px; object-fit: cover; background: #0f172a; display: block; }
     .card-details { padding: 8px 10px; }
     .card-title { font-size: 13px; font-weight: bold; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .card-tag { font-size: 10px; background: #334155; padding: 2px 5px; border-radius: 4px; display: inline-block; text-transform: uppercase; }
 
-    .card.square-card img { height: 180px; object-fit: fill; }
+    .card.square-card img { height: 180px; object-fit: contain; padding: 10px; }
 
     #player-overlay {
       display: none;
@@ -190,7 +191,7 @@
       </div>
     </div>
 
-    <!-- TV Player -->
+    <!-- Live TV Player -->
     <div id="player-type-tv" class="player-container" style="display:none;">
       <div class="video-box">
         <video id="tv-video" controls poster="https://via.placeholder.com/600x350?text=Select+Channel"></video>
@@ -207,6 +208,7 @@
   </div>
 
   <script>
+    // Developer console and right-click protection
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.onkeydown = function (e) {
       if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) {
@@ -217,7 +219,7 @@
     let isAdBlockActive = false;
     let hlsInstance = null;
 
-    async function checkAdBlocker() {
+    function checkAdBlocker() {
       const bait = document.querySelector('.adsbox');
       const popup = document.getElementById('adblock-popup');
       if (!bait || bait.offsetParent === null || bait.offsetHeight === 0 || bait.offsetWidth === 0) {
@@ -232,6 +234,7 @@
     }
     checkAdBlocker();
 
+    // Cloudflare Worker URL
     const JSON_URL = 'https://spring-voice-2488.jahangir339932.workers.dev/';
     let allData = [];
     let currentFilter = 'all';
@@ -329,16 +332,9 @@
       const selectedLang = document.getElementById('language-select').value;
 
       let filtered = allData.filter(item => {
-        let matchesType = false;
-        if (currentFilter === 'all') {
-          matchesType = (item.type !== 'tv-channel');
-        } else {
-          matchesType = (item.type === currentFilter);
-        }
-        
+        let matchesType = (currentFilter === 'all') ? (item.type !== 'tv-channel') : (item.type === currentFilter);
         let matchesCat = (selectedCat === 'all') || (item.category === selectedCat);
         let matchesLang = (selectedLang === 'all') || (item.language === selectedLang);
-        
         let searchTarget = item.type === 'tv-channel' ? (item.country || '') : (item.name || '');
         let matchesSearch = searchTarget.toLowerCase().includes(query);
 
