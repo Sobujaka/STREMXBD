@@ -249,15 +249,29 @@
       return arr;
     }
 
+    // লোকাল স্টোরেজ ক্যাশ লজিক (প্রতিদিন মাত্র ১ বার রিকোয়েস্ট পাঠাবে)
     async function loadData() {
-      try {
-        const response = await fetch(JSON_URL);
-        allData = await response.json();
-        populateDropdowns();
-        filterGrid();
-      } catch (err) {
-        document.getElementById('content-grid').innerHTML = '<p style="color:red; text-align:center; grid-column: 1/-1;">Error loading JSON data!</p>';
+      const today = new Date().toISOString().split('T')[0];
+      const savedData = localStorage.getItem('moviesData');
+      const lastUpdate = localStorage.getItem('lastUpdate');
+
+      if (lastUpdate !== today || !savedData) {
+        try {
+          const response = await fetch(JSON_URL);
+          allData = await response.json();
+          
+          localStorage.setItem('moviesData', JSON.stringify(allData));
+          localStorage.setItem('lastUpdate', today);
+        } catch (err) {
+          document.getElementById('content-grid').innerHTML = '<p style="color:red; text-align:center; grid-column: 1/-1;">Error loading JSON data!</p>';
+          return;
+        }
+      } else {
+        allData = JSON.parse(savedData);
       }
+
+      populateDropdowns();
+      filterGrid();
     }
 
     function populateDropdowns() {
