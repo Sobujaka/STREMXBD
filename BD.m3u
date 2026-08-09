@@ -1,35 +1,35 @@
 #EXTM3U
 
 #EXTINF:-1 tvg-logo="https://tse3.mm.bing.net/th/id/OIP.1zcoxkCkcDIwDoH-kPco9wAAAA?r=0&w=400&h=400&rs=1&pid=ImgDetMain&o=7&rm=3" group-title="NEWS" tvg-country="Bangladesh", BTV News
-https://cool-band-c2df.jahangir339932.workers.dev/play/btv_news?token=659cc8c6a4186a3bdd0624a0fa3cb3c6&expires=1788833147
+https://cool-band-c2df.jahangir339932.workers.dev/play/btv_news?token=2640ee99125340180d5072d21f1d773d&expires=1788833959
 
 #EXTINF:-1 tvg-logo="https://tse2.mm.bing.net/th/id/OIP.9G4Ro1q2UWrNsZMb7fxPdQHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" group-title="ALL" tvg-country="Bangladesh", My TV
-https://cool-band-c2df.jahangir339932.workers.dev/play/my_tv?token=ac114810abe4620d1d1153585385f036&expires=1788833147
+https://cool-band-c2df.jahangir339932.workers.dev/play/my_tv?token=6bc21798467f5dccdeeea0bdaaf29a1d&expires=1788833959
 
 #EXTINF:-1 tvg-logo="https://images.seeklogo.com/logo-png/53/1/atn-bangla-logo-png_seeklogo-537053.png" group-title="ALL" tvg-country="Bangladesh", ATN Bangla
-https://cool-band-c2df.jahangir339932.workers.dev/play/atn_bangla?token=7bc8526a8c9507466438df473a380638&expires=1788833147
+https://cool-band-c2df.jahangir339932.workers.dev/play/atn_bangla?token=519bce8440389ce2c9f469f47c9eea70&expires=1788833959
 
 #EXTINF:-1 tvg-logo="https://tse4.mm.bing.net/th/id/OIP.rpzxn2ed6nyI2TEAIs8GtwAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" group-title="ALL" tvg-country="Bangladesh", Deepto TV
-https://cool-band-c2df.jahangir339932.workers.dev/play/deepto_tv?token=5272033e444d1e7502854ab8f932c891&expires=1788833147
+https://cool-band-c2df.jahangir339932.workers.dev/play/deepto_tv?token=1edfea26493770fc0fb6d957e7abed21&expires=1788833959
 
 #EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Banglavision.svg/1280px-Banglavision.svg.png" group-title="ALL" tvg-country="Bangladesh", Bangla Vision
-https://cool-band-c2df.jahangir339932.workers.dev/play/bangla_vision?token=4d0bbefbf6548c8e4b1e7e914dd6d261&expires=1788833147
+https://cool-band-c2df.jahangir339932.workers.dev/play/bangla_vision?token=bd65cc9db740c4e8dd70dc71e460566d&expires=1788833959
 
 #EXTINF:-1 tvg-logo="https://images.seeklogo.com/logo-png/17/1/boishakhi-tv-logo-png_seeklogo-175644.png" group-title="ALL" tvg-country="Bangladesh", Boishakhi TV
-https://cool-band-c2df.jahangir339932.workers.dev/play/boishakhi_tv?token=9e71887c29c5a5765d8b592b485ce38e&expires=1788833147
+https://cool-band-c2df.jahangir339932.workers.dev/play/boishakhi_tv?token=541d18570c346a66f0c638d10da8c8ab&expires=1788833959
 
 #EXTINF:-1 tvg-logo="https://rtvonline.com/Images/rtv-logo.svg" group-title="ALL" tvg-country="Bangladesh", RTV
-https://cool-band-c2df.jahangir339932.workers.dev/play/rtv?token=33341ccfa1007987a1c153d94cd02818&expires=1788833147
+https://cool-band-c2df.jahangir339932.workers.dev/play/rtv?token=97a4e4d82aa7081e791a1b985cd754b4&expires=1788833959
 
 #EXTINF:-1 tvg-logo="https://www.ntvbd.com/sites/all/themes/sloth/images/ntv-facebook.jpg" group-title="ALL" tvg-country="Bangladesh", NTV
-https://cool-band-c2df.jahangir339932.workers.dev/play/ntv?token=67f9cc0fd0070d99e7d979407eaca943&expires=1788833147
+https://cool-band-c2df.jahangir339932.workers.dev/play/ntv?token=cf30eddb58013c7d874f8062d0b97612&expires=1788833959
 
 #EXTINF:-1 tvg-logo="https://yt3.googleusercontent.com/bFiobvUTC9dzqtqmHrGpMvIlQ2SpWYVKQFd3M8iP0hKqENuPOUNNVzaQQoJufoIFH-_M0UYn7w=s900-c-k-c0x00ffffff-no-rj" group-title="SPORTS" tvg-country="Bangladesh", T Sports
-https://cool-band-c2df.jahangir339932.workers.dev/play/t_sports?token=9fdc19a8e652adc31eaf2e8ce0765079&expires=1788833147
+https://cool-band-c2df.jahangir339932.workers.dev/play/t_sports?token=be396498983cc6ee7e148f76329e5cc0&expires=1788833959
 
 #EXTINF:-1 tvg-logo="https://tse2.mm.bing.net/th/id/OIP.0f4NmGaHkaxeA-iV6hqXXAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" group-title="ISLAMIC CHANNELS" tvg-country="International", Peace TV
-https://cool-band-c2df.jahangir339932.workers.dev/play/peace_tv?token=d67f782f101fe9eb99032152b680446a&expires=1788833147
+https://cool-band-c2df.jahangir339932.workers.dev/play/peace_tv?token=af3e185193d2abc1489eb8fb8a7e4138&expires=1788833959
 
 #EXTINF:-1 tvg-logo="https://tse3.mm.bing.net/th/id/OIP.HX74tYQ2garyYz_SdRdBXgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" group-title="KIDS" tvg-country="India", Sony Yay
-https://cool-band-c2df.jahangir339932.workers.dev/play/sony_yay?token=aa9de173ded56a37367fb1860a8bc083&expires=1788833147
+https://cool-band-c2df.jahangir339932.workers.dev/play/sony_yay?token=23e07e0fa521f0a0210316934ecab259&expires=1788833959
 
