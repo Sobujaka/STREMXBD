@@ -99,7 +99,7 @@
   </div>
 
   <script>
-    // Security Script to disable Inspector & Right Click
+    // Inspect Element / Right Click Block
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.onkeydown = function (e) {
       if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) {
@@ -107,7 +107,8 @@
       }
     };
 
-    const JSON_URL = 'https://your-worker-subdomain.workers.dev/data.json'; // আপনার Worker API ডোমেন দিন
+    // আপনার নতুন Cloudflare Worker API লিঙ্ক
+    const JSON_URL = 'https://spring-voice-2488.jahangir339932.workers.dev/';
     let allData = [];
     let currentFilter = 'all';
     let hlsInstance = null;
@@ -157,7 +158,7 @@
             <div class="card" onclick="openItem(${index})">
               <img src="${item.image || 'https://via.placeholder.com/160x230?text=No+Image'}" alt="${item.name}">
               <div class="card-details">
-                <div class="card-title">${item.name}</div>
+                <div class="card-title">${item.name || 'Unnamed'}</div>
                 <span class="card-tag">${item.type}</span>
               </div>
             </div>`;
