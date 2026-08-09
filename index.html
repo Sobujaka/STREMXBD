@@ -250,11 +250,40 @@
       return arr;
     }
 
+    // [তারিখের ওপর ভিত্তি করে প্রতিদিন সর্বোচ্চ ১টি রিক্যুয়েস্ট পাঠানোর লজিক]
     async function loadData() {
+      const LOCAL_KEY = 'cached_stream_data';
+      const DATE_KEY = 'cached_stream_date';
+
+      const savedData = localStorage.getItem(LOCAL_KEY);
+      const savedDate = localStorage.getItem(DATE_KEY);
+
+      // আজকের তারিখ বের করা (Format: YYYY-MM-DD)
+      const todayDate = new Date().toISOString().split('T')[0];
+
+      // যদি আজকের দিনেই আগের ডেটা ক্যাশ করা থাকে, তবে লোকাল স্টোরেজ থেকে সরাসরি লোড হবে
+      if (savedData && savedDate === todayDate) {
+        try {
+          const result = JSON.parse(savedData);
+          allData = result.data || result;
+          cachedLinks = result.cached_links || {};
+          populateDropdowns();
+          filterGrid();
+          return; // ক্লাউডফ্লেয়ারে কোনো রিক্যুয়েস্ট পাঠাবে না
+        } catch (e) {
+          console.error("Cache parsing error:", e);
+        }
+      }
+
+      // যদি নতুন দিন শুরু হয় (রাত ১২টার পর), তখন নতুন রিক্যুয়েস্ট যাবে
       try {
         const response = await fetch(JSON_URL);
         const result = await response.json();
         
+        // নতুন দিনের ডেটা এবং আজকের তারিখ ব্রাউজারে সেভ করা
+        localStorage.setItem(LOCAL_KEY, JSON.stringify(result));
+        localStorage.setItem(DATE_KEY, todayDate);
+
         if (result.data) {
           allData = result.data;
           cachedLinks = result.cached_links || {};
