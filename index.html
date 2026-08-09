@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Full Height Stream Portal</title>
+  <title>Stream Portal - STREMXBD</title>
   
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
@@ -31,39 +31,7 @@
       color: #fff;
       outline: none;
     }
-
-    .code-box-container {
-      display: flex;
-      gap: 8px;
-      max-width: 320px;
-    }
-    .code-box-container input {
-      flex: 1;
-      padding: 8px 12px;
-      border-radius: 6px;
-      border: 2px solid #22c55e;
-      background: #1e293b;
-      color: #fff;
-      font-size: 13px;
-      outline: none;
-      transition: border-color 0.3s;
-    }
-    .code-box-container input.urgent-expiry {
-      border-color: #ef4444 !important;
-    }
-    .code-box-container button {
-      padding: 8px 14px;
-      background: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .code-box-container button:hover { background: #1d4ed8; }
-
-    .nav-buttons { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; width: 100%; margin-top: 10px; }
+    .nav-buttons { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
     button, select {
       background: #1e293b;
       color: #cbd5e1;
@@ -96,12 +64,12 @@
     }
     .card:hover { transform: translateY(-5px); border-color: #2563eb; }
     
-    .card img { width: 100%; height: 250px; object-fit: fill; background: #0f172a; display: block; }
+    .card img { width: 100%; height: 250px; object-fit: cover; background: #0f172a; display: block; }
     .card-details { padding: 8px 10px; }
     .card-title { font-size: 13px; font-weight: bold; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .card-tag { font-size: 10px; background: #334155; padding: 2px 5px; border-radius: 4px; display: inline-block; text-transform: uppercase; }
 
-    .card.square-card img { height: 180px; object-fit: fill; }
+    .card.square-card img { height: 180px; object-fit: contain; padding: 10px; }
 
     #player-overlay {
       display: none;
@@ -169,13 +137,6 @@
     <div class="search-bar">
       <input type="text" id="search-input" placeholder="Search title or country..." oninput="filterGrid()">
     </div>
-
-    <!-- গিটহাব কোড বক্স ও চেক বাটন -->
-    <div class="code-box-container">
-      <input type="text" id="secret-code-input" placeholder="Enter update code...">
-      <button onclick="verifyAndRefresh()">Check</button>
-    </div>
-
     <div class="nav-buttons">
       <button class="active" onclick="filterType('all', this)">All</button>
       <button onclick="filterType('anime', this)">Anime</button>
@@ -199,11 +160,11 @@
 
   <div id="player-overlay">
     <div class="overlay-header">
-      <h2 id="current-stream-title" style="color: #38bdf8;">WEB-XBD PLAYER</h2>
+      <h2 id="current-stream-title" style="color: #38bdf8;">STREAM PLAYER</h2>
       <button class="close-btn" onclick="closePlayer()">✕ Close Player</button>
     </div>
 
-    <!-- Series Player -->
+    <!-- Series / Anime Player -->
     <div id="player-type-series" class="player-container" style="display:none;">
       <div class="video-box">
         <video id="series-video" controls poster="https://via.placeholder.com/600x350?text=Select+Episode"></video>
@@ -229,7 +190,7 @@
       </div>
     </div>
 
-    <!-- TV Player -->
+    <!-- Live TV Player -->
     <div id="player-type-tv" class="player-container" style="display:none;">
       <div class="video-box">
         <video id="tv-video" controls poster="https://via.placeholder.com/600x350?text=Select+Channel"></video>
@@ -256,7 +217,7 @@
     let isAdBlockActive = false;
     let hlsInstance = null;
 
-    async function checkAdBlocker() {
+    function checkAdBlocker() {
       const bait = document.querySelector('.adsbox');
       const popup = document.getElementById('adblock-popup');
       if (!bait || bait.offsetParent === null || bait.offsetHeight === 0 || bait.offsetWidth === 0) {
@@ -272,8 +233,6 @@
     checkAdBlocker();
 
     const JSON_URL = 'https://spring-voice-2488.jahangir339932.workers.dev/';
-    const GITHUB_TXT_URL = 'https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/code.txt';
-
     let allData = [];
     let currentFilter = 'all';
     let currentTVChannels = [];
@@ -290,38 +249,27 @@
       return arr;
     }
 
-    async function loadData(forceRefresh = false) {
-      const now = new Date().getTime();
-      const savedTime = localStorage.getItem('fetchTime');
+    async function loadData() {
+      const today = new Date().toISOString().split('T')[0];
       const savedData = localStorage.getItem('moviesData');
-      
-      const sevenDays = 7 * 24 * 60 * 60 * 1000;
-      const oneDay = 24 * 60 * 60 * 1000;
+      const lastUpdate = localStorage.getItem('lastUpdate');
 
-      if (savedTime) {
-        const elapsedTime = now - parseInt(savedTime);
-        const timeLeft = sevenDays - elapsedTime;
-        const inputField = document.getElementById('secret-code-input');
-        
-        if (timeLeft <= oneDay && timeLeft > 0) {
-          inputField.classList.add('urgent-expiry');
-        } else {
-          inputField.classList.remove('urgent-expiry');
-        }
-      }
-
-      if (forceRefresh || !savedData || !savedTime || (now - parseInt(savedTime) > sevenDays)) {
+      if (lastUpdate !== today || !savedData) {
         try {
-          const response = await fetch(JSON_URL);
+          const response = await fetch(JSON_URL, {
+            method: "GET",
+            headers: { "Accept": "application/json" }
+          });
+          
+          if (!response.ok) {
+            throw new Error("Access Denied from Worker");
+          }
+
           allData = await response.json();
-          
           localStorage.setItem('moviesData', JSON.stringify(allData));
-          localStorage.setItem('fetchTime', now.toString());
-          
-          document.getElementById('secret-code-input').classList.remove('urgent-expiry');
-          if (forceRefresh) alert("নতুন ডাটা সফলভাবে আপডেট হয়েছে!");
+          localStorage.setItem('lastUpdate', today);
         } catch (err) {
-          document.getElementById('content-grid').innerHTML = '<p style="color:red; text-align:center; grid-column: 1/-1;">Error loading data!</p>';
+          document.getElementById('content-grid').innerHTML = '<p style="color:red; text-align:center; grid-column: 1/-1;">Access Denied or Connection Failed!</p>';
           return;
         }
       } else {
@@ -330,29 +278,6 @@
 
       populateDropdowns();
       filterGrid();
-    }
-
-    async function verifyAndRefresh() {
-      const inputCode = document.getElementById('secret-code-input').value.trim();
-      if (!inputCode) {
-        alert("দয়া করে কোড লিখুন!");
-        return;
-      }
-
-      try {
-        const res = await fetch(GITHUB_TXT_URL + "?t=" + new Date().getTime());
-        if (!res.ok) throw new Error("GitHub fetch failed");
-        
-        const githubCode = (await res.text()).trim();
-
-        if (inputCode === githubCode) {
-          loadData(true);
-        } else {
-          alert("ভুল কোড!");
-        }
-      } catch (error) {
-        alert("কোড যাচাই করা সম্ভব হয়নি।");
-      }
     }
 
     function populateDropdowns() {
@@ -398,6 +323,17 @@
               </div>
             </div>
           `;
+        } else if (item.type === 'movie') {
+          return `
+            <div class="card" onclick="openMediaItem('${item.name}', '${item.type}')">
+              <img src="${item.image || 'https://via.placeholder.com/160x230?text=Movie'}" alt="${item.name}">
+              <div class="card-details">
+                <div class="card-title">${item.name || 'Untitled'}</div>
+                <span class="card-tag" style="background:#0284c7;">MOVIE</span>
+                ${item.language ? `<span class="card-tag" style="background:#2563eb;">${item.language}</span>` : ''}
+              </div>
+            </div>
+          `;
         } else {
           return `
             <div class="card" onclick="openMediaItem('${item.name}', '${item.type}')">
@@ -432,10 +368,9 @@
         } else {
           matchesType = (item.type === currentFilter);
         }
-        
+
         let matchesCat = (selectedCat === 'all') || (item.category === selectedCat);
         let matchesLang = (selectedLang === 'all') || (item.language === selectedLang);
-        
         let searchTarget = item.type === 'tv-channel' ? (item.country || '') : (item.name || '');
         let matchesSearch = searchTarget.toLowerCase().includes(query);
 
@@ -656,20 +591,47 @@
         hlsInstance = null;
       }
 
-      if (url) {
-        if (Hls.isSupported() && (url.includes('.m3u8') || playerId === 'tv-video')) {
-          hlsInstance = new Hls();
-          hlsInstance.loadSource(url);
-          hlsInstance.attachMedia(video);
-          hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
-            video.play().catch(e => console.log("Autoplay blocked"));
-          });
-        } else {
-          video.src = url;
-          video.play().catch(e => console.log("Autoplay blocked"));
-        }
-      } else {
+      if (!url) {
         alert("Stream link is unavailable.");
+        return;
+      }
+
+      if (Hls.isSupported()) {
+        hlsInstance = new Hls({
+          enableWorker: true,
+          lowLatencyMode: true
+        });
+
+        hlsInstance.loadSource(url);
+        hlsInstance.attachMedia(video);
+
+        hlsInstance.on(Hls.Events.MANIFEST_PARSED, function () {
+          video.play().catch(e => console.log("Autoplay blocked/failed:", e));
+        });
+
+        hlsInstance.on(Hls.Events.ERROR, function (event, data) {
+          if (data.fatal) {
+            switch (data.type) {
+              case Hls.ErrorTypes.NETWORK_ERROR:
+                hlsInstance.startLoad();
+                break;
+              case Hls.ErrorTypes.MEDIA_ERROR:
+                hlsInstance.recoverMediaError();
+                break;
+              default:
+                hlsInstance.destroy();
+                break;
+            }
+          }
+        });
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = url;
+        video.addEventListener('loadedmetadata', function () {
+          video.play().catch(e => console.log("Autoplay blocked/failed:", e));
+        });
+      } else {
+        video.src = url;
+        video.play().catch(e => console.log("Autoplay error:", e));
       }
     }
 
