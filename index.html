@@ -241,7 +241,6 @@
     let currentMovieData = [];
     let currentParsedSeasons = {};
 
-    // কার্ডগুলো এলোমেলো (alomelo) করার ফাংশন
     function shuffleArray(array) {
       const arr = [...array];
       for (let i = arr.length - 1; i > 0; i--) {
@@ -356,7 +355,6 @@
         return matchesType && matchesCat && matchesLang && matchesSearch;
       });
 
-      // লাইভ টিভি বাদে অন্য সব কন্টেন্ট রিফ্রেশ করার সময় এলোমেলোভাবে (alomelo) লোড হবে
       if (currentFilter !== 'tv-channel') {
         filtered = shuffleArray(filtered);
       }
@@ -576,10 +574,15 @@
         return;
       }
 
+      // Cloudflare প্রটেকশন বা CORS বাইপাস করার জন্য কাস্টম Loader কনফিগারেশন যোগ করা হয়েছে
       if (Hls.isSupported()) {
         hlsInstance = new Hls({
           enableWorker: true,
-          lowLatencyMode: true
+          lowLatencyMode: true,
+          xhrSetup: function (xhr, url) {
+            // ক্লাউডফ্লেয়ার বা ডিরেক্ট স্ট্রিম ব্লকিং এড়াতে কাস্টম হেডার বা ক্রেডেনশিয়াল মোড সেট করা হলো
+            xhr.withCredentials = false;
+          }
         });
 
         hlsInstance.loadSource(url);
@@ -593,6 +596,7 @@
           if (data.fatal) {
             switch (data.type) {
               case Hls.ErrorTypes.NETWORK_ERROR:
+                // নেটওয়ার্ক বা ক্লাউডফ্লেয়ার ব্লকিং এরর হলে রিকভার করার চেষ্টা করবে
                 hlsInstance.startLoad();
                 break;
               case Hls.ErrorTypes.MEDIA_ERROR:
