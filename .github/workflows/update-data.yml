@@ -1,13 +1,17 @@
 name: Update Secure Data JSON
 
 on:
+  # ১. গিটহাব থেকে ম্যানুয়ালি ক্লিক করে রান করার জন্য
+  workflow_dispatch:
+
+  # ২. নির্দিষ্ট সময় পর পর অটোমেটিক রান হওয়ার জন্য (UTC Time অনুযায়ী দিনে ৪ বার)
   schedule:
-    - cron: '0 0,6,12,18 * * *' # দিনে ৪ বার চলবে (UTC Time)
-  workflow_dispatch: # ম্যানুয়ালি রান করার অপশন
+    - cron: '0 0,6,12,18 * * *'
 
 jobs:
   update-json:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -21,4 +25,4 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add data.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto update tokenized streams" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Manual/Auto update tokenized streams" && git push)
