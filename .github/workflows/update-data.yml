@@ -11,6 +11,10 @@ jobs:
     permissions:
       contents: write
 
+    # Node 20 deprecation warning সাময়িকভাবে লুকানোর জন্য
+    env:
+      ACTIONS_RUNNER_FORCE_ACTIONS_NODE20: "true"
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
