@@ -128,7 +128,7 @@
   <div id="adblock-popup">
     <div class="adblock-box">
       <h2>⚠️ AdBlocker Detected!</h2>
-      <p>অনুগ্রহ করে আপনার ব্রাউজারের <b>AdBlocker বন্ধ করুন</b> এবং পেজটি রিফ্রেশ করুন[cite: 3]।</p>
+      <p>অনুগ্রহ করে আপনার ব্রাউজারের <b>AdBlocker বন্ধ করুন</b> এবং পেজটি রিফ্রেশ করুন।</p>
       <button class="adblock-btn" onclick="location.reload()">Refresh Page</button>
     </div>
   </div>
@@ -160,7 +160,7 @@
 
   <div id="player-overlay">
     <div class="overlay-header">
-      <h2 id="current-stream-title" style="color: #38bdf8;">STREAM PLAYER</h2>
+      <h2 id="current-stream-title" style="color: #38bdf8;">WEB-XBD PLAYER</h2>
       <button class="close-btn" onclick="closePlayer()">✕ Close Player</button>
     </div>
 
@@ -232,9 +232,8 @@
     }
     checkAdBlocker();
 
-    const JSON_URL = 'https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/data.json';
+    const JSON_URL = 'https://spring-voice-2488.jahangir339932.workers.dev/';
     let allData = [];
-    let cachedLinks = {};
     let currentFilter = 'all';
     let currentTVChannels = [];
     let currentSeriesData = [];
@@ -252,16 +251,8 @@
 
     async function loadData() {
       try {
-        const response = await fetch(JSON_URL + '?v=' + new Date().getTime(), { cache: 'no-store' });
-        const result = await response.json();
-
-        if (result.data) {
-          allData = result.data;
-          cachedLinks = result.cached_links || {};
-        } else {
-          allData = result;
-        }
-
+        const response = await fetch(JSON_URL);
+        allData = await response.json();
         populateDropdowns();
         filterGrid();
       } catch (err) {
@@ -340,6 +331,7 @@
       const selectedLang = document.getElementById('language-select').value;
 
       let filtered = allData.filter(item => {
+        // [গুরুত্বপূর্ণ পরিবর্তন]: 'all' সিলেক্ট করলে tv-channel বাদ যাবে
         let matchesType = false;
         if (currentFilter === 'all') {
           matchesType = (item.type !== 'tv-channel');
@@ -574,15 +566,10 @@
         return;
       }
 
-      // Cloudflare প্রটেকশন বা CORS বাইপাস করার জন্য কাস্টম Loader কনফিগারেশন যোগ করা হয়েছে
       if (Hls.isSupported()) {
         hlsInstance = new Hls({
           enableWorker: true,
-          lowLatencyMode: true,
-          xhrSetup: function (xhr, url) {
-            // ক্লাউডফ্লেয়ার বা ডিরেক্ট স্ট্রিম ব্লকিং এড়াতে কাস্টম হেডার বা ক্রেডেনশিয়াল মোড সেট করা হলো
-            xhr.withCredentials = false;
-          }
+          lowLatencyMode: true
         });
 
         hlsInstance.loadSource(url);
@@ -596,7 +583,6 @@
           if (data.fatal) {
             switch (data.type) {
               case Hls.ErrorTypes.NETWORK_ERROR:
-                // নেটওয়ার্ক বা ক্লাউডফ্লেয়ার ব্লকিং এরর হলে রিকভার করার চেষ্টা করবে
                 hlsInstance.startLoad();
                 break;
               case Hls.ErrorTypes.MEDIA_ERROR:
