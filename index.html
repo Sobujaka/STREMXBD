@@ -128,7 +128,7 @@
   <div id="adblock-popup">
     <div class="adblock-box">
       <h2>⚠️ AdBlocker Detected!</h2>
-      <p>অনুগ্রহ করে আপনার ব্রাউজারের <b>AdBlocker বন্ধ করুন</b> এবং পেজটি রিফ্রেশ করুন।</p>
+      <p>অনুগ্রহ করে আপনার ব্রাউজারের <b>AdBlocker বন্ধ করুন</b> এবং পেজটি রিফ্রেশ করুন[cite: 3]।</p>
       <button class="adblock-btn" onclick="location.reload()">Refresh Page</button>
     </div>
   </div>
@@ -241,9 +241,18 @@
     let currentMovieData = [];
     let currentParsedSeasons = {};
 
+    // কার্ডগুলো এলোমেলো (alomelo) করার ফাংশন
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
     async function loadData() {
       try {
-        // ক্যাশ সমস্যা এড়াতে ডাইনামিক ভার্সন যুক্ত করা হয়েছে
         const response = await fetch(JSON_URL + '?v=' + new Date().getTime(), { cache: 'no-store' });
         const result = await response.json();
 
@@ -347,7 +356,11 @@
         return matchesType && matchesCat && matchesLang && matchesSearch;
       });
 
-      // পেজ রিফ্রেশ করলে যাতে প্রতিবার পজিশন এলোমেলো না হয়ে স্থিরভাবে লোড হয়, তাই রেন্ডারিং ঠিক রাখা হলো
+      // লাইভ টিভি বাদে অন্য সব কন্টেন্ট রিফ্রেশ করার সময় এলোমেলোভাবে (alomelo) লোড হবে
+      if (currentFilter !== 'tv-channel') {
+        filtered = shuffleArray(filtered);
+      }
+
       renderGrid(filtered);
     }
 
