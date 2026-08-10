@@ -14,11 +14,11 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Fetch Fresh Data from Cloudflare
         run: |
-          curl -s "https://spring-voice-2488.jahangir339932.workers.dev/" -o data.json
+          curl -s -H "Referer: https://github-actions" "https://spring-voice-2488.jahangir339932.workers.dev/" -o data.json
 
       - name: Commit and Push Updated data.json
         run: |
