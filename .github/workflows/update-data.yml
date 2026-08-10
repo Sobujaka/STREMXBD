@@ -1,0 +1,30 @@
+name: Daily Cloudflare Data Sync
+
+on:
+  schedule:
+    # প্রতিদিন রাত ১২:০০ UTC (বাংলাদেশ সময় সকাল ৬:০০) অটোমেটিক রান হবে
+    - cron: '0 0 * * *'
+  workflow_dispatch: # ম্যানুয়ালি রান করার জন্য
+
+jobs:
+  sync-data:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Fetch Fresh Data from Cloudflare
+        run: |
+          curl -s "https://spring-voice-2488.jahangir339932.workers.dev/" -o data.json
+
+      - name: Commit and Push Updated data.json
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data.json
+          git status
+          git diff-index --quiet HEAD || git commit -m "Auto-update video links [$(date -u +'%Y-%m-%d %H:%M UTC')]"
+          git push
