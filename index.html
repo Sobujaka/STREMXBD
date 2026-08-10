@@ -68,6 +68,7 @@
     .card-details { padding: 8px 10px; }
     .card-title { font-size: 13px; font-weight: bold; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .card-tag { font-size: 10px; background: #334155; padding: 2px 5px; border-radius: 4px; display: inline-block; text-transform: uppercase; }
+
     .card.square-card img { height: 180px; object-fit: contain; padding: 10px; }
 
     #player-overlay {
@@ -91,12 +92,26 @@
     .sidebar-select { width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 6px; background: #1e293b; color: #38bdf8; border: 1px solid #334155; }
 
     .btn-group { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 15px; }
-    .btn-group button { width: 100%; height: 38px; padding: 0; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; }
+    .btn-group button { width: 100%; height: 38px; padding: 0; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 600; font-size: 13px; }
 
-    .channel-item { display: flex; align-items: center; gap: 12px; padding: 8px 10px; background: #1e293b; margin-bottom: 6px; border-radius: 6px; cursor: pointer; border: 1px solid #334155; }
+    .channel-item { display: flex; align-items: center; gap: 12px; padding: 8px 10px; background: #1e293b; margin-bottom: 6px; border-radius: 6px; cursor: pointer; transition: background 0.2s; border: 1px solid #334155; }
     .channel-item:hover { background: #334155; }
     .channel-item img { width: 40px; height: 40px; object-fit: contain; background: #0f172a; border-radius: 4px; padding: 2px; border: 1px solid #475569; }
-    .channel-item.active-channel { background: #2563eb !important; border-color: #3b82f6; }
+
+    .channel-item.active-channel {
+      background: #2563eb !important;
+      color: #ffffff;
+      border-color: #3b82f6;
+    }
+
+    #adblock-popup {
+      display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(15, 23, 42, 0.98); z-index: 999999; justify-content: center; align-items: center; text-align: center; padding: 20px;
+    }
+    .adblock-box { background: #1e293b; border: 2px solid #ef4444; padding: 30px; border-radius: 12px; max-width: 450px; }
+    .adblock-box h2 { color: #ef4444; font-size: 22px; margin-bottom: 15px; }
+    .adblock-box p { color: #cbd5e1; font-size: 15px; margin-bottom: 20px; }
+    .adblock-btn { background: #2563eb; color: white; border: none; padding: 10px 20px; font-size: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; }
 
     @media (max-width: 768px) {
       .player-container { flex-direction: column; height: auto; }
@@ -107,6 +122,16 @@
   </style>
 </head>
 <body>
+
+  <div class="adsbox" style="position:absolute; left:-9999px; top:-9999px; height:1px; width:1px;"></div>
+
+  <div id="adblock-popup">
+    <div class="adblock-box">
+      <h2>⚠️ AdBlocker Detected!</h2>
+      <p>অনুগ্রহ করে আপনার ব্রাউজারের <b>AdBlocker বন্ধ করুন</b> এবং পেজটি রিফ্রেশ করুন।</p>
+      <button class="adblock-btn" onclick="location.reload()">Refresh Page</button>
+    </div>
+  </div>
 
   <header>
     <div class="search-bar">
@@ -141,7 +166,9 @@
 
     <!-- Series Player -->
     <div id="player-type-series" class="player-container" style="display:none;">
-      <div class="video-box"><video id="series-video" controls></video></div>
+      <div class="video-box">
+        <video id="series-video" controls poster="https://via.placeholder.com/600x350?text=Select+Episode"></video>
+      </div>
       <div class="sidebar-box">
         <div class="section-title">Select Language:</div>
         <select id="series-lang-select" class="sidebar-select" onchange="onSeriesLangChange()"></select>
@@ -154,7 +181,9 @@
 
     <!-- Movie Player -->
     <div id="player-type-movie" class="player-container" style="display:none;">
-      <div class="video-box"><video id="movie-video" controls></video></div>
+      <div class="video-box">
+        <video id="movie-video" controls poster="https://via.placeholder.com/600x350?text=Movie+Player"></video>
+      </div>
       <div class="sidebar-box">
         <div class="section-title">Select Language:</div>
         <select id="movie-lang-select" class="sidebar-select" onchange="onMovieLangChange()"></select>
@@ -163,7 +192,9 @@
 
     <!-- Live TV Player -->
     <div id="player-type-tv" class="player-container" style="display:none;">
-      <div class="video-box"><video id="tv-video" controls></video></div>
+      <div class="video-box">
+        <video id="tv-video" controls poster="https://via.placeholder.com/600x350?text=Select+Channel"></video>
+      </div>
       <div class="sidebar-box">
         <div class="section-title">Select Channel Group:</div>
         <select id="tv-group-select" class="sidebar-select" onchange="filterTVByGroup()">
@@ -176,20 +207,53 @@
   </div>
 
   <script>
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.onkeydown = function (e) {
+      if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) {
+        return false;
+      }
+    };
+
+    let isAdBlockActive = false;
+    let hlsInstance = null;
+
+    function checkAdBlocker() {
+      const bait = document.querySelector('.adsbox');
+      const popup = document.getElementById('adblock-popup');
+      if (!bait || bait.offsetParent === null || bait.offsetHeight === 0 || bait.offsetWidth === 0) {
+        isAdBlockActive = true;
+        popup.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      } else {
+        isAdBlockActive = false;
+        popup.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    }
+    checkAdBlocker();
+
     const JSON_URL = 'https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/data.json';
     let allData = [];
+    let cachedLinks = {};
     let currentFilter = 'all';
     let currentTVChannels = [];
     let currentSeriesData = [];
     let currentMovieData = [];
     let currentParsedSeasons = {};
-    let hlsInstance = null;
 
     async function loadData() {
       try {
-        const response = await fetch(JSON_URL + '?v=' + new Date().getTime());
+        // ক্যাশ সমস্যা এড়াতে ডাইনামিক ভার্সন যুক্ত করা হয়েছে
+        const response = await fetch(JSON_URL + '?v=' + new Date().getTime(), { cache: 'no-store' });
         const result = await response.json();
-        allData = result.data || result;
+
+        if (result.data) {
+          allData = result.data;
+          cachedLinks = result.cached_links || {};
+        } else {
+          allData = result;
+        }
+
         populateDropdowns();
         filterGrid();
       } catch (err) {
@@ -229,6 +293,7 @@
 
       grid.innerHTML = data.map((item) => {
         const originalIndex = allData.indexOf(item);
+
         if (item.type === 'tv-channel') {
           return `
             <div class="card square-card" onclick="openTVChannel(${originalIndex})">
@@ -267,20 +332,31 @@
       const selectedLang = document.getElementById('language-select').value;
 
       let filtered = allData.filter(item => {
-        let matchesType = currentFilter === 'all' ? (item.type !== 'tv-channel') : (item.type === currentFilter);
+        let matchesType = false;
+        if (currentFilter === 'all') {
+          matchesType = (item.type !== 'tv-channel');
+        } else {
+          matchesType = (item.type === currentFilter);
+        }
+
         let matchesCat = (selectedCat === 'all') || (item.category === selectedCat);
         let matchesLang = (selectedLang === 'all') || (item.language === selectedLang);
         let searchTarget = item.type === 'tv-channel' ? (item.country || '') : (item.name || '');
         let matchesSearch = searchTarget.toLowerCase().includes(query);
+
         return matchesType && matchesCat && matchesLang && matchesSearch;
       });
 
+      // পেজ রিফ্রেশ করলে যাতে প্রতিবার পজিশন এলোমেলো না হয়ে স্থিরভাবে লোড হয়, তাই রেন্ডারিং ঠিক রাখা হলো
       renderGrid(filtered);
     }
 
     function openMediaItem(name, type) {
+      if (isAdBlockActive) return;
+
       document.getElementById('player-overlay').style.display = 'block';
       document.getElementById('current-stream-title').innerText = name;
+      
       document.getElementById('player-type-series').style.display = 'none';
       document.getElementById('player-type-movie').style.display = 'none';
       document.getElementById('player-type-tv').style.display = 'none';
@@ -295,18 +371,25 @@
     }
 
     function openTVChannel(dataIndex) {
+      if (isAdBlockActive) return;
+
       const item = allData[dataIndex];
       document.getElementById('player-overlay').style.display = 'block';
       document.getElementById('current-stream-title').innerText = item.country || 'Live TV';
+
       document.getElementById('player-type-series').style.display = 'none';
       document.getElementById('player-type-movie').style.display = 'none';
       document.getElementById('player-type-tv').style.display = 'flex';
+
       setupTVPlayerCN(item.CN || {});
     }
 
     function closePlayer() {
       document.getElementById('player-overlay').style.display = 'none';
-      if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
+      if (hlsInstance) {
+        hlsInstance.destroy();
+        hlsInstance = null;
+      }
       ['series-video', 'movie-video', 'tv-video'].forEach(id => {
         const p = document.getElementById(id);
         p.pause();
@@ -318,12 +401,14 @@
       currentSeriesData = allData.filter(i => (i.type === 'anime' || i.type === 'tv-series') && i.name.toLowerCase() === targetName.toLowerCase());
       const langSelect = document.getElementById('series-lang-select');
       langSelect.innerHTML = '';
+
       currentSeriesData.forEach((item, index) => {
         const opt = document.createElement('option');
         opt.value = index;
         opt.innerText = item.language || 'Default';
         langSelect.appendChild(opt);
       });
+
       if (currentSeriesData.length > 0) onSeriesLangChange();
     }
 
@@ -342,12 +427,14 @@
 
       const seasonSelect = document.getElementById('series-season-select');
       seasonSelect.innerHTML = '';
+
       Object.keys(currentParsedSeasons).forEach(sKey => {
         const opt = document.createElement('option');
         opt.value = sKey;
         opt.innerText = `Season ${sKey.replace('S', '')}`;
         seasonSelect.appendChild(opt);
       });
+
       onSeriesSeasonChange();
     }
 
@@ -360,7 +447,8 @@
     function renderEpisodes(epList) {
       const epContainer = document.getElementById('series-episode-buttons');
       epContainer.innerHTML = '';
-      epList.forEach(ep => {
+
+      epList.forEach((ep) => {
         const epBtn = document.createElement('button');
         epBtn.innerText = ep.key;
         epBtn.onclick = () => {
@@ -376,12 +464,14 @@
       currentMovieData = allData.filter(i => i.type === 'movie' && i.name.toLowerCase() === targetName.toLowerCase());
       const langSelect = document.getElementById('movie-lang-select');
       langSelect.innerHTML = '';
+
       currentMovieData.forEach((item, index) => {
         const opt = document.createElement('option');
         opt.value = index;
         opt.innerText = item.language || 'Default';
         langSelect.appendChild(opt);
       });
+
       if (currentMovieData.length > 0) onMovieLangChange();
     }
 
@@ -403,16 +493,21 @@
           });
         });
       }
+
       populateTVGroupDropdown();
       renderTVChannels(currentTVChannels);
+
       if (currentTVChannels.length > 0 && currentTVChannels[0].url) {
         playStream('tv-video', currentTVChannels[0].url);
+        const firstItem = document.querySelector('.channel-item');
+        if (firstItem) firstItem.classList.add('active-channel');
       }
     }
 
     function populateTVGroupDropdown() {
       const groupSelect = document.getElementById('tv-group-select');
       groupSelect.innerHTML = '<option value="all">All Groups</option>';
+
       const groups = [...new Set(currentTVChannels.map(ch => ch.group).filter(Boolean))];
       groups.forEach(grp => {
         const opt = document.createElement('option');
@@ -429,7 +524,11 @@
 
     function renderTVChannels(channels) {
       const container = document.getElementById('tv-channel-list');
-      if (channels.length === 0) { container.innerHTML = "No channels available."; return; }
+      if (channels.length === 0) {
+        container.innerHTML = "No channels available.";
+        return;
+      }
+
       container.innerHTML = channels.map(ch => `
         <div class="channel-item" onclick="selectTVChannel(this, '${ch.url}')">
           <img src="${ch.logo}" alt="${ch.name}" onerror="this.src='https://via.placeholder.com/40?text=TV'">
@@ -442,27 +541,64 @@
     }
 
     function selectTVChannel(element, url) {
-      document.querySelectorAll('.channel-item').forEach(item => item.classList.remove('active-channel'));
+      document.querySelectorAll('.channel-item').forEach(item => {
+        item.classList.remove('active-channel');
+      });
       element.classList.add('active-channel');
       playStream('tv-video', url);
     }
 
     function playStream(playerId, url) {
+      if (isAdBlockActive) return;
+
       const video = document.getElementById(playerId);
-      if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
-      if (!url) { alert("Stream link is unavailable."); return; }
+
+      if (hlsInstance) {
+        hlsInstance.destroy();
+        hlsInstance = null;
+      }
+
+      if (!url) {
+        alert("Stream link is unavailable.");
+        return;
+      }
 
       if (Hls.isSupported()) {
-        hlsInstance = new Hls();
+        hlsInstance = new Hls({
+          enableWorker: true,
+          lowLatencyMode: true
+        });
+
         hlsInstance.loadSource(url);
         hlsInstance.attachMedia(video);
-        hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(e => {}));
+
+        hlsInstance.on(Hls.Events.MANIFEST_PARSED, function () {
+          video.play().catch(e => console.log("Autoplay blocked/failed:", e));
+        });
+
+        hlsInstance.on(Hls.Events.ERROR, function (event, data) {
+          if (data.fatal) {
+            switch (data.type) {
+              case Hls.ErrorTypes.NETWORK_ERROR:
+                hlsInstance.startLoad();
+                break;
+              case Hls.ErrorTypes.MEDIA_ERROR:
+                hlsInstance.recoverMediaError();
+                break;
+              default:
+                hlsInstance.destroy();
+                break;
+            }
+          }
+        });
       } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = url;
-        video.addEventListener('loadedmetadata', () => video.play().catch(e => {}));
+        video.addEventListener('loadedmetadata', function () {
+          video.play().catch(e => console.log("Autoplay blocked/failed:", e));
+        });
       } else {
         video.src = url;
-        video.play().catch(e => {});
+        video.play().catch(e => console.log("Autoplay error:", e));
       }
     }
 
