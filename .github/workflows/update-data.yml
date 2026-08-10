@@ -17,7 +17,7 @@ jobs:
 
       - name: Fetch Data from Cloudflare
         run: |
-          curl -s "https://cool-band-c2df.jahangir339932.workers.dev/data.json" -o data.json
+          curl -sL "https://cool-band-c2df.jahangir339932.workers.dev/data.json" -o data.json
 
       - name: Commit and Push Changes
         run: |
