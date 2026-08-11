@@ -14,14 +14,18 @@
     header {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      justify-content: space-between;
+      gap: 15px;
       align-items: center;
       margin-bottom: 20px;
       padding-bottom: 12px;
       border-bottom: 1px solid #334155;
     }
-    .search-bar { flex: 1; min-width: 200px; }
+    
+    /* সার্চ বার - যত খালি জায়গা আছে সব দখল করবে */
+    .search-bar { 
+      flex: 1; 
+      min-width: 200px; 
+    }
     .search-bar input {
       width: 100%;
       padding: 10px 15px;
@@ -31,7 +35,23 @@
       color: #fff;
       outline: none;
     }
-    .nav-buttons { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    
+    /* বাটনগুলো */
+    .nav-buttons { 
+      display: flex; 
+      gap: 8px; 
+      flex-wrap: wrap; 
+      align-items: center; 
+    }
+
+    /* ফিল্টার ড্রপডাউনগুলো (Country, Category, Language) */
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    
     button, select {
       background: #1e293b;
       color: #cbd5e1;
@@ -134,20 +154,28 @@
   </div>
 
   <header>
+    <!-- ১. বাম পাশে সার্চ বার (পুরো খালি জায়গা নিবে) -->
     <div class="search-bar">
-      <input type="text" id="search-input" placeholder="Search title or country..." oninput="filterGrid()">
+      <input type="text" id="search-input" placeholder="Search title..." oninput="filterGrid()">
     </div>
+    
+    <!-- ২. কান্ট্রির বাম পাশে থাকা বাটনসমূহ -->
     <div class="nav-buttons">
       <button class="active" onclick="filterType('all', this)">All</button>
       <button onclick="filterType('anime', this)">Anime</button>
       <button onclick="filterType('movie', this)">Movie</button>
       <button onclick="filterType('tv-series', this)">TV Series</button>
       <button onclick="filterType('tv-channel', this)">Live TV</button>
+    </div>
 
+    <!-- ৩. বাটনগুলোর ডান পাশে কান্ট্রি ও অন্যান্য ফিল্টার -->
+    <div class="filters">
+      <select id="country-select" onchange="filterGrid()">
+        <option value="all">Country: All</option>
+      </select>
       <select id="category-select" onchange="filterGrid()">
         <option value="all">Category: All</option>
       </select>
-
       <select id="language-select" onchange="filterGrid()">
         <option value="all">Language: All</option>
       </select>
@@ -263,6 +291,12 @@
     function populateDropdowns() {
       const categories = [...new Set(allData.map(item => item.category).filter(Boolean))];
       const languages = [...new Set(allData.map(item => item.language).filter(Boolean))];
+      
+      const validTypes = ['anime', 'movie', 'tv-series'];
+      const countries = [...new Set(allData
+          .filter(item => validTypes.includes(item.type))
+          .map(item => item.country)
+          .filter(Boolean))];
 
       const catSelect = document.getElementById('category-select');
       catSelect.innerHTML = '<option value="all">Category: All</option>';
@@ -280,6 +314,15 @@
         opt.value = lang;
         opt.innerText = `Language: ${lang}`;
         langSelect.appendChild(opt);
+      });
+
+      const countrySelect = document.getElementById('country-select');
+      countrySelect.innerHTML = '<option value="all">Country: All</option>';
+      countries.forEach(country => {
+        const opt = document.createElement('option');
+        opt.value = country;
+        opt.innerText = `Country: ${country}`;
+        countrySelect.appendChild(opt);
       });
     }
 
@@ -322,6 +365,14 @@
       currentFilter = type;
       document.querySelectorAll('.nav-buttons button').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+
+      const countrySelect = document.getElementById('country-select');
+      if(type === 'tv-channel') {
+          countrySelect.style.display = 'none';
+      } else {
+          countrySelect.style.display = 'inline-block';
+      }
+
       filterGrid();
     }
 
@@ -329,6 +380,7 @@
       const query = document.getElementById('search-input').value.toLowerCase();
       const selectedCat = document.getElementById('category-select').value;
       const selectedLang = document.getElementById('language-select').value;
+      const selectedCountry = document.getElementById('country-select').value;
 
       let filtered = allData.filter(item => {
         let matchesType = false;
@@ -340,10 +392,16 @@
 
         let matchesCat = (selectedCat === 'all') || (item.category === selectedCat);
         let matchesLang = (selectedLang === 'all') || (item.language === selectedLang);
+        
+        let matchesCountry = true;
+        if (['anime', 'movie', 'tv-series'].includes(item.type)) {
+            matchesCountry = (selectedCountry === 'all') || (item.country === selectedCountry);
+        }
+
         let searchTarget = item.type === 'tv-channel' ? (item.country || '') : (item.name || '');
         let matchesSearch = searchTarget.toLowerCase().includes(query);
 
-        return matchesType && matchesCat && matchesLang && matchesSearch;
+        return matchesType && matchesCat && matchesLang && matchesCountry && matchesSearch;
       });
 
       if (currentFilter !== 'tv-channel') {
