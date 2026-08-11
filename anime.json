@@ -1,0 +1,24 @@
+[
+  {
+    "name": "naruto",
+    "image": "https://via.placeholder.com/200x300?text=Naruto",
+    "category": "ANIMATION",
+    "country": "Bangladesh",
+    "language": "HINDI",
+    "episodes": {
+      "S1EP1": "https://example.com/stream/ep1",
+      "S1EP2": "https://example.com/stream/ep2"
+    }
+  },
+  {
+    "name": "solo leveling",
+    "image": "https://via.placeholder.com/200x300?text=Solo+Leveling",
+    "category": "ANIMATION",
+    "country": "Bangladesh",
+    "language": "HINDI",
+    "episodes": {
+      "S1EP1": "https://example.com/stream/ep1",
+      "S1EP2": "https://example.com/stream/ep2"
+    }
+  }
+]
