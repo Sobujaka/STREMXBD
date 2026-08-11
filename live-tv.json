@@ -26,7 +26,7 @@
       "1": {
         "name": "Jamuna TV HD",
         "tvglogo": "https://via.placeholder.com/100?text=Jamuna",
-        "group": "Entertainment",
+        "group": "news",
         "url": "https://example.com/stream/jamuna.m3u8"
       }
     }
