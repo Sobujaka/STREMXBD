@@ -21,7 +21,7 @@
       border-bottom: 1px solid #334155;
     }
     
-    /* সার্চ বার - যত খালি জায়গা আছে সব দখল করবে */
+    /* ১. সার্চ বার - বাম পাশের সব খালি জায়গা নেবে */
     .search-bar { 
       flex: 1; 
       min-width: 200px; 
@@ -36,7 +36,7 @@
       outline: none;
     }
     
-    /* বাটনগুলো */
+    /* ২. বাটনসমূহ */
     .nav-buttons { 
       display: flex; 
       gap: 8px; 
@@ -44,7 +44,7 @@
       align-items: center; 
     }
 
-    /* ফিল্টার ড্রপডাউনগুলো (Country, Category, Language) */
+    /* ৩. ফিল্টারসমূহ (Country, Category, Language) */
     .filters {
       display: flex;
       gap: 10px;
@@ -154,12 +154,10 @@
   </div>
 
   <header>
-    <!-- ১. বাম পাশে সার্চ বার (পুরো খালি জায়গা নিবে) -->
     <div class="search-bar">
       <input type="text" id="search-input" placeholder="Search title..." oninput="filterGrid()">
     </div>
     
-    <!-- ২. কান্ট্রির বাম পাশে থাকা বাটনসমূহ -->
     <div class="nav-buttons">
       <button class="active" onclick="filterType('all', this)">All</button>
       <button onclick="filterType('anime', this)">Anime</button>
@@ -168,7 +166,6 @@
       <button onclick="filterType('tv-channel', this)">Live TV</button>
     </div>
 
-    <!-- ৩. বাটনগুলোর ডান পাশে কান্ট্রি ও অন্যান্য ফিল্টার -->
     <div class="filters">
       <select id="country-select" onchange="filterGrid()">
         <option value="all">Country: All</option>
@@ -188,11 +185,11 @@
 
   <div id="player-overlay">
     <div class="overlay-header">
-      <h2 id="current-stream-title" style="color: #38bdf8;">WEB-XBD PLAYER</h2>
+      <h2 id="current-stream-title" style="color: #38bdf8;">STREAM PLAYER</h2>
       <button class="close-btn" onclick="closePlayer()">✕ Close Player</button>
     </div>
 
-    <!-- Series Player -->
+    <!-- Anime / TV Series Player -->
     <div id="player-type-series" class="player-container" style="display:none;">
       <div class="video-box">
         <video id="series-video" controls poster="https://via.placeholder.com/600x350?text=Select+Episode"></video>
@@ -235,6 +232,7 @@
   </div>
 
   <script>
+    // রাইট ক্লিক এবং ইন্সপেক্ট ব্লক
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.onkeydown = function (e) {
       if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) {
@@ -260,7 +258,9 @@
     }
     checkAdBlocker();
 
-    const JSON_URL = 'https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/data.json';
+    // ⚠️ আপনার ক্লাউডফ্লেয়ার ওয়ার্কারের লিংক এখানে বসান
+    const JSON_URL = 'https://your-worker-domain.workers.dev/data.json';
+    
     let allData = [];
     let currentFilter = 'all';
     let currentTVChannels = [];
@@ -383,13 +383,7 @@
       const selectedCountry = document.getElementById('country-select').value;
 
       let filtered = allData.filter(item => {
-        let matchesType = false;
-        if (currentFilter === 'all') {
-          matchesType = (item.type !== 'tv-channel');
-        } else {
-          matchesType = (item.type === currentFilter);
-        }
-
+        let matchesType = (currentFilter === 'all') ? (item.type !== 'tv-channel') : (item.type === currentFilter);
         let matchesCat = (selectedCat === 'all') || (item.category === selectedCat);
         let matchesLang = (selectedLang === 'all') || (item.language === selectedLang);
         
@@ -453,7 +447,8 @@
       ['series-video', 'movie-video', 'tv-video'].forEach(id => {
         const p = document.getElementById(id);
         p.pause();
-        p.src = "";
+        p.removeAttribute('src');
+        p.load();
       });
     }
 
@@ -608,6 +603,7 @@
       playStream('tv-video', url);
     }
 
+    // অল-ইন-ওয়ান ভিডিও প্লেয়ার সিস্টেম (MP4, MKV, HLS)
     function playStream(playerId, url) {
       if (isAdBlockActive) return;
 
@@ -623,42 +619,25 @@
         return;
       }
 
-      if (Hls.isSupported()) {
-        hlsInstance = new Hls({
-          enableWorker: true,
-          lowLatencyMode: true
-        });
+      const isHLS = url.toLowerCase().includes('.m3u8');
 
+      if (!isHLS) {
+        video.pause();
+        video.removeAttribute('src');
+        video.load();
+        
+        video.src = url;
+        video.play().catch(e => console.log("Direct video play error:", e));
+      } else if (Hls.isSupported()) {
+        hlsInstance = new Hls({ enableWorker: true, lowLatencyMode: true });
         hlsInstance.loadSource(url);
         hlsInstance.attachMedia(video);
-
         hlsInstance.on(Hls.Events.MANIFEST_PARSED, function () {
-          video.play().catch(e => console.log("Autoplay blocked/failed:", e));
-        });
-
-        hlsInstance.on(Hls.Events.ERROR, function (event, data) {
-          if (data.fatal) {
-            switch (data.type) {
-              case Hls.ErrorTypes.NETWORK_ERROR:
-                hlsInstance.startLoad();
-                break;
-              case Hls.ErrorTypes.MEDIA_ERROR:
-                hlsInstance.recoverMediaError();
-                break;
-              default:
-                hlsInstance.destroy();
-                break;
-            }
-          }
+          video.play().catch(e => console.log("HLS autoplay error:", e));
         });
       } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = url;
-        video.addEventListener('loadedmetadata', function () {
-          video.play().catch(e => console.log("Autoplay blocked/failed:", e));
-        });
-      } else {
-        video.src = url;
-        video.play().catch(e => console.log("Autoplay error:", e));
+        video.play().catch(e => console.log("Safari HLS error:", e));
       }
     }
 
