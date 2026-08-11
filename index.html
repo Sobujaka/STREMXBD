@@ -254,6 +254,54 @@
         .channel-item img { width: 35px; height: 35px; object-fit: contain; border-radius: 4px; }
         .channel-item span { font-size: 13px; font-weight: 500; }
 
+        /* Anti-Adblock Overlay CSS */
+        #adblock-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-color: rgba(11, 17, 32, 0.98);
+            z-index: 999999;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .adblock-box {
+            background-color: #161e2e;
+            border: 2px solid #ef4444;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.2);
+        }
+
+        .adblock-box h2 {
+            color: #ef4444;
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .adblock-box p {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .adblock-box button {
+            background: #3b82f6;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .adblock-box button:hover { background: #2563eb; }
+
         @media (max-width: 1024px) {
             .player-container { flex-direction: column; }
             .player-sidebar-wrapper { width: 100%; }
@@ -266,6 +314,15 @@
     </style>
 </head>
 <body>
+
+    <!-- Anti Adblock Overlay Popup -->
+    <div id="adblock-overlay">
+        <div class="adblock-box">
+            <h2>AdBlocker Detected!</h2>
+            <p>আপনার ব্রাউজারে অ্যাড ব্লকার চালু রয়েছে। ওয়েবসাইটটি ব্যবহারের জন্য দয়া করে অ্যাড ব্লকার ডিজেবল (Disable) করুন এবং পেজটি রিফ্রেশ দিন।</p>
+            <button onclick="window.location.reload()">Refresh Page</button>
+        </div>
+    </div>
 
     <div id="home-view">
         <div class="navbar">
@@ -302,6 +359,36 @@
     </div>
 
     <script>
+        /* Anti-Adblock Detector */
+        async function checkAdBlocker() {
+            const googleAdUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+            try {
+                const response = await fetch(googleAdUrl, { method: 'HEAD', mode: 'no-cors' });
+                const fakeAd = document.createElement('div');
+                fakeAd.innerHTML = '&nbsp;';
+                fakeAd.className = 'adsbox ads-box ad-zone ad-space google-ad';
+                document.body.appendChild(fakeAd);
+                
+                setTimeout(() => {
+                    if (fakeAd.offsetHeight === 0) {
+                        showAdBlockWarning();
+                    }
+                    fakeAd.remove();
+                }, 100);
+
+            } catch (error) {
+                showAdBlockWarning();
+            }
+        }
+
+        function showAdBlockWarning() {
+            document.getElementById('adblock-overlay').style.display = 'flex';
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('player-view').style.display = 'none';
+        }
+
+        window.addEventListener('load', checkAdBlocker);
+
         const jsonSources = [
             { name: "Anime", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/anime.json" },
             { name: "Movie", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/movies.json" },
@@ -310,6 +397,16 @@
         ];
 
         let loadedData = {}, currentTab = 'All', hlsPlayer = null;
+
+        /* Array Randomizer (Fisher-Yates Shuffle Algorithm) */
+        function shuffleArray(array) {
+            let shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
 
         async function loadAllJSON() {
             const fetchPromises = jsonSources.map(source => 
@@ -382,12 +479,16 @@
                     (languageVal === 'all' || item.language === languageVal);
             });
 
-            // Group duplicate names together
             const grouped = groupItemsByName(filtered);
-            renderGrid(grouped);
+
+            /* Live TV ছাড়া বাকি সব ক্যাটাগরির ডেটা র্যান্ডমলি শাফল (Shuffle) হবে */
+            if (currentTab !== 'Live TV') {
+                renderGrid(shuffleArray(grouped));
+            } else {
+                renderGrid(grouped);
+            }
         }
 
-        /* Helper to Merge duplicate titles into a single entry with multi-languages */
         function groupItemsByName(items) {
             const map = new Map();
 
@@ -459,7 +560,6 @@
             }
         }
 
-        /* Movie Player with Multi-Language Support */
         function setupMoviePlayer(item, sidebar) {
             const languagesMap = item.languagesMap || { [item.language || 'Default']: item };
             const langKeys = Object.keys(languagesMap);
@@ -484,7 +584,6 @@
             playSelectedLanguage(langKeys[0]);
         }
 
-        /* Series / Anime Player with Multi-Language Support */
         function setupSeriesPlayer(item, sidebar) {
             const languagesMap = item.languagesMap || { [item.language || 'Default']: item };
             const langKeys = Object.keys(languagesMap);
@@ -587,7 +686,6 @@
             });
         }
 
-        /* SMART VIDEO PLAYER LOAD FUNCTION */
         function loadVideo(url, title) {
             const iframe = document.getElementById('iframePlayer');
             const video = document.getElementById('html5Player');
