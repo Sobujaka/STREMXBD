@@ -1,18 +1,18 @@
 [
   {
-    "title": "Avengers: Endgame",
-    "image": "https://via.placeholder.com/200x300?text=Avengers",
-    "category": "ACTION",
-    "country": "United States",
-    "language": "ENGLISH",
-    "Movie link": "https://example.com/stream/movie1"
-  },
-  {
     "title": "Jawan",
     "image": "https://via.placeholder.com/200x300?text=Jawan",
     "category": "ACTION",
     "country": "India",
     "language": "HINDI",
+    "Movie link": "https://cdn1.moviehaat.net/storage3/moviehaat/Movies/Bangladeshi/2022/Hridita/Hridita.2022.720P.Bangla.Aac.Web-Dl.H264.Mkv.mp4"
+  },
+   {
+    "title": "Jawan",
+    "image": "https://via.placeholder.com/200x300?text=Jawan",
+    "category": "ACTION",
+    "country": "India",
+    "language": "English",
     "Movie link": "https://cdn1.moviehaat.net/storage3/moviehaat/Movies/Bangladeshi/2022/Hridita/Hridita.2022.720P.Bangla.Aac.Web-Dl.H264.Mkv.mp4"
   }
 ]
