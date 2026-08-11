@@ -109,6 +109,7 @@
             text-transform: capitalize;
         }
 
+        /* Player View Layout */
         #player-view {
             display: none;
             position: fixed;
@@ -119,33 +120,33 @@
             overflow-y: auto;
         }
 
-        .back-btn {
-            background: #ef4444;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
         .player-container {
             display: flex;
             gap: 20px;
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
             background: #0f172a;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 12px;
             border: 1px solid #1f2937;
         }
 
         .player-main {
-            flex-grow: 1;
+            flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .player-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #3b82f6;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-bottom: 2px;
         }
 
         .video-wrapper {
@@ -155,24 +156,53 @@
             border-radius: 8px;
             overflow: hidden;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
 
         .video-wrapper iframe, .video-wrapper video {
             width: 100%;
             height: 100%;
             border: none;
+            object-fit: contain;
         }
 
-        .player-sidebar {
-            width: 350px;
+        .player-sidebar-wrapper {
+            width: 300px;
             flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .back-btn {
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            width: 100%;
+            text-align: center;
+            align-self: flex-end;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover { background: #dc2626; }
+
+        .player-sidebar {
             display: flex;
             flex-direction: column;
             gap: 15px;
             background: #161e2e;
             padding: 15px;
             border-radius: 8px;
-            max-height: 80vh;
+            border: 1px solid #1f2937;
+            max-height: 78vh;
             overflow-y: auto;
         }
 
@@ -189,7 +219,7 @@
 
         .episodes-grid {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 8px;
             margin-top: 10px;
         }
@@ -226,10 +256,13 @@
 
         @media (max-width: 1024px) {
             .player-container { flex-direction: column; }
-            .player-sidebar { width: 100%; max-height: none; }
+            .player-sidebar-wrapper { width: 100%; }
             .media-grid { grid-template-columns: repeat(4, 1fr); }
         }
-        @media (max-width: 600px) { .media-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { 
+            .media-grid { grid-template-columns: repeat(2, 1fr); } 
+            .player-title { font-size: 16px; }
+        }
     </style>
 </head>
 <body>
@@ -250,17 +283,21 @@
         <div id="main-content"></div>
     </div>
 
+    <!-- Player View Section -->
     <div id="player-view">
-        <button class="back-btn" onclick="closePlayerPage()">← Back to Home</button>
         <div class="player-container">
             <div class="player-main">
+                <h2 id="videoTitle" class="player-title"></h2>
                 <div class="video-wrapper" id="videoContainer">
                     <iframe id="iframePlayer" src="" allowfullscreen style="display:none;"></iframe>
                     <video id="html5Player" controls style="display:none;"></video>
                 </div>
-                <h2 id="videoTitle" style="font-size: 18px;"></h2>
             </div>
-            <div id="playerSidebar" class="player-sidebar"></div>
+
+            <div class="player-sidebar-wrapper">
+                <button class="back-btn" onclick="closePlayerPage()">Back to Home →</button>
+                <div id="playerSidebar" class="player-sidebar"></div>
+            </div>
         </div>
     </div>
 
@@ -345,7 +382,38 @@
                     (languageVal === 'all' || item.language === languageVal);
             });
 
-            renderGrid(filtered);
+            // Group duplicate names together
+            const grouped = groupItemsByName(filtered);
+            renderGrid(grouped);
+        }
+
+        /* Helper to Merge duplicate titles into a single entry with multi-languages */
+        function groupItemsByName(items) {
+            const map = new Map();
+
+            items.forEach(item => {
+                if (item.type === "tv-channel") {
+                    const key = "tv_" + item.country;
+                    if (!map.has(key)) map.set(key, item);
+                    return;
+                }
+
+                const title = (item.name || item.title || "Untitled").trim();
+                const key = title.toLowerCase();
+
+                if (!map.has(key)) {
+                    map.set(key, {
+                        ...item,
+                        title: title,
+                        languagesMap: { [item.language || 'Default']: item }
+                    });
+                } else {
+                    const existing = map.get(key);
+                    existing.languagesMap[item.language || 'Default'] = item;
+                }
+            });
+
+            return Array.from(map.values());
         }
 
         function renderGrid(items) {
@@ -356,7 +424,7 @@
 
             items.forEach(item => {
                 const isSquare = item.type === "tv-channel";
-                const displayTitle = isSquare ? item.country : (item.name || item.title || "Untitled");
+                const displayTitle = isSquare ? item.country : (item.title || item.name || "Untitled");
                 const displayImage = item.image || "";
 
                 const card = document.createElement('div');
@@ -384,68 +452,98 @@
 
             if (item.type === "tv-channel") {
                 setupLiveTVPlayer(item, sidebar);
-            } else if (item.episodes) {
+            } else if (item.episodes || (item.languagesMap && Object.values(item.languagesMap)[0].episodes)) {
                 setupSeriesPlayer(item, sidebar);
             } else {
                 setupMoviePlayer(item, sidebar);
             }
         }
 
+        /* Movie Player with Multi-Language Support */
         function setupMoviePlayer(item, sidebar) {
+            const languagesMap = item.languagesMap || { [item.language || 'Default']: item };
+            const langKeys = Object.keys(languagesMap);
+
+            let langOptions = langKeys.map(lang => `<option value="${lang}">${lang}</option>`).join('');
+
             sidebar.innerHTML = `
                 <div class="filter-group">
                     <label>Language</label>
-                    <select id="movieLangSelect"><option value="${item.language || 'Default'}">${item.language || 'Default'}</option></select>
+                    <select id="movieLangSelect">${langOptions}</select>
                 </div>`;
-            loadVideo(item.link || item.url || '', item.name || item.title);
+
+            const langSelect = document.getElementById('movieLangSelect');
+
+            function playSelectedLanguage(lang) {
+                const currentItem = languagesMap[lang] || item;
+                const movieUrl = currentItem["Movie link"] || currentItem["movie_link"] || currentItem.link || currentItem.url || '';
+                loadVideo(movieUrl, `${currentItem.title || currentItem.name} (${lang})`);
+            }
+
+            langSelect.onchange = (e) => playSelectedLanguage(e.target.value);
+            playSelectedLanguage(langKeys[0]);
         }
 
+        /* Series / Anime Player with Multi-Language Support */
         function setupSeriesPlayer(item, sidebar) {
-            const seasonsMap = {};
-            Object.keys(item.episodes).forEach(key => {
-                const match = key.match(/(S\d+)(EP\d+)/i);
-                if (match) {
-                    const season = match[1].toUpperCase(), ep = match[2].toUpperCase();
-                    if (!seasonsMap[season]) seasonsMap[season] = [];
-                    seasonsMap[season].push({ epKey: key, epName: ep, url: item.episodes[key] });
-                } else {
-                    if (!seasonsMap['S1']) seasonsMap['S1'] = [];
-                    seasonsMap['S1'].push({ epKey: key, epName: key, url: item.episodes[key] });
-                }
-            });
+            const languagesMap = item.languagesMap || { [item.language || 'Default']: item };
+            const langKeys = Object.keys(languagesMap);
 
-            let seasonOptions = '';
-            Object.keys(seasonsMap).forEach(s => { seasonOptions += `<option value="${s}">Season ${s.replace('S', '')}</option>`; });
+            let langOptions = langKeys.map(lang => `<option value="${lang}">${lang}</option>`).join('');
 
             sidebar.innerHTML = `
-                <div class="filter-group"><label>Season</label><select id="seasonSelect">${seasonOptions}</select></div>
-                <div class="filter-group"><label>Language</label><select id="langSelect"><option value="${item.language}">${item.language}</option></select></div>
+                <div class="filter-group"><label>Language</label><select id="langSelect">${langOptions}</select></div>
+                <div class="filter-group"><label>Season</label><select id="seasonSelect"></select></div>
                 <div class="filter-group"><label>Episodes</label><div id="episodesGrid" class="episodes-grid"></div></div>
             `;
 
+            const langSelect = document.getElementById('langSelect');
             const seasonSelect = document.getElementById('seasonSelect');
             const epGrid = document.getElementById('episodesGrid');
 
-            function renderEpisodes(selectedSeason) {
-                epGrid.innerHTML = '';
-                const epList = seasonsMap[selectedSeason] || [];
-                
-                epList.forEach((epData, index) => {
-                    const btn = document.createElement('button');
-                    btn.className = 'ep-btn';
-                    btn.innerText = epData.epName;
-                    btn.onclick = () => {
-                        document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-                        loadVideo(epData.url, `${item.name} - ${selectedSeason} ${epData.epName}`);
-                    };
-                    epGrid.appendChild(btn);
-                    if (index === 0) btn.click();
+            function loadSeriesContent(selectedLang) {
+                const activeItem = languagesMap[selectedLang] || item;
+                const episodes = activeItem.episodes || {};
+
+                const seasonsMap = {};
+                Object.keys(episodes).forEach(key => {
+                    const match = key.match(/(S\d+)(EP\d+)/i);
+                    if (match) {
+                        const season = match[1].toUpperCase(), ep = match[2].toUpperCase();
+                        if (!seasonsMap[season]) seasonsMap[season] = [];
+                        seasonsMap[season].push({ epKey: key, epName: ep, url: episodes[key] });
+                    } else {
+                        if (!seasonsMap['S1']) seasonsMap['S1'] = [];
+                        seasonsMap['S1'].push({ epKey: key, epName: key, url: episodes[key] });
+                    }
                 });
+
+                seasonSelect.innerHTML = Object.keys(seasonsMap).map(s => `<option value="${s}">Season ${s.replace('S', '')}</option>`).join('');
+
+                function renderEpisodes(selectedSeason) {
+                    epGrid.innerHTML = '';
+                    const epList = seasonsMap[selectedSeason] || [];
+                    
+                    epList.forEach((epData, index) => {
+                        const btn = document.createElement('button');
+                        btn.className = 'ep-btn';
+                        btn.innerText = epData.epName;
+                        btn.onclick = () => {
+                            document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
+                            btn.classList.add('active');
+                            loadVideo(epData.url, `${activeItem.title || activeItem.name} - ${selectedSeason} ${epData.epName} (${selectedLang})`);
+                        };
+                        epGrid.appendChild(btn);
+                        if (index === 0) btn.click();
+                    });
+                }
+
+                seasonSelect.onchange = (e) => renderEpisodes(e.target.value);
+                renderEpisodes(Object.keys(seasonsMap)[0] || 'S1');
             }
 
-            seasonSelect.onchange = (e) => renderEpisodes(e.target.value);
-            renderEpisodes(Object.keys(seasonsMap)[0] || 'S1');
+            langSelect.onchange = (e) => loadSeriesContent(e.target.value);
+            loadSeriesContent(langKeys[0]);
         }
 
         function setupLiveTVPlayer(item, sidebar) {
@@ -500,25 +598,25 @@
                 hlsPlayer = null;
             }
 
-            // Check if URL is .m3u8 or .mp4
-            if (url.includes('.m3u8') || url.includes('.mp4')) {
+            const cleanUrl = url.toLowerCase();
+
+            if (cleanUrl.includes('.m3u8') || cleanUrl.includes('.mp4') || cleanUrl.includes('.mkv')) {
                 iframe.style.display = 'none';
                 iframe.src = '';
                 video.style.display = 'block';
 
-                if (url.includes('.m3u8') && Hls.isSupported()) {
+                if (cleanUrl.includes('.m3u8') && Hls.isSupported()) {
                     hlsPlayer = new Hls();
                     hlsPlayer.loadSource(url);
                     hlsPlayer.attachMedia(video);
                     hlsPlayer.on(Hls.Events.MANIFEST_PARSED, function() {
-                        video.play();
+                        video.play().catch(() => {});
                     });
                 } else {
                     video.src = url;
-                    video.play();
+                    video.play().catch(() => {});
                 }
             } else {
-                // If Embed Link (YouTube, Streamtape, Vidhide, etc.)
                 video.style.display = 'none';
                 video.pause();
                 iframe.style.display = 'block';
