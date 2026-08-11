@@ -3,161 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stream Portal</title>
-  
+  <title>Stream Portal Pro</title>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background: #0f172a; color: #fff; padding: 15px; }
 
-    header {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #334155;
-    }
+    header { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #334155; }
     
-    /* ১. সার্চ বার - বাম পাশের সব খালি জায়গা নেবে */
-    .search-bar { 
-      flex: 1; 
-      min-width: 200px; 
-    }
-    .search-bar input {
-      width: 100%;
-      padding: 10px 15px;
-      border-radius: 20px;
-      border: 1px solid #334155;
-      background: #1e293b;
-      color: #fff;
-      outline: none;
-    }
+    .search-bar { flex: 1; min-width: 200px; }
+    .search-bar input { width: 100%; padding: 10px 15px; border-radius: 20px; border: 1px solid #334155; background: #1e293b; color: #fff; outline: none; }
     
-    /* ২. বাটনসমূহ */
-    .nav-buttons { 
-      display: flex; 
-      gap: 8px; 
-      flex-wrap: wrap; 
-      align-items: center; 
-    }
-
-    /* ৩. ফিল্টারসমূহ (Country, Category, Language) */
-    .filters {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
+    .nav-buttons, .filters { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
     
-    button, select {
-      background: #1e293b;
-      color: #cbd5e1;
-      border: 1px solid #334155;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: 0.2s;
-      outline: none;
-      font-size: 14px;
-    }
-    select { color: #38bdf8; font-weight: bold; }
+    button, select { background: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 8px 12px; border-radius: 6px; cursor: pointer; outline: none; font-size: 13px; }
+    select { color: #38bdf8; font-weight: 600; }
     button:hover, button.active { background: #2563eb; color: #fff; border-color: #2563eb; }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-      gap: 15px;
-    }
-
-    .card {
-      background: #1e293b;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid #334155;
-      cursor: pointer;
-      transition: transform 0.2s;
-      display: flex;
-      flex-direction: column;
-    }
-    .card:hover { transform: translateY(-5px); border-color: #2563eb; }
-    
-    .card img { width: 100%; height: 250px; object-fit: cover; background: #0f172a; display: block; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+    .card { background: #1e293b; border-radius: 8px; overflow: hidden; border: 1px solid #334155; cursor: pointer; transition: transform 0.2s; display: flex; flex-direction: column; }
+    .card:hover { transform: translateY(-3px); border-color: #2563eb; }
+    .card img { width: 100%; height: 220px; object-fit: cover; background: #000; }
     .card-details { padding: 8px 10px; }
-    .card-title { font-size: 13px; font-weight: bold; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .card-tag { font-size: 10px; background: #334155; padding: 2px 5px; border-radius: 4px; display: inline-block; text-transform: uppercase; }
+    .card-title { font-size: 13px; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 4px; }
+    .card-tag { font-size: 10px; background: #334155; padding: 2px 5px; border-radius: 4px; display: inline-block; text-transform: uppercase; margin-right: 3px; }
+    .tag-lang { background: #2563eb; }
 
-    .card.square-card img { height: 180px; object-fit: contain; padding: 10px; }
+    #player-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15,23,42,0.95); z-index: 1000; padding: 15px; }
+    .overlay-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .close-btn { background: #ef4444; color: white; border: none; padding: 8px 15px; font-weight: bold; border-radius: 5px; }
 
-    #player-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: #0f172a;
-      z-index: 1000;
-      padding: 15px;
-    }
-    
-    .overlay-header { display: flex; justify-content: space-between; align-items: center; height: 40px; margin-bottom: 10px; }
-    .close-btn { background: #ef4444; color: white; border: none; padding: 8px 18px; font-weight: bold; border-radius: 5px; }
-
-    .player-container { display: flex; flex-direction: row; gap: 15px; height: calc(100vh - 80px); background: #1e293b; padding: 15px; border-radius: 10px; }
-    .video-box { flex: 3; background: #000; border-radius: 8px; overflow: hidden; height: 100%; display: flex; align-items: center; justify-content: center; }
+    .player-container { display: flex; gap: 15px; height: calc(100vh - 80px); background: #1e293b; padding: 15px; border-radius: 10px; }
+    .video-box { flex: 3; background: #000; border-radius: 8px; overflow: hidden; }
     video { width: 100%; height: 100%; object-fit: contain; }
-    .sidebar-box { flex: 1; background: #0f172a; padding: 15px; border-radius: 8px; height: 100%; overflow-y: auto; }
+    .sidebar-box { flex: 1; background: #0f172a; padding: 15px; border-radius: 8px; overflow-y: auto; }
+    
+    .sidebar-title { font-size: 13px; color: #38bdf8; font-weight: bold; margin-bottom: 8px; }
+    .sidebar-btn { width: 100%; text-align: left; padding: 10px; margin-bottom: 6px; background: #1e293b; color: #fff; border: 1px solid #334155; border-radius: 5px; }
+    .sidebar-btn:hover, .sidebar-btn.active { background: #2563eb; }
 
-    .section-title { font-size: 14px; margin-bottom: 6px; color: #38bdf8; font-weight: bold; }
-    .sidebar-select { width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 6px; background: #1e293b; color: #38bdf8; border: 1px solid #334155; }
-
-    .btn-group { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 15px; }
-    .btn-group button { width: 100%; height: 38px; padding: 0; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 600; font-size: 13px; }
-
-    .channel-item { display: flex; align-items: center; gap: 12px; padding: 8px 10px; background: #1e293b; margin-bottom: 6px; border-radius: 6px; cursor: pointer; transition: background 0.2s; border: 1px solid #334155; }
-    .channel-item:hover { background: #334155; }
-    .channel-item img { width: 40px; height: 40px; object-fit: contain; background: #0f172a; border-radius: 4px; padding: 2px; border: 1px solid #475569; }
-
-    .channel-item.active-channel {
-      background: #2563eb !important;
-      color: #ffffff;
-      border-color: #3b82f6;
-    }
-
-    #adblock-popup {
-      display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(15, 23, 42, 0.98); z-index: 999999; justify-content: center; align-items: center; text-align: center; padding: 20px;
-    }
-    .adblock-box { background: #1e293b; border: 2px solid #ef4444; padding: 30px; border-radius: 12px; max-width: 450px; }
-    .adblock-box h2 { color: #ef4444; font-size: 22px; margin-bottom: 15px; }
-    .adblock-box p { color: #cbd5e1; font-size: 15px; margin-bottom: 20px; }
-    .adblock-btn { background: #2563eb; color: white; border: none; padding: 10px 20px; font-size: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; }
+    .btn-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 15px; }
+    .btn-grid button { text-align: center; height: 35px; padding: 0; }
 
     @media (max-width: 768px) {
-      .player-container { flex-direction: column; height: auto; }
-      .video-box { height: 250px; }
-      .sidebar-box { height: 300px; }
-      .btn-group { grid-template-columns: repeat(4, 1fr); }
+      .player-container { flex-direction: column; }
+      .video-box { height: 240px; }
+      .sidebar-box { height: 250px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="adsbox" style="position:absolute; left:-9999px; top:-9999px; height:1px; width:1px;"></div>
-
-  <div id="adblock-popup">
-    <div class="adblock-box">
-      <h2>⚠️ AdBlocker Detected!</h2>
-      <p>অনুগ্রহ করে আপনার ব্রাউজারের <b>AdBlocker বন্ধ করুন</b> এবং পেজটি রিফ্রেশ করুন।</p>
-      <button class="adblock-btn" onclick="location.reload()">Refresh Page</button>
-    </div>
-  </div>
-
   <header>
+    <!-- ১. সার্চ বার -->
     <div class="search-bar">
-      <input type="text" id="search-input" placeholder="Search title..." oninput="filterGrid()">
+      <input type="text" id="search-input" placeholder="Search movies, series, tv..." oninput="filterGrid()">
     </div>
     
+    <!-- ২. ক্যাটাগরি টাইপ বাটন -->
     <div class="nav-buttons">
       <button class="active" onclick="filterType('all', this)">All</button>
       <button onclick="filterType('anime', this)">Anime</button>
@@ -166,6 +69,7 @@
       <button onclick="filterType('tv-channel', this)">Live TV</button>
     </div>
 
+    <!-- ৩. ড্রপডাউন ফিল্টার (Country, Category, Language) -->
     <div class="filters">
       <select id="country-select" onchange="filterGrid()">
         <option value="all">Country: All</option>
@@ -179,466 +83,176 @@
     </div>
   </header>
 
-  <div class="grid" id="content-grid">
-    <p style="text-align:center; grid-column: 1/-1;">Loading streams...</p>
-  </div>
+  <div class="grid" id="content-grid">Loading items...</div>
 
+  <!-- প্লেয়ার ওভারলে -->
   <div id="player-overlay">
     <div class="overlay-header">
-      <h2 id="current-stream-title" style="color: #38bdf8;">STREAM PLAYER</h2>
-      <button class="close-btn" onclick="closePlayer()">✕ Close Player</button>
+      <h3 id="current-stream-title" style="color: #38bdf8;">Stream Player</h3>
+      <button class="close-btn" onclick="closePlayer()">✕ Close</button>
     </div>
 
-    <!-- Anime / TV Series Player -->
-    <div id="player-type-series" class="player-container" style="display:none;">
+    <div class="player-container">
       <div class="video-box">
-        <video id="series-video" controls poster="https://via.placeholder.com/600x350?text=Select+Episode"></video>
+        <video id="main-video" controls playsinline></video>
       </div>
-      <div class="sidebar-box">
-        <div class="section-title">Select Language:</div>
-        <select id="series-lang-select" class="sidebar-select" onchange="onSeriesLangChange()"></select>
-        <div class="section-title">Select Season:</div>
-        <select id="series-season-select" class="sidebar-select" onchange="onSeriesSeasonChange()"></select>
-        <div class="section-title">Episodes:</div>
-        <div class="btn-group" id="series-episode-buttons"></div>
-      </div>
-    </div>
-
-    <!-- Movie Player -->
-    <div id="player-type-movie" class="player-container" style="display:none;">
-      <div class="video-box">
-        <video id="movie-video" controls poster="https://via.placeholder.com/600x350?text=Movie+Player"></video>
-      </div>
-      <div class="sidebar-box">
-        <div class="section-title">Select Language:</div>
-        <select id="movie-lang-select" class="sidebar-select" onchange="onMovieLangChange()"></select>
-      </div>
-    </div>
-
-    <!-- Live TV Player -->
-    <div id="player-type-tv" class="player-container" style="display:none;">
-      <div class="video-box">
-        <video id="tv-video" controls poster="https://via.placeholder.com/600x350?text=Select+Channel"></video>
-      </div>
-      <div class="sidebar-box">
-        <div class="section-title">Select Channel Group:</div>
-        <select id="tv-group-select" class="sidebar-select" onchange="filterTVByGroup()">
-          <option value="all">All Groups</option>
-        </select>
-        <div class="section-title">Channels List:</div>
-        <div id="tv-channel-list">Loading channels...</div>
+      <div class="sidebar-box" id="sidebar-controls">
+        <!-- ডায়নামিক পর্ব বা চ্যানেল লিস্ট -->
       </div>
     </div>
   </div>
 
   <script>
-    // রাইট ক্লিক এবং ইন্সপেক্ট ব্লক
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.onkeydown = function (e) {
-      if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) {
-        return false;
-      }
-    };
+    // ⚠️ আপনার Cloudflare Worker-এর সঠিক URL দিন
+    const JSON_URL = 'https://your-worker-name.workers.dev/data.json';
 
-    let isAdBlockActive = false;
-    let hlsInstance = null;
-
-    function checkAdBlocker() {
-      const bait = document.querySelector('.adsbox');
-      const popup = document.getElementById('adblock-popup');
-      if (!bait || bait.offsetParent === null || bait.offsetHeight === 0 || bait.offsetWidth === 0) {
-        isAdBlockActive = true;
-        popup.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-      } else {
-        isAdBlockActive = false;
-        popup.style.display = 'none';
-        document.body.style.overflow = 'auto';
-      }
-    }
-    checkAdBlocker();
-
-    // ⚠️ আপনার ক্লাউডফ্লেয়ার ওয়ার্কারের লিংক এখানে বসান
-    const JSON_URL = 'https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/data.json';
-    
     let allData = [];
     let currentFilter = 'all';
-    let currentTVChannels = [];
-    let currentSeriesData = [];
-    let currentMovieData = [];
-    let currentParsedSeasons = {};
-
-    function shuffleArray(array) {
-      const arr = [...array];
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    }
+    let hlsInstance = null;
 
     async function loadData() {
       try {
-        const response = await fetch(JSON_URL);
-        allData = await response.json();
+        const res = await fetch(JSON_URL);
+        allData = await res.json();
         populateDropdowns();
         filterGrid();
-      } catch (err) {
-        document.getElementById('content-grid').innerHTML = '<p style="color:red; text-align:center; grid-column: 1/-1;">Error loading JSON data!</p>';
+      } catch (e) {
+        document.getElementById('content-grid').innerHTML = '<p style="color:red; text-align:center; grid-column: 1/-1;">JSON লোড করতে সমস্যা হয়েছে। ক্লাউডফ্লেয়ার ওয়ার্কার চেক করুন।</p>';
       }
     }
 
+    // Country, Category, Language ড্রপডাউন পপুলেট করার ফাংশন
     function populateDropdowns() {
+      const countries = [...new Set(allData.map(item => item.country).filter(Boolean))];
       const categories = [...new Set(allData.map(item => item.category).filter(Boolean))];
       const languages = [...new Set(allData.map(item => item.language).filter(Boolean))];
-      
-      const validTypes = ['anime', 'movie', 'tv-series'];
-      const countries = [...new Set(allData
-          .filter(item => validTypes.includes(item.type))
-          .map(item => item.country)
-          .filter(Boolean))];
 
-      const catSelect = document.getElementById('category-select');
-      catSelect.innerHTML = '<option value="all">Category: All</option>';
-      categories.forEach(cat => {
-        const opt = document.createElement('option');
-        opt.value = cat;
-        opt.innerText = `Category: ${cat}`;
-        catSelect.appendChild(opt);
-      });
+      const countrySel = document.getElementById('country-select');
+      countrySel.innerHTML = '<option value="all">Country: All</option>';
+      countries.forEach(c => countrySel.innerHTML += `<option value="${c}">Country: ${c}</option>`);
 
-      const langSelect = document.getElementById('language-select');
-      langSelect.innerHTML = '<option value="all">Language: All</option>';
-      languages.forEach(lang => {
-        const opt = document.createElement('option');
-        opt.value = lang;
-        opt.innerText = `Language: ${lang}`;
-        langSelect.appendChild(opt);
-      });
+      const catSel = document.getElementById('category-select');
+      catSel.innerHTML = '<option value="all">Category: All</option>';
+      categories.forEach(c => catSel.innerHTML += `<option value="${c}">Category: ${c}</option>`);
 
-      const countrySelect = document.getElementById('country-select');
-      countrySelect.innerHTML = '<option value="all">Country: All</option>';
-      countries.forEach(country => {
-        const opt = document.createElement('option');
-        opt.value = country;
-        opt.innerText = `Country: ${country}`;
-        countrySelect.appendChild(opt);
-      });
-    }
-
-    function renderGrid(data) {
-      const grid = document.getElementById('content-grid');
-      if (data.length === 0) {
-        grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No content found.</p>';
-        return;
-      }
-
-      grid.innerHTML = data.map((item) => {
-        const originalIndex = allData.indexOf(item);
-
-        if (item.type === 'tv-channel') {
-          return `
-            <div class="card square-card" onclick="openTVChannel(${originalIndex})">
-              <img src="${item.image || 'https://via.placeholder.com/160x160?text=TV'}" alt="${item.country}">
-              <div class="card-details">
-                <div class="card-title">${item.country || 'Live TV'}</div>
-                <span class="card-tag" style="background:#059669;">LIVE TV</span>
-              </div>
-            </div>
-          `;
-        } else {
-          return `
-            <div class="card" onclick="openMediaItem('${item.name}', '${item.type}')">
-              <img src="${item.image || 'https://via.placeholder.com/160x230?text=Poster'}" alt="${item.name}">
-              <div class="card-details">
-                <div class="card-title">${item.name || 'Untitled'}</div>
-                <span class="card-tag">${item.type}</span>
-                ${item.language ? `<span class="card-tag" style="background:#2563eb;">${item.language}</span>` : ''}
-              </div>
-            </div>
-          `;
-        }
-      }).join('');
+      const langSel = document.getElementById('language-select');
+      langSel.innerHTML = '<option value="all">Language: All</option>';
+      languages.forEach(l => langSel.innerHTML += `<option value="${l}">Language: ${l}</option>`);
     }
 
     function filterType(type, btn) {
       currentFilter = type;
       document.querySelectorAll('.nav-buttons button').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-
-      const countrySelect = document.getElementById('country-select');
-      if(type === 'tv-channel') {
-          countrySelect.style.display = 'none';
-      } else {
-          countrySelect.style.display = 'inline-block';
-      }
-
       filterGrid();
     }
 
+    // মাল্টি-ফিল্টারিং লজিক (Search + Type + Country + Category + Language)
     function filterGrid() {
-      const query = document.getElementById('search-input').value.toLowerCase();
-      const selectedCat = document.getElementById('category-select').value;
-      const selectedLang = document.getElementById('language-select').value;
+      const searchQuery = document.getElementById('search-input').value.toLowerCase();
       const selectedCountry = document.getElementById('country-select').value;
+      const selectedCategory = document.getElementById('category-select').value;
+      const selectedLanguage = document.getElementById('language-select').value;
 
       let filtered = allData.filter(item => {
-        let matchesType = (currentFilter === 'all') ? (item.type !== 'tv-channel') : (item.type === currentFilter);
-        let matchesCat = (selectedCat === 'all') || (item.category === selectedCat);
-        let matchesLang = (selectedLang === 'all') || (item.language === selectedLang);
-        
-        let matchesCountry = true;
-        if (['anime', 'movie', 'tv-series'].includes(item.type)) {
-            matchesCountry = (selectedCountry === 'all') || (item.country === selectedCountry);
-        }
+        let matchType = (currentFilter === 'all') ? true : (item.type === currentFilter);
+        let matchCountry = (selectedCountry === 'all') ? true : (item.country === selectedCountry);
+        let matchCategory = (selectedCategory === 'all') ? true : (item.category === selectedCategory);
+        let matchLanguage = (selectedLanguage === 'all') ? true : (item.language === selectedLanguage);
 
-        let searchTarget = item.type === 'tv-channel' ? (item.country || '') : (item.name || '');
-        let matchesSearch = searchTarget.toLowerCase().includes(query);
+        let title = item.name || item.country || '';
+        let matchSearch = title.toLowerCase().includes(searchQuery);
 
-        return matchesType && matchesCat && matchesLang && matchesCountry && matchesSearch;
+        return matchType && matchCountry && matchCategory && matchLanguage && matchSearch;
       });
-
-      if (currentFilter !== 'tv-channel') {
-        filtered = shuffleArray(filtered);
-      }
 
       renderGrid(filtered);
     }
 
-    function openMediaItem(name, type) {
-      if (isAdBlockActive) return;
-
-      document.getElementById('player-overlay').style.display = 'block';
-      document.getElementById('current-stream-title').innerText = name;
-      
-      document.getElementById('player-type-series').style.display = 'none';
-      document.getElementById('player-type-movie').style.display = 'none';
-      document.getElementById('player-type-tv').style.display = 'none';
-
-      if (type === 'anime' || type === 'tv-series') {
-        document.getElementById('player-type-series').style.display = 'flex';
-        setupSeriesPlayer(name);
-      } else if (type === 'movie') {
-        document.getElementById('player-type-movie').style.display = 'flex';
-        setupMoviePlayer(name);
-      }
-    }
-
-    function openTVChannel(dataIndex) {
-      if (isAdBlockActive) return;
-
-      const item = allData[dataIndex];
-      document.getElementById('player-overlay').style.display = 'block';
-      document.getElementById('current-stream-title').innerText = item.country || 'Live TV';
-
-      document.getElementById('player-type-series').style.display = 'none';
-      document.getElementById('player-type-movie').style.display = 'none';
-      document.getElementById('player-type-tv').style.display = 'flex';
-
-      setupTVPlayerCN(item.CN || {});
-    }
-
-    function closePlayer() {
-      document.getElementById('player-overlay').style.display = 'none';
-      if (hlsInstance) {
-        hlsInstance.destroy();
-        hlsInstance = null;
-      }
-      ['series-video', 'movie-video', 'tv-video'].forEach(id => {
-        const p = document.getElementById(id);
-        p.pause();
-        p.removeAttribute('src');
-        p.load();
-      });
-    }
-
-    function setupSeriesPlayer(targetName) {
-      currentSeriesData = allData.filter(i => (i.type === 'anime' || i.type === 'tv-series') && i.name.toLowerCase() === targetName.toLowerCase());
-      const langSelect = document.getElementById('series-lang-select');
-      langSelect.innerHTML = '';
-
-      currentSeriesData.forEach((item, index) => {
-        const opt = document.createElement('option');
-        opt.value = index;
-        opt.innerText = item.language || 'Default';
-        langSelect.appendChild(opt);
-      });
-
-      if (currentSeriesData.length > 0) onSeriesLangChange();
-    }
-
-    function onSeriesLangChange() {
-      const selectedIndex = document.getElementById('series-lang-select').value;
-      const item = currentSeriesData[selectedIndex];
-      if (!item || !item.episodes) return;
-
-      currentParsedSeasons = {};
-      Object.keys(item.episodes).forEach(epKey => {
-        const sName = epKey.substring(0, 2);
-        const cleanEpKey = epKey.replace(/^S\d+/i, '');
-        if (!currentParsedSeasons[sName]) currentParsedSeasons[sName] = [];
-        currentParsedSeasons[sName].push({ key: cleanEpKey, url: item.episodes[epKey] });
-      });
-
-      const seasonSelect = document.getElementById('series-season-select');
-      seasonSelect.innerHTML = '';
-
-      Object.keys(currentParsedSeasons).forEach(sKey => {
-        const opt = document.createElement('option');
-        opt.value = sKey;
-        opt.innerText = `Season ${sKey.replace('S', '')}`;
-        seasonSelect.appendChild(opt);
-      });
-
-      onSeriesSeasonChange();
-    }
-
-    function onSeriesSeasonChange() {
-      const selectedSeason = document.getElementById('series-season-select').value;
-      const epList = currentParsedSeasons[selectedSeason] || [];
-      renderEpisodes(epList);
-    }
-
-    function renderEpisodes(epList) {
-      const epContainer = document.getElementById('series-episode-buttons');
-      epContainer.innerHTML = '';
-
-      epList.forEach((ep) => {
-        const epBtn = document.createElement('button');
-        epBtn.innerText = ep.key;
-        epBtn.onclick = () => {
-          document.querySelectorAll('#series-episode-buttons button').forEach(b => b.classList.remove('active'));
-          epBtn.classList.add('active');
-          playStream('series-video', ep.url);
-        };
-        epContainer.appendChild(epBtn);
-      });
-    }
-
-    function setupMoviePlayer(targetName) {
-      currentMovieData = allData.filter(i => i.type === 'movie' && i.name.toLowerCase() === targetName.toLowerCase());
-      const langSelect = document.getElementById('movie-lang-select');
-      langSelect.innerHTML = '';
-
-      currentMovieData.forEach((item, index) => {
-        const opt = document.createElement('option');
-        opt.value = index;
-        opt.innerText = item.language || 'Default';
-        langSelect.appendChild(opt);
-      });
-
-      if (currentMovieData.length > 0) onMovieLangChange();
-    }
-
-    function onMovieLangChange() {
-      const selectedIndex = document.getElementById('movie-lang-select').value;
-      const item = currentMovieData[selectedIndex];
-      if (item && item.movielink) playStream('movie-video', item.movielink);
-    }
-
-    function setupTVPlayerCN(cnObj) {
-      currentTVChannels = [];
-      if (cnObj) {
-        Object.keys(cnObj).forEach(k => {
-          currentTVChannels.push({
-            name: cnObj[k].name || 'Channel',
-            logo: cnObj[k].tvglogo || 'https://via.placeholder.com/40?text=TV',
-            group: cnObj[k].group || 'General',
-            url: cnObj[k].url
-          });
-        });
+    function renderGrid(data) {
+      const grid = document.getElementById('content-grid');
+      if (!data.length) { 
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">কোনো কনটেন্ট পাওয়া যায়নি।</p>'; 
+        return; 
       }
 
-      populateTVGroupDropdown();
-      renderTVChannels(currentTVChannels);
-
-      if (currentTVChannels.length > 0 && currentTVChannels[0].url) {
-        playStream('tv-video', currentTVChannels[0].url);
-        const firstItem = document.querySelector('.channel-item');
-        if (firstItem) firstItem.classList.add('active-channel');
-      }
-    }
-
-    function populateTVGroupDropdown() {
-      const groupSelect = document.getElementById('tv-group-select');
-      groupSelect.innerHTML = '<option value="all">All Groups</option>';
-
-      const groups = [...new Set(currentTVChannels.map(ch => ch.group).filter(Boolean))];
-      groups.forEach(grp => {
-        const opt = document.createElement('option');
-        opt.value = grp;
-        opt.innerText = grp;
-        groupSelect.appendChild(opt);
-      });
-    }
-
-    function filterTVByGroup() {
-      const selectedGroup = document.getElementById('tv-group-select').value;
-      renderTVChannels(selectedGroup === 'all' ? currentTVChannels : currentTVChannels.filter(ch => ch.group === selectedGroup));
-    }
-
-    function renderTVChannels(channels) {
-      const container = document.getElementById('tv-channel-list');
-      if (channels.length === 0) {
-        container.innerHTML = "No channels available.";
-        return;
-      }
-
-      container.innerHTML = channels.map(ch => `
-        <div class="channel-item" onclick="selectTVChannel(this, '${ch.url}')">
-          <img src="${ch.logo}" alt="${ch.name}" onerror="this.src='https://via.placeholder.com/40?text=TV'">
-          <div style="display:flex; flex-direction:column;">
-            <span style="font-weight:bold;">${ch.name}</span>
-            <small style="color:#94a3b8; font-size:11px;">${ch.group}</small>
+      grid.innerHTML = data.map((item, idx) => `
+        <div class="card" onclick="openMedia(${allData.indexOf(item)})">
+          <img src="${item.image || 'https://via.placeholder.com/160x220?text=No+Cover'}" alt="">
+          <div class="card-details">
+            <div class="card-title">${item.name || item.country || 'Untitled'}</div>
+            <span class="card-tag">${item.type}</span>
+            ${item.language ? `<span class="card-tag tag-lang">${item.language}</span>` : ''}
           </div>
         </div>
       `).join('');
     }
 
-    function selectTVChannel(element, url) {
-      document.querySelectorAll('.channel-item').forEach(item => {
-        item.classList.remove('active-channel');
-      });
-      element.classList.add('active-channel');
-      playStream('tv-video', url);
+    function openMedia(index) {
+      const item = allData[index];
+      document.getElementById('player-overlay').style.display = 'block';
+      document.getElementById('current-stream-title').innerText = item.name || item.country || 'Player';
+      
+      const sidebar = document.getElementById('sidebar-controls');
+      sidebar.innerHTML = '';
+
+      if (item.type === 'movie' && item.movielink) {
+        sidebar.innerHTML = `<div class="sidebar-title">Movie Quality / Link</div>
+                             <button class="sidebar-btn active" onclick="playVideo('${item.movielink}')">Play Movie</button>`;
+        playVideo(item.movielink);
+      } 
+      else if ((item.type === 'anime' || item.type === 'tv-series') && item.episodes) {
+        const keys = Object.keys(item.episodes);
+        sidebar.innerHTML = `<div class="sidebar-title">Episodes List</div>
+                             <div class="btn-grid">` + 
+                             keys.map(k => `<button class="sidebar-btn" onclick="playVideo('${item.episodes[k]}')">${k}</button>`).join('') +
+                             `</div>`;
+        if (keys.length > 0) playVideo(item.episodes[keys[0]]);
+      } 
+      else if (item.type === 'tv-channel' && item.CN) {
+        const keys = Object.keys(item.CN);
+        sidebar.innerHTML = `<div class="sidebar-title">Live Channels</div>` + 
+                             keys.map(k => `<button class="sidebar-btn" onclick="playVideo('${item.CN[k].url}')">${item.CN[k].name}</button>`).join('');
+        if (keys.length > 0) playVideo(item.CN[keys[0]].url);
+      }
     }
 
-    // অল-ইন-ওয়ান ভিডিও প্লেয়ার সিস্টেম (MP4, MKV, HLS)
-    function playStream(playerId, url) {
-      if (isAdBlockActive) return;
-
-      const video = document.getElementById(playerId);
-
+    function playVideo(url) {
+      const video = document.getElementById('main-video');
+      
       if (hlsInstance) {
         hlsInstance.destroy();
         hlsInstance = null;
       }
 
-      if (!url) {
-        alert("Stream link is unavailable.");
-        return;
-      }
+      video.pause();
+      video.removeAttribute('src');
+      video.load();
 
-      const isHLS = url.toLowerCase().includes('.m3u8');
-
-      if (!isHLS) {
-        video.pause();
-        video.removeAttribute('src');
-        video.load();
-        
+      if (url.includes('.m3u8')) {
+        if (Hls.isSupported()) {
+          hlsInstance = new Hls({ enableWorker: true });
+          hlsInstance.loadSource(url);
+          hlsInstance.attachMedia(video);
+          hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+          video.src = url;
+          video.play();
+        }
+      } else {
+        // MP4, MKV, WebM সরাসরি প্লে হবে
         video.src = url;
-        video.play().catch(e => console.log("Direct video play error:", e));
-      } else if (Hls.isSupported()) {
-        hlsInstance = new Hls({ enableWorker: true, lowLatencyMode: true });
-        hlsInstance.loadSource(url);
-        hlsInstance.attachMedia(video);
-        hlsInstance.on(Hls.Events.MANIFEST_PARSED, function () {
-          video.play().catch(e => console.log("HLS autoplay error:", e));
-        });
-      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = url;
-        video.play().catch(e => console.log("Safari HLS error:", e));
+        video.play().catch(e => console.log('Playback error:', e));
       }
+    }
+
+    function closePlayer() {
+      document.getElementById('player-overlay').style.display = 'none';
+      const video = document.getElementById('main-video');
+      if (hlsInstance) { hlsInstance.destroy(); hlsInstance = null; }
+      video.pause();
+      video.removeAttribute('src');
+      video.load();
     }
 
     loadData();
