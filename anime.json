@@ -3,11 +3,11 @@
     "name": "naruto",
     "image": "https://pbcdnw.aoneroom.com/image/2026/01/26/ea4ee214b4514106d5b5e5ad46f29183.jpg?x-oss-process=image/resize%2Cw_250",
     "category": "ANIMATION",
-    "country": "Bangladesh",
+    "country": "",
     "language": "HINDI",
     "episodes": {
       "S1EP1": "https://drive.google.com/file/d/18UOI3R3gj7B0jRJ2t1Kb2w9exOOTvGG2/preview",
-      "S2EP2": "https://example.com/stream/ep2"
+      "S1EP2": "https://drive.google.com/file/d/1r3FtySWdJo3tAn0mPHQw3Lo3gckX2vdg/preview"
     }
   },
   {
