@@ -1,0 +1,24 @@
+[
+  {
+    "name": "Stranger Things",
+    "image": "https://via.placeholder.com/200x300?text=Stranger+Things",
+    "category": "DRAMA",
+    "country": "United States",
+    "language": "ENGLISH",
+    "episodes": {
+      "S1EP1": "https://example.com/stream/ep1",
+      "S1EP2": "https://example.com/stream/ep2"
+    }
+  },
+  {
+    "name": "Money Heist",
+    "image": "https://via.placeholder.com/200x300?text=Money+Heist",
+    "category": "DRAMA",
+    "country": "Spain",
+    "language": "SPANISH",
+    "episodes": {
+      "S1EP1": "https://example.com/stream/ep1",
+      "S1EP2": "https://example.com/stream/ep2"
+    }
+  }
+]
