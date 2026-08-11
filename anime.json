@@ -10,15 +10,4 @@
       "S1EP2": "https://drive.google.com/file/d/1r3FtySWdJo3tAn0mPHQw3Lo3gckX2vdg/preview"
     }
   },
-  {
-    "name": "solo leveling",
-    "image": "https://via.placeholder.com/200x300?text=Solo+Leveling",
-    "category": "ANIMATION",
-    "country": "Bangladesh",
-    "language": "English",
-    "episodes": {
-      "S1EP1": "https://example.com/stream/ep1",
-      "S1EP2": "https://example.com/stream/ep2"
-    }
-  }
 ]
