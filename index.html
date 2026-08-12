@@ -397,6 +397,7 @@
         ];
 
         let loadedData = {}, currentTab = 'All', hlsPlayer = null;
+        let previousScrollPosition = 0;
 
         /* Array Randomizer (Fisher-Yates Shuffle Algorithm) */
         function shuffleArray(array) {
@@ -545,8 +546,11 @@
         }
 
         function openPlayerPage(item) {
+            previousScrollPosition = window.scrollY || document.documentElement.scrollTop;
+
             document.getElementById('home-view').style.display = 'none';
             document.getElementById('player-view').style.display = 'block';
+            document.getElementById('player-view').scrollTop = 0;
 
             const sidebar = document.getElementById('playerSidebar');
             sidebar.innerHTML = '';
@@ -725,6 +729,9 @@
         function closePlayerPage() {
             document.getElementById('player-view').style.display = 'none';
             document.getElementById('home-view').style.display = 'block';
+            
+            window.scrollTo(0, previousScrollPosition);
+
             document.getElementById('iframePlayer').src = '';
             const video = document.getElementById('html5Player');
             video.pause();
