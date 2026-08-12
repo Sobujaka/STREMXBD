@@ -1,4 +1,26 @@
 [
+ {
+    "name": "Gachiakuta",
+    "image": "https://tse2.mm.bing.net/th/id/OIP.asRd6qHpWNgrRubwyBUKvQHaKd?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+    "category": "ANIMATION",
+    "country": "ACTION",
+    "language": "HINDI",
+    "episodes": {
+      "S1EP1": "https://drive.google.com/file/d/1zksLOudAQzes6FVGPl0fY-90696GVYRT/preview",
+      "S1EP2": "https://drive.google.com/file/d/1akSe_9oCS2SQGL2rwVjbXJgrHGA9Ypu3/preview",
+	  "S1EP3": "https://drive.google.com/file/d/1sH9d4nYo_Lcwu8IXTkfaIKwFQCh687Lb/preview",
+      "S1EP4": "https://drive.google.com/file/d/1ijddlMQiF7fj2C_iC4iyysLLv6QKRYu6/preview",
+      "S1EP5": "https://drive.google.com/file/d/1_ZK4_TWn_bWvxhNPqthAtTj15zj3lnka/preview",
+      "S1EP6": "https://drive.google.com/file/d/1wciL5G-DGH_WOTye6y4OSKC3O_VZsoXz/preview",
+      "S1EP7": "https://drive.google.com/file/d/17e5I9dgXrnwuYCC8zjaYw7wp5J_xFDbI/preview",
+      "S1EP8": "https://drive.google.com/file/d/1cXW9YWydFU4ZqJOhRS4Ed7PP0ptJVyo-/preview",
+      "S1EP9": "https://drive.google.com/file/d/15Obe3dpF3IRffjDCtGpv5nLqpiOCYlza/preview",
+      "S1EP10": "https://drive.google.com/file/d/10fYSqRNR0C4GNMvEckTHRUDDkkEbycQI/preview",
+      "S1EP11": "https://drive.google.com/file/d/12sQkZ8VzP95PGRrGoZ1hYiiUtaeZMwvW/preview",
+      "S1EP12": "https://drive.google.com/file/d/1KgUbQlwp3LVOfthcWCg4lHOTfrQ-TZa9/preview",
+      "S1EP13": "https://drive.google.com/file/d/1f7ziQTYAFRn1GV_XI8Jh_Bh88-APkUeO/preview"
+	  }
+	},
   {
     "name": "Let This Grieving Soul Retire",
     "image": "https://pbcdnw.aoneroom.com/image/2026/08/05/016105a66880eb3c9735301c05d6c77f.jpg?x-oss-process=image/resize%2Cw_250",
