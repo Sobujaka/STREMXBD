@@ -1,5 +1,37 @@
 [
    {
+  "title": "DRAGON RIDER",
+  "image": "https://github.com/BrightWallTechnology/iptv-icon/blob/main/FFCC00-01.jpeg?raw=true",
+  "category": "ANIMATION",
+  "country": "",
+  "language": "ENGLISH",
+  "Movie link": "http://10.16.100.202/ftps10/iccftps10sasd7/Movies/Animated/Dragon%20Rider%20(2020)%201080p%20WEBRip.mkv"
+},
+   {
+  "title": "BOBOIBOY MOVIE 2",
+  "image": "http://10.16.100.244/files/boboiboy_movie_2.jpg",
+  "category": "ANIMAION",
+  "country": "",
+  "language": "ENGLISH",
+  "Movie link": "http://10.16.100.246/ftps4d3/Movies/Animated/BoBoiBoy%20Movie%202%20(2019)%201080p%20WEBRip.mkv"
+},
+   {
+  "title": "BOB THE BUILDER MEGA MACHINES",
+  "image": "http://10.16.100.244/files/bob_the_builder_mega_machines.jpg",
+  "category": "ANIMATION",
+  "country": "",
+  "language": "ENGLISH",
+  "Movie link": "http://10.16.100.202/ftps10/iccftps10sasd3/Movies/Animated/Bob%20The%20Builder%20Mega%20Machines%20The%20Movie%20(2017)%201080p%20WEBRip.mkv"
+},
+   {
+  "title": "BIGFOOT FAMILY",
+  "image": "http://10.16.100.244/files/bigfoot_family.jpg",
+  "category": "ANIMATION",
+  "country": "",
+  "language": "ENGLISH",
+  "Movie link": "http://10.16.100.248/ftps6d3/Movies/Animation/Bigfoot%20Family(2020)1080p%20WEBRip.mkv"
+},
+   {
   "title": "BIG FISH & BEGONIA",
   "image": "http://10.16.100.244/files/big_fish___begonia__da_yu_hai_tang_.jpg",
   "category": "ANIMATION",
