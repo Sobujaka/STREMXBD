@@ -46,6 +46,24 @@
         "group": "ALL", 
         "url": "https://tvsen5.aynaott.com/xV4jEKf3D9zc/index.m3u8" 
       },
+		 "Desh TV": { 
+        "name": "Desh TV", 
+        "tvglogo": "https://images.seeklogo.com/logo-png/60/1/desh-tv-logo-png_seeklogo-606364.png", 
+        "group": "ALL", 
+        "url": "https://app24.jagobd.com.bd/c3VydmVyX8RpbEU9Mi8xNy8yMFDEEHGcfRgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcEdsEfeDeKiNkVN3PTOmdFseWRtaW51aiPhnPTI2/deshtv.stream/tracks-v1a1/mono.m3u8"  
+	  },
+	    "My TV": { 
+        "name": "My TV", 
+        "tvglogo": "https://tse2.mm.bing.net/th/id/OIP.9G4Ro1q2UWrNsZMb7fxPdQHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
+        "group": "ALL", 
+        "url": "https://app24.jagobd.com.bd/c3VydmVyX8RpbEU9Mi8xNy8yMFDEEHGcfRgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcEdsEfeDeKiNkVN3PTOmdFseWRtaW51aiPhnPTI2/mytv-up-off.stream/tracks-v1a1/mono.m3u8"  
+	  }, 
+	  "Mohona TV": { 
+        "name": "Mohona TV", 
+        "tvglogo": "https://www.mawbiz.com.bd/application/views/module/product_image/mohona-tv_1.jpg", 
+        "group": "ALL", 
+        "url": "https://app24.jagobd.com.bd/c3VydmVyX8RpbEU9Mi8xNy8yMFDEEHGcfRgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcEdsEfeDeKiNkVN3PTOmdFseWRtaW51aiPhnPTI2/mohonatv.stream/tracks-v1a1/mono.m3u8"  
+	  },
       "t_sports": { 
         "name": "T Sports", 
         "tvglogo": "https://yt3.googleusercontent.com/bFiobvUTC9dzqtqmHrGpMvIlQ2SpWYVKQFd3M8iP0hKqENuPOUNNVzaQQoJufoIFH-_M0UYn7w=s900-c-k-c0x00ffffff-no-rj", 
