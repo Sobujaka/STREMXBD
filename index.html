@@ -254,54 +254,6 @@
         .channel-item img { width: 35px; height: 35px; object-fit: contain; border-radius: 4px; }
         .channel-item span { font-size: 13px; font-weight: 500; }
 
-        /* Anti-Adblock Overlay CSS */
-        #adblock-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background-color: rgba(11, 17, 32, 0.98);
-            z-index: 999999;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .adblock-box {
-            background-color: #161e2e;
-            border: 2px solid #ef4444;
-            padding: 30px;
-            border-radius: 12px;
-            max-width: 450px;
-            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.2);
-        }
-
-        .adblock-box h2 {
-            color: #ef4444;
-            font-size: 22px;
-            margin-bottom: 12px;
-        }
-
-        .adblock-box p {
-            color: #94a3b8;
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .adblock-box button {
-            background: #3b82f6;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .adblock-box button:hover { background: #2563eb; }
-
         @media (max-width: 1024px) {
             .player-container { flex-direction: column; }
             .player-sidebar-wrapper { width: 100%; }
@@ -314,15 +266,6 @@
     </style>
 </head>
 <body>
-
-    <!-- Anti Adblock Overlay Popup -->
-    <div id="adblock-overlay">
-        <div class="adblock-box">
-            <h2>AdBlocker Detected!</h2>
-            <p>আপনার ব্রাউজারে অ্যাড ব্লকার চালু রয়েছে। ওয়েবসাইটটি ব্যবহারের জন্য দয়া করে অ্যাড ব্লকার ডিজেবল (Disable) করুন এবং পেজটি রিফ্রেশ দিন।</p>
-            <button onclick="window.location.reload()">Refresh Page</button>
-        </div>
-    </div>
 
     <div id="home-view">
         <div class="navbar">
@@ -359,36 +302,6 @@
     </div>
 
     <script>
-        /* Anti-Adblock Detector */
-        async function checkAdBlocker() {
-            const googleAdUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
-            try {
-                const response = await fetch(googleAdUrl, { method: 'HEAD', mode: 'no-cors' });
-                const fakeAd = document.createElement('div');
-                fakeAd.innerHTML = '&nbsp;';
-                fakeAd.className = 'adsbox ads-box ad-zone ad-space google-ad';
-                document.body.appendChild(fakeAd);
-                
-                setTimeout(() => {
-                    if (fakeAd.offsetHeight === 0) {
-                        showAdBlockWarning();
-                    }
-                    fakeAd.remove();
-                }, 100);
-
-            } catch (error) {
-                showAdBlockWarning();
-            }
-        }
-
-        function showAdBlockWarning() {
-            document.getElementById('adblock-overlay').style.display = 'flex';
-            document.getElementById('home-view').style.display = 'none';
-            document.getElementById('player-view').style.display = 'none';
-        }
-
-        window.addEventListener('load', checkAdBlocker);
-
         const jsonSources = [
             { name: "Anime", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/anime.json" },
             { name: "Movie", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/movies.json" },
@@ -399,7 +312,36 @@
         let loadedData = {}, currentTab = 'All', hlsPlayer = null;
         let previousScrollPosition = 0;
 
-        /* Array Randomizer (Fisher-Yates Shuffle Algorithm) */
+        /* Auto-Fix & Repair Malformed JSON String Function */
+        function repairAndParseJSON(jsonText) {
+            try {
+                // ১. সরাসরি পার্স করার চেষ্টা করবে
+                return JSON.parse(jsonText);
+            } catch (e) {
+                console.warn("Syntax Error detected in JSON. Attempting auto-repair...", e);
+                try {
+                    let cleaned = jsonText;
+                    // ২. কী বা মান-এর মাঝে বাদ পড়া কমা (Missing Comma) ঠিক করবে
+                    cleaned = cleaned.replace(/"\s*\n*\r*\s*"/g, '","');
+                    // ৩. অবজেক্ট প্রোপার্টির মাঝে বাদ পড়া কমা ঠিক করবে
+                    cleaned = cleaned.replace(/([0-9]|"|true|false|null)\s*\n*\r*\s*"([^"]+)":/g, '$1,"$2":');
+                    // ৪. ট্রেনিং কমা (অতিরিক্ত কমা) মুছে দেবে
+                    cleaned = cleaned.replace(/,\s*([\]}])/g, '$1');
+                    
+                    return JSON.parse(cleaned);
+                } catch (repairError) {
+                    console.error("Auto-repair failed, using safe fallback parser.", repairError);
+                    try {
+                        // ৫. চূড়ান্ত চেষ্টা: safe function evaluator
+                        return new Function("return " + jsonText)();
+                    } catch (finalErr) {
+                        console.error("Critical JSON error: Unable to load data.", finalErr);
+                        return [];
+                    }
+                }
+            }
+        }
+
         function shuffleArray(array) {
             let shuffled = [...array];
             for (let i = shuffled.length - 1; i > 0; i--) {
@@ -411,12 +353,25 @@
 
         async function loadAllJSON() {
             const fetchPromises = jsonSources.map(source => 
-                fetch(source.url).then(res => res.json()).then(data => ({ category: source.name, data }))
+                fetch(source.url)
+                    .then(res => res.text())
+                    .then(textData => {
+                        const parsedData = repairAndParseJSON(textData);
+                        return { category: source.name, data: parsedData };
+                    })
+                    .catch(err => {
+                        console.error(`Failed to fetch ${source.name}`, err);
+                        return { category: source.name, data: [] };
+                    })
             );
+
             const results = await Promise.allSettled(fetchPromises);
             results.forEach(result => {
-                if (result.status === 'fulfilled') loadedData[result.value.category] = result.value.data;
+                if (result.status === 'fulfilled' && result.value.data) {
+                    loadedData[result.value.category] = result.value.data;
+                }
             });
+
             populateDropdowns();
             applyFilters();
         }
@@ -424,7 +379,7 @@
         function populateDropdowns() {
             const countries = new Set(), categories = new Set(), languages = new Set();
             ['Anime', 'Movie', 'TV Series'].forEach(cat => {
-                if (loadedData[cat]) {
+                if (loadedData[cat] && Array.isArray(loadedData[cat])) {
                     loadedData[cat].forEach(item => {
                         if (item.country) countries.add(item.country);
                         if (item.category) categories.add(item.category);
@@ -470,6 +425,7 @@
             }
 
             let filtered = items.filter(item => {
+                if (!item) return false;
                 if (currentTab === 'Live TV' || item.type === 'tv-channel') {
                     return (item.country || '').toLowerCase().includes(searchVal);
                 }
@@ -482,7 +438,6 @@
 
             const grouped = groupItemsByName(filtered);
 
-            /* Live TV ছাড়া বাকি সব ক্যাটাগরির ডেটা র্যান্ডমলি শাফল (Shuffle) হবে */
             if (currentTab !== 'Live TV') {
                 renderGrid(shuffleArray(grouped));
             } else {
@@ -494,6 +449,7 @@
             const map = new Map();
 
             items.forEach(item => {
+                if (!item) return;
                 if (item.type === "tv-channel") {
                     const key = "tv_" + item.country;
                     if (!map.has(key)) map.set(key, item);
@@ -534,7 +490,7 @@
                 card.onclick = () => openPlayerPage(item);
                 card.innerHTML = `
                     <div class="card-image-wrapper ${isSquare ? 'square-box' : ''}">
-                        <img src="${displayImage}" alt="${displayTitle}">
+                        <img src="${displayImage}" alt="${displayTitle}" onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'">
                     </div>
                     <div class="card-info">
                         <div class="card-title">${displayTitle}</div>
@@ -694,6 +650,11 @@
             const iframe = document.getElementById('iframePlayer');
             const video = document.getElementById('html5Player');
             document.getElementById('videoTitle').innerText = title || '';
+
+            if (!url) {
+                alert("Video link is currently unavailable.");
+                return;
+            }
 
             if (hlsPlayer) {
                 hlsPlayer.destroy();
