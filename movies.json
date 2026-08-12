@@ -1,5 +1,45 @@
 [
    {
+  "title": "OVER THE MOON",
+  "image": "http://10.16.100.244/files/over_the_moon.jpg",
+  "category": "ANIMATION",
+  "country": "",
+  "language": "ENGLISH",
+  "Movie link": "http://10.16.100.248/ftps6d3/Movies/Animation/Over%20The%20Moon%20(2020)%201080p%20WEBRip.mkv"
+},
+   {
+  "title": "MINIONS HOLIDAY SPECIAL",
+  "image": "http://10.16.100.244/files/minions_holiday_special.jpg",
+  "category": "ANIMATION",
+  "country": "",
+  "language": "ENGLISH",
+  "Movie link": "http://10.16.100.202/ftps10/iccftps10sasd10/Movies/Animated/Minions%20Holiday%20Special%20(2020)%201080p%20WEBRip.mkv"
+},
+   {
+  "title": "LEGEND OF DEIFICATION",
+  "image": "http://10.16.100.244/files/legend_of_deification.jpg",
+  "category": "ANIMATION",
+  "country": "",
+  "language": "ENGLISH",
+  "Movie link": "http://10.16.100.202/ftps10/iccftps10sasd4/Movies/Animated/Legend%20of%20Deification%20(Jiang%20Ziya)%20(2021)%20720p%20BluRay.mkv"
+},
+   {
+  "title": "ELF PETS: SANTA S REINDEER RESCUE",
+  "image": "http://10.16.100.244/files/elf_pets__santa_s_reindeer_rescue.jpg",
+  "category": "ANIMATION",
+  "country": "",
+  "language": "ENGLISH",
+  "Movie link": "http://10.16.100.248/ftps6d3/Movies/Animation/Elf%20Pets%20Santas%20Reindeer%20Rescue(2020)720p%20WEBRip.mkv"
+},
+   {
+  "title": "EARWIG AND THE WITCH",
+  "image": "http://10.16.100.244/files/earwig_and_the_witch.png",
+  "category": "ANIMATION",
+  "country": "",
+  "language": "ENGLISH",
+  "Movie link": "http://10.16.100.202/ftps10/iccftps10sasd2/Movies/Animated/Earwig%20and%20the%20Witch%20(2021)%201080p%20HDRip.mkv"
+},
+   {
   "title": "DRAGON RIDER",
   "image": "https://tse3.mm.bing.net/th/id/OIP.cEG5GXwAaqjW_UD9I2IhGgHaLH?r=0&w=1000&h=1500&rs=1&pid=ImgDetMain&o=7&rm=3",
   "category": "ANIMATION",
