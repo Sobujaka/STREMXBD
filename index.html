@@ -169,6 +169,19 @@
             object-fit: contain;
         }
 
+        /* Top Right Icon Blocker / Hide Banner */
+        .video-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60px;
+            height: 60px;
+            background: transparent;
+            z-index: 10;
+            pointer-events: auto;
+        }
+
         .player-sidebar-wrapper {
             width: 300px;
             flex-shrink: 0;
