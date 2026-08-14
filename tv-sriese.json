@@ -1,5 +1,19 @@
 [
   {
+  "name": "AURA",
+  "image": "https://asset.bioscopelive.com/uploads/images/2025/03/11/images_8712619685fbca72a31931602fb7b24a_goplay_s1e1.jpg?w=480&q=75",
+  "category": "",
+  "country": "BANGLADESH",
+  "language": "BANGLA",
+  "episodes": {
+    "S1EP1": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Aura%20%282021%29/Season%201/MLSBD.Shop-Aura%202021%20S01E01%20Bengali%20Bioscope%201080p-1337xHD.Life.mkv",
+    "S1EP2": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Aura%20%282021%29/Season%201/MLSBD.Shop-Aura%202021%20S01E02%20Bengali%20Bioscope%201080p-1337xHD.Life.mkv",
+    "S1EP3": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Aura%20%282021%29/Season%201/MLSBD.Shop-Aura%202021%20S01E03%20Bengali%20Bioscope%201080p-1337xHD.Life.mkv",
+    "S1EP4": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Aura%20%282021%29/Season%201/MLSBD.Shop-Aura%202021%20S01E04%20Bengali%20Bioscope%201080p-1337xHD.Life.mkv",
+    "S1EP5": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Aura%20%282021%29/Season%201/MLSBD.Shop-Aura%202021%20S01E05%20Bengali%20Bioscope%201080p-1337xHD.Life.mkv"
+  }
+},
+  {
   "name": "Astey Ladies",
   "image": "https://cdn2.discoveryftp.net/Bangla%20Web%20Series/Astey%20Ladies/poster.jpg",
   "category": "",
@@ -16,7 +30,7 @@
     "S1EP8": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Astey%20Ladies/S01E08%20–%20The%20Lion's%20Den.mp4",
     "S1EP9": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Astey%20Ladies/S01E09%20–%20The%20Final%20Cut.mp4"
   }
-}
+},
   {
   "name": "Anusandhan",
   "image": "https://cdn2.discoveryftp.net/Bangla%20Web%20Series/Anusandhan%20%282025%29/poster.jpg",
