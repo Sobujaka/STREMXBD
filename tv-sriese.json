@@ -1,5 +1,23 @@
 [
   {
+  "name": "Astey Ladies",
+  "image": "https://cdn2.discoveryftp.net/Bangla%20Web%20Series/Astey%20Ladies/poster.jpg",
+  "category": "",
+  "country": "",
+  "language": "",
+  "episodes": {
+    "S1EP1": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Astey%20Ladies/S01E01%20–%20The%20Uninvited%20Guest.mp4",
+    "S1EP2": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Astey%20Ladies/S01E02%20–%20Salon%20de%20Paris.mp4",
+    "S1EP3": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Astey%20Ladies/S01E03%20–%20The%20Mission%20Begins.mp4",
+    "S1EP4": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Astey%20Ladies/S01E04%20–%20The%20Robbery.mp4",
+    "S1EP5": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Astey%20Ladies/S01E05%20–%20%20The%20Apartment.mp4",
+    "S1EP6": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Astey%20Ladies/S01E06%20–%20%20The%20Makeover%20Plan.mp4",
+    "S1EP7": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Astey%20Ladies/S01E07%20–%20The%20Diamond%20Heist.mp4",
+    "S1EP8": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Astey%20Ladies/S01E08%20–%20The%20Lion's%20Den.mp4",
+    "S1EP9": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Astey%20Ladies/S01E09%20–%20The%20Final%20Cut.mp4"
+  }
+}
+  {
   "name": "Anusandhan",
   "image": "https://cdn2.discoveryftp.net/Bangla%20Web%20Series/Anusandhan%20%282025%29/poster.jpg",
   "category": "",
