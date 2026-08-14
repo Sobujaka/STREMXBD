@@ -1,20 +1,5 @@
 [
   {
-  "name": "Bijoya",
-  "image": "https://cdn2.discoveryftp.net/Bangla%20Web%20Series/Bijoya%20%282024%29/poster.jpg",
-  "category": "ANIMATION",
-  "country": "BANGLADESH",
-  "language": "BANGLA",
-  "episodes": {
-    "S1EP1": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Bijoya%20%282024%29/Season%201/Bijoya.S01E02.Aghaat.1080p.AMZN.WEB-DL.DDP2.0.H.264-ElecTr0n.mkv",
-    "S1EP2": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Bijoya%20%282024%29/Season%201/Bijoya.S01E03.Kanna.1080p.AMZN.WEB-DL.DDP2.0.H.264-ElecTr0n.mkv",
-    "S1EP3": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Bijoya%20%282024%29/Season%201/Bijoya.S01E04.Sandhan.1080p.AMZN.WEB-DL.DDP2.0.H.264-ElecTr0n.mkv",
-    "S1EP4": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Bijoya%20%282024%29/Season%201/Bijoya.S01E05.Oteet.1080p.AMZN.WEB-DL.DDP2.0.H.264-ElecTr0n.mkv",
-    "S1EP5": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Bijoya%20%282024%29/Season%201/Bijoya.S01E06.Juddho.1080p.AMZN.WEB-DL.DDP2.0.H.264-ElecTr0n.mkv",
-    "S1EP6": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Bijoya%20%282024%29/Season%201/Bijoya.S01E07.Bawdh.1080p.AMZN.WEB-DL.DDP2.0.H.264-ElecTr0n.mkv"
-  }
-},
-  {
   "name": "BOHOG",
   "image": "https://cdn2.discoveryftp.net/Bangla%20Web%20Series/Bhog%20%282025%29/poster.jpg",
   "category": "ANIMATION",
