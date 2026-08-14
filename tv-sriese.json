@@ -1,20 +1,5 @@
 [
   {
-  "name": "BOHOG",
-  "image": "https://cdn2.discoveryftp.net/Bangla%20Web%20Series/Bhog%20%282025%29/poster.jpg",
-  "category": "ANIMATION",
-  "country": "BANGLADESH",
-  "language": "BANGLA",
-  "episodes": {
-    "S1EP1": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Bhog%20%282025%29/Season%201/Bhog.Bengali.S01E01.1080p.AMZN.WEB-DL.Bengali.DDP2.0.H.264-PrimeFix.mkv",
-    "S1EP2": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Bhog%20%282025%29/Season%201/Bhog.Bengali.S01E02.1080p.AMZN.WEB-DL.Bengali.DDP2.0.H.264-PrimeFix.mkv",
-    "S1EP3": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Bhog%20%282025%29/Season%201/Bhog.Bengali.S01E03.1080p.AMZN.WEB-DL.Bengali.DDP2.0.H.264-PrimeFix.mkv",
-    "S1EP4": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Bhog%20%282025%29/Season%201/Bhog.Bengali.S01E04.1080p.AMZN.WEB-DL.Bengali.DDP2.0.H.264-PrimeFix.mkv",
-    "S1EP5": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Bhog%20%282025%29/Season%201/Bhog.Bengali.S01E05.1080p.AMZN.WEB-DL.Bengali.DDP2.0.H.264-PrimeFix.mkv",
-    "S1EP6": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Bhog%20%282025%29/Season%201/Bhog.Bengali.S01E06.1080p.AMZN.WEB-DL.Bengali.DDP2.0.H.264-PrimeFix.mkv"
-  }
-},
-  {
   "name": "Bhalobashar Shohor",
   "image": "https://tse2.mm.bing.net/th/id/OIP.nVWSDrVnP_Qfct7W8kDFmwHaLH?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
   "category": "",
