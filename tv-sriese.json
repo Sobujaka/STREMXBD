@@ -1,5 +1,19 @@
 [
   {
+  "name": "Ayotti",
+  "image": "https://en-images.kinorium.com/movie/300/2582541.jpg?1727034625",
+  "category": "ANIMATION",
+  "country": "BANGLADESH",
+  "language": "BANGLA",
+  "episodes": {
+    "S1EP1": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Ayotti%20%282021%29/Season%201/Ayotti%20-%20S01%20E01%20-%20%5Brrsskn%5D.mkv",
+    "S1EP2": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Ayotti%20%282021%29/Season%201/Ayotti%20-%20S01%20E02%20-%20%5Brrsskn%5D.mkv",
+    "S1EP3": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Ayotti%20%282021%29/Season%201/Ayotti%20-%20S01%20E03%20-%20%5Brrsskn%5D.mkv",
+    "S1EP4": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Ayotti%20%282021%29/Season%201/Ayotti%20-%20S01%20E04%20-%20%5Brrsskn%5D.mkv",
+    "S1EP5": "https://cdn2.discoveryftp.net//Bangla%20Web%20Series/Ayotti%20%282021%29/Season%201/Ayotti%20-%20S01%20E05%20-%20%5Brrsskn%5D.mkv"
+  }
+},
+  {
   "name": "AURA",
   "image": "https://asset.bioscopelive.com/uploads/images/2025/03/11/images_8712619685fbca72a31931602fb7b24a_goplay_s1e1.jpg?w=480&q=75",
   "category": "",
