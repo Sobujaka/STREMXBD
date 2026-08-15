@@ -320,9 +320,36 @@
             .player-sidebar-wrapper { width: 100%; }
             .media-grid { grid-template-columns: repeat(4, 1fr); }
         }
+
+        /* Optimized Mobile Player View */
         @media (max-width: 600px) { 
+            body { padding: 10px; }
             .media-grid { grid-template-columns: repeat(2, 1fr); } 
-            .player-title { font-size: 16px; }
+            
+            #player-view {
+                padding: 0;
+                background-color: #0f172a;
+            }
+            .player-container {
+                border-radius: 0;
+                border: none;
+                padding: 10px;
+                gap: 12px;
+            }
+            .player-title { 
+                font-size: 15px; 
+            }
+            .video-wrapper {
+                border-radius: 6px;
+                box-shadow: none;
+            }
+            .player-sidebar {
+                max-height: none;
+                padding: 10px;
+            }
+            .episodes-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
     </style>
 </head>
