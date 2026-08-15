@@ -742,7 +742,6 @@
             });
         }
 
-        /* All-in-One Universal Universal Video Player Function */
         function loadVideo(url, title) {
             const iframe = document.getElementById('iframePlayer');
             const video = document.getElementById('html5Player');
@@ -753,89 +752,29 @@
                 hlsPlayer = null;
             }
 
-            if (!url) return;
-            let cleanUrl = url.trim();
+            const cleanUrl = url.toLowerCase();
 
-            // YouTube Auto Convert to Embed Link
-            if (cleanUrl.includes('youtube.com/watch?v=')) {
-                cleanUrl = cleanUrl.replace('watch?v=', 'embed/');
-            } else if (cleanUrl.includes('youtu.be/')) {
-                cleanUrl = cleanUrl.replace('youtu.be/', 'www.youtube.com/embed/');
-            }
-
-            // Google Drive Auto Convert to Preview Link
-            if (cleanUrl.includes('drive.google.com') && cleanUrl.includes('/view')) {
-                cleanUrl = cleanUrl.replace('/view', '/preview');
-            }
-
-            const lowerUrl = cleanUrl.toLowerCase();
-            const isDirectVideo = lowerUrl.includes('.m3u8') || lowerUrl.includes('.mp4') || lowerUrl.includes('.mkv') || lowerUrl.includes('.webm');
-
-            if (isDirectVideo) {
+            if (cleanUrl.includes('.m3u8') || cleanUrl.includes('.mp4') || cleanUrl.includes('.mkv')) {
                 iframe.style.display = 'none';
                 iframe.src = '';
                 video.style.display = 'block';
 
-                // HTTP লিঙ্কগুলোর CORS Bypass হ্যান্ডলিং
-                let streamUrl = cleanUrl;
-                if (cleanUrl.startsWith('http://')) {
-                    streamUrl = 'https://corsproxy.io/?' + encodeURIComponent(cleanUrl);
-                }
-
-                if (lowerUrl.includes('.m3u8')) {
-                    if (Hls.isSupported()) {
-                        hlsPlayer = new Hls({
-                            enableWorker: true,
-                            lowLatencyMode: true,
-                            backBufferLength: 90,
-                            manifestLoadingRetryDelay: 1000,
-                            manifestLoadingMaxRetry: 4
-                        });
-
-                        hlsPlayer.loadSource(streamUrl);
-                        hlsPlayer.attachMedia(video);
-
-                        hlsPlayer.on(Hls.Events.MANIFEST_PARSED, function() {
-                            video.play().catch(() => {});
-                        });
-
-                        hlsPlayer.on(Hls.Events.ERROR, function (event, data) {
-                            if (data.fatal) {
-                                switch (data.type) {
-                                    case Hls.ErrorTypes.NETWORK_ERROR:
-                                        if (streamUrl !== cleanUrl) {
-                                            hlsPlayer.loadSource(cleanUrl);
-                                        } else {
-                                            hlsPlayer.startLoad();
-                                        }
-                                        break;
-                                    case Hls.ErrorTypes.MEDIA_ERROR:
-                                        hlsPlayer.recoverMediaError();
-                                        break;
-                                    default:
-                                        hlsPlayer.destroy();
-                                        break;
-                                }
-                            }
-                        });
-
-                    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                        video.src = cleanUrl;
+                if (cleanUrl.includes('.m3u8') && Hls.isSupported()) {
+                    hlsPlayer = new Hls();
+                    hlsPlayer.loadSource(url);
+                    hlsPlayer.attachMedia(video);
+                    hlsPlayer.on(Hls.Events.MANIFEST_PARSED, function() {
                         video.play().catch(() => {});
-                    }
+                    });
                 } else {
-                    video.src = cleanUrl;
+                    video.src = url;
                     video.play().catch(() => {});
                 }
-
             } else {
-                // Aynascope, Doodstream, Web Iframe, Third Party Embed Player
                 video.style.display = 'none';
                 video.pause();
-                video.src = '';
-
                 iframe.style.display = 'block';
-                iframe.src = cleanUrl;
+                iframe.src = url;
             }
         }
 
