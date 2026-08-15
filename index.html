@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>STREMXBD Streaming App</title>
-    <!-- HLS.js for Streaming .m3u8 files -->
+    <!-- HLS.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <!-- Artplayer.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/artplayer/dist/artplayer.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -109,7 +111,6 @@
             text-transform: capitalize;
         }
 
-        /* Player View Layout */
         #player-view {
             display: none;
             position: fixed;
@@ -162,24 +163,10 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
 
-        .video-wrapper iframe, .video-wrapper video {
+        .video-wrapper iframe, .artplayer-app {
             width: 100%;
             height: 100%;
             border: none;
-            object-fit: contain;
-        }
-
-        /* Top Right Icon Blocker / Hide Banner */
-        .video-wrapper::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 60px;
-            height: 60px;
-            background: transparent;
-            z-index: 10;
-            pointer-events: auto;
         }
 
         .player-sidebar-wrapper {
@@ -267,7 +254,6 @@
         .channel-item img { width: 35px; height: 35px; object-fit: contain; border-radius: 4px; }
         .channel-item span { font-size: 13px; font-weight: 500; }
 
-        /* Anti-Adblock Overlay CSS */
         #adblock-overlay {
             display: none;
             position: fixed;
@@ -287,33 +273,11 @@
             padding: 30px;
             border-radius: 12px;
             max-width: 450px;
-            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.2);
         }
 
-        .adblock-box h2 {
-            color: #ef4444;
-            font-size: 22px;
-            margin-bottom: 12px;
-        }
-
-        .adblock-box p {
-            color: #94a3b8;
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .adblock-box button {
-            background: #3b82f6;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .adblock-box button:hover { background: #2563eb; }
+        .adblock-box h2 { color: #ef4444; font-size: 22px; margin-bottom: 12px; }
+        .adblock-box p { color: #94a3b8; font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
+        .adblock-box button { background: #3b82f6; color: #fff; border: none; padding: 10px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; }
 
         @media (max-width: 1024px) {
             .player-container { flex-direction: column; }
@@ -321,45 +285,24 @@
             .media-grid { grid-template-columns: repeat(4, 1fr); }
         }
 
-        /* Optimized Mobile Player View */
         @media (max-width: 600px) { 
             body { padding: 10px; }
             .media-grid { grid-template-columns: repeat(2, 1fr); } 
-            
-            #player-view {
-                padding: 0;
-                background-color: #0f172a;
-            }
-            .player-container {
-                border-radius: 0;
-                border: none;
-                padding: 10px;
-                gap: 12px;
-            }
-            .player-title { 
-                font-size: 15px; 
-            }
-            .video-wrapper {
-                border-radius: 6px;
-                box-shadow: none;
-            }
-            .player-sidebar {
-                max-height: none;
-                padding: 10px;
-            }
-            .episodes-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
+            #player-view { padding: 0; background-color: #0f172a; }
+            .player-container { border-radius: 0; border: none; padding: 10px; gap: 12px; }
+            .player-title { font-size: 15px; }
+            .video-wrapper { border-radius: 6px; box-shadow: none; }
+            .player-sidebar { max-height: none; padding: 10px; }
+            .episodes-grid { grid-template-columns: repeat(4, 1fr); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Anti Adblock Overlay Popup -->
     <div id="adblock-overlay">
         <div class="adblock-box">
             <h2>AdBlocker Detected!</h2>
-            <p>আপনার ব্রাউজারে অ্যাড ব্লকার চালু রয়েছে। ওয়েবসাইটটি ব্যবহারের জন্য দয়া করে অ্যাড ব্লকার ডিজেবল (Disable) করুন এবং পেজটি রিফ্রেশ দিন।</p>
+            <p>আপনার ব্রাউজারে অ্যাড ব্লকার চালু রয়েছে। দয়া করে অ্যাড ব্লকার ডিজেবল করুন এবং রিফ্রেশ দিন।</p>
             <button onclick="window.location.reload()">Refresh Page</button>
         </div>
     </div>
@@ -380,14 +323,13 @@
         <div id="main-content"></div>
     </div>
 
-    <!-- Player View Section -->
     <div id="player-view">
         <div class="player-container">
             <div class="player-main">
                 <h2 id="videoTitle" class="player-title"></h2>
                 <div class="video-wrapper" id="videoContainer">
                     <iframe id="iframePlayer" src="" allowfullscreen style="display:none;"></iframe>
-                    <video id="html5Player" controls style="display:none;"></video>
+                    <div id="artPlayerContainer" class="artplayer-app" style="display:none;"></div>
                 </div>
             </div>
 
@@ -399,23 +341,19 @@
     </div>
 
     <script>
-        /* Anti-Adblock Detector */
         async function checkAdBlocker() {
             const googleAdUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
             try {
-                const response = await fetch(googleAdUrl, { method: 'HEAD', mode: 'no-cors' });
+                await fetch(googleAdUrl, { method: 'HEAD', mode: 'no-cors' });
                 const fakeAd = document.createElement('div');
                 fakeAd.innerHTML = '&nbsp;';
                 fakeAd.className = 'adsbox ads-box ad-zone ad-space google-ad';
                 document.body.appendChild(fakeAd);
                 
                 setTimeout(() => {
-                    if (fakeAd.offsetHeight === 0) {
-                        showAdBlockWarning();
-                    }
+                    if (fakeAd.offsetHeight === 0) showAdBlockWarning();
                     fakeAd.remove();
                 }, 100);
-
             } catch (error) {
                 showAdBlockWarning();
             }
@@ -436,35 +374,24 @@
             { name: "Live TV", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/live-tv.json" }
         ];
 
-        let loadedData = {}, currentTab = 'All', hlsPlayer = null;
+        let loadedData = {}, currentTab = 'All', artInstance = null, hlsInstance = null;
         let previousScrollPosition = 0;
 
-        /* Auto-Fix & Repair Malformed JSON String Function */
         function repairAndParseJSON(jsonText) {
             try {
                 return JSON.parse(jsonText);
             } catch (e) {
-                console.warn("Syntax Error detected in JSON. Attempting auto-repair...", e);
                 try {
-                    let cleaned = jsonText;
-                    cleaned = cleaned.replace(/"\s*\n*\r*\s*"/g, '","');
-                    cleaned = cleaned.replace(/([0-9]|"|true|false|null)\s*\n*\r*\s*"([^"]+)":/g, '$1,"$2":');
-                    cleaned = cleaned.replace(/,\s*([\]}])/g, '$1');
-                    
+                    let cleaned = jsonText.replace(/"\s*\n*\r*\s*"/g, '","')
+                                         .replace(/([0-9]|"|true|false|null)\s*\n*\r*\s*"([^"]+)":/g, '$1,"$2":')
+                                         .replace(/,\s*([\]}])/g, '$1');
                     return JSON.parse(cleaned);
                 } catch (repairError) {
-                    console.error("Auto-repair failed, using safe fallback parser.", repairError);
-                    try {
-                        return new Function("return " + jsonText)();
-                    } catch (finalErr) {
-                        console.error("Critical JSON error: Unable to load data.", finalErr);
-                        return [];
-                    }
+                    return new Function("return " + jsonText)();
                 }
             }
         }
 
-        /* Array Randomizer (Fisher-Yates Shuffle Algorithm) */
         function shuffleArray(array) {
             let shuffled = [...array];
             for (let i = shuffled.length - 1; i > 0; i--) {
@@ -478,14 +405,8 @@
             const fetchPromises = jsonSources.map(source => 
                 fetch(source.url)
                     .then(res => res.text())
-                    .then(textData => {
-                        const parsedData = repairAndParseJSON(textData);
-                        return { category: source.name, data: parsedData };
-                    })
-                    .catch(err => {
-                        console.error(`Failed to fetch ${source.name}`, err);
-                        return { category: source.name, data: [] };
-                    })
+                    .then(textData => ({ category: source.name, data: repairAndParseJSON(textData) }))
+                    .catch(err => ({ category: source.name, data: [] }))
             );
 
             const results = await Promise.allSettled(fetchPromises);
@@ -560,17 +481,11 @@
             });
 
             const grouped = groupItemsByName(filtered);
-
-            if (currentTab !== 'Live TV') {
-                renderGrid(shuffleArray(grouped));
-            } else {
-                renderGrid(grouped);
-            }
+            renderGrid(currentTab !== 'Live TV' ? shuffleArray(grouped) : grouped);
         }
 
         function groupItemsByName(items) {
             const map = new Map();
-
             items.forEach(item => {
                 if (!item) return;
                 if (item.type === "tv-channel") {
@@ -578,22 +493,15 @@
                     if (!map.has(key)) map.set(key, item);
                     return;
                 }
-
                 const title = (item.name || item.title || "Untitled").trim();
                 const key = title.toLowerCase();
 
                 if (!map.has(key)) {
-                    map.set(key, {
-                        ...item,
-                        title: title,
-                        languagesMap: { [item.language || 'Default']: item }
-                    });
+                    map.set(key, { ...item, title: title, languagesMap: { [item.language || 'Default']: item } });
                 } else {
-                    const existing = map.get(key);
-                    existing.languagesMap[item.language || 'Default'] = item;
+                    map.get(key).languagesMap[item.language || 'Default'] = item;
                 }
             });
-
             return Array.from(map.values());
         }
 
@@ -606,14 +514,12 @@
             items.forEach(item => {
                 const isSquare = item.type === "tv-channel";
                 const displayTitle = isSquare ? item.country : (item.title || item.name || "Untitled");
-                const displayImage = item.image || "";
-
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.onclick = () => openPlayerPage(item);
                 card.innerHTML = `
                     <div class="card-image-wrapper ${isSquare ? 'square-box' : ''}">
-                        <img src="${displayImage}" alt="${displayTitle}">
+                        <img src="${item.image || ''}" alt="${displayTitle}">
                     </div>
                     <div class="card-info">
                         <div class="card-title">${displayTitle}</div>
@@ -626,7 +532,6 @@
 
         function openPlayerPage(item) {
             previousScrollPosition = window.scrollY || document.documentElement.scrollTop;
-
             document.getElementById('home-view').style.display = 'none';
             document.getElementById('player-view').style.display = 'block';
             document.getElementById('player-view').scrollTop = 0;
@@ -646,15 +551,9 @@
         function setupMoviePlayer(item, sidebar) {
             const languagesMap = item.languagesMap || { [item.language || 'Default']: item };
             const langKeys = Object.keys(languagesMap);
-
             let langOptions = langKeys.map(lang => `<option value="${lang}">${lang}</option>`).join('');
 
-            sidebar.innerHTML = `
-                <div class="filter-group">
-                    <label>Language</label>
-                    <select id="movieLangSelect">${langOptions}</select>
-                </div>`;
-
+            sidebar.innerHTML = `<div class="filter-group"><label>Language</label><select id="movieLangSelect">${langOptions}</select></div>`;
             const langSelect = document.getElementById('movieLangSelect');
 
             function playSelectedLanguage(lang) {
@@ -662,7 +561,6 @@
                 const movieUrl = currentItem["Movie link"] || currentItem["movie_link"] || currentItem.link || currentItem.url || '';
                 loadVideo(movieUrl, `${currentItem.title || currentItem.name} (${lang})`);
             }
-
             langSelect.onchange = (e) => playSelectedLanguage(e.target.value);
             playSelectedLanguage(langKeys[0]);
         }
@@ -670,7 +568,6 @@
         function setupSeriesPlayer(item, sidebar) {
             const languagesMap = item.languagesMap || { [item.language || 'Default']: item };
             const langKeys = Object.keys(languagesMap);
-
             let langOptions = langKeys.map(lang => `<option value="${lang}">${lang}</option>`).join('');
 
             sidebar.innerHTML = `
@@ -686,17 +583,17 @@
             function loadSeriesContent(selectedLang) {
                 const activeItem = languagesMap[selectedLang] || item;
                 const episodes = activeItem.episodes || {};
-
                 const seasonsMap = {};
+
                 Object.keys(episodes).forEach(key => {
                     const match = key.match(/(S\d+)(EP\d+)/i);
                     if (match) {
                         const season = match[1].toUpperCase(), ep = match[2].toUpperCase();
                         if (!seasonsMap[season]) seasonsMap[season] = [];
-                        seasonsMap[season].push({ epKey: key, epName: ep, url: episodes[key] });
+                        seasonsMap[season].push({ epName: ep, url: episodes[key] });
                     } else {
                         if (!seasonsMap['S1']) seasonsMap['S1'] = [];
-                        seasonsMap['S1'].push({ epKey: key, epName: key, url: episodes[key] });
+                        seasonsMap['S1'].push({ epName: key, url: episodes[key] });
                     }
                 });
 
@@ -704,26 +601,22 @@
 
                 function renderEpisodes(selectedSeason) {
                     epGrid.innerHTML = '';
-                    const epList = seasonsMap[selectedSeason] || [];
-                    
-                    epList.forEach((epData, index) => {
+                    (seasonsMap[selectedSeason] || []).forEach((epData, index) => {
                         const btn = document.createElement('button');
                         btn.className = 'ep-btn';
                         btn.innerText = epData.epName;
                         btn.onclick = () => {
                             document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
                             btn.classList.add('active');
-                            loadVideo(epData.url, `${activeItem.title || activeItem.name} - ${selectedSeason} ${epData.epName} (${selectedLang})`);
+                            loadVideo(epData.url, `${activeItem.title || activeItem.name} - ${selectedSeason} ${epData.epName}`);
                         };
                         epGrid.appendChild(btn);
                         if (index === 0) btn.click();
                     });
                 }
-
                 seasonSelect.onchange = (e) => renderEpisodes(e.target.value);
                 renderEpisodes(Object.keys(seasonsMap)[0] || 'S1');
             }
-
             langSelect.onchange = (e) => loadSeriesContent(e.target.value);
             loadSeriesContent(langKeys[0]);
         }
@@ -739,7 +632,6 @@
                 <div class="filter-group"><label>Group Filter</label><select id="groupSelect" onchange="filterChannels()">${groupOptions}</select></div>
                 <div id="channelList" class="channel-list"></div>
             `;
-
             window.currentChannels = item.CN || {};
             renderChannels('all');
         }
@@ -769,55 +661,87 @@
             });
         }
 
+        function destroyPlayers() {
+            if (hlsInstance) {
+                hlsInstance.destroy();
+                hlsInstance = null;
+            }
+            if (artInstance) {
+                artInstance.destroy();
+                artInstance = null;
+            }
+        }
+
         function loadVideo(url, title) {
             const iframe = document.getElementById('iframePlayer');
-            const video = document.getElementById('html5Player');
+            const artContainer = document.getElementById('artPlayerContainer');
             document.getElementById('videoTitle').innerText = title || '';
 
-            if (hlsPlayer) {
-                hlsPlayer.destroy();
-                hlsPlayer = null;
-            }
+            destroyPlayers();
 
-            const cleanUrl = url.toLowerCase();
+            if (!url) return;
 
-            if (cleanUrl.includes('.m3u8') || cleanUrl.includes('.mp4') || cleanUrl.includes('.mkv')) {
+            const cleanUrl = url.trim();
+            const lowerUrl = cleanUrl.toLowerCase();
+
+            // Direct Media Stream Check
+            if (lowerUrl.includes('.m3u8') || lowerUrl.includes('.mp4') || lowerUrl.includes('.mkv') || lowerUrl.includes('workers.dev')) {
                 iframe.style.display = 'none';
                 iframe.src = '';
-                video.style.display = 'block';
+                artContainer.style.display = 'block';
 
-                if (cleanUrl.includes('.m3u8') && Hls.isSupported()) {
-                    hlsPlayer = new Hls();
-                    hlsPlayer.loadSource(url);
-                    hlsPlayer.attachMedia(video);
-                    hlsPlayer.on(Hls.Events.MANIFEST_PARSED, function() {
-                        video.play().catch(() => {});
-                    });
-                } else {
-                    video.src = url;
-                    video.play().catch(() => {});
-                }
+                artInstance = new Artplayer({
+                    container: '#artPlayerContainer',
+                    url: cleanUrl,
+                    type: lowerUrl.includes('.m3u8') ? 'm3u8' : 'auto',
+                    customType: {
+                        m3u8: function (video, videoUrl) {
+                            if (Hls.isSupported()) {
+                                hlsInstance = new Hls({
+                                    enableWorker: true,
+                                    lowLatencyMode: true,
+                                    backBufferLength: 90
+                                });
+                                hlsInstance.loadSource(videoUrl);
+                                hlsInstance.attachMedia(video);
+                                hlsInstance.on(Hls.Events.ERROR, function (event, data) {
+                                    if (data.fatal) {
+                                        console.warn("HLS Fatal error detected, trying proxy fallback...");
+                                        // CORS Fix Proxy Fallback
+                                        if (!videoUrl.includes('corsproxy.io')) {
+                                            hlsInstance.loadSource('https://corsproxy.io/?' + encodeURIComponent(videoUrl));
+                                        }
+                                    }
+                                });
+                            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                                video.src = videoUrl;
+                            }
+                        },
+                    },
+                    autoplay: true,
+                    pip: true,
+                    screenshot: true,
+                    fullscreen: true,
+                    fullscreenWeb: true,
+                    playbackRate: true,
+                    aspectRatio: true,
+                    theme: '#3b82f6',
+                });
+
             } else {
-                video.style.display = 'none';
-                video.pause();
+                // External Embed / Iframe Link
+                artContainer.style.display = 'none';
                 iframe.style.display = 'block';
-                iframe.src = url;
+                iframe.src = cleanUrl;
             }
         }
 
         function closePlayerPage() {
             document.getElementById('player-view').style.display = 'none';
             document.getElementById('home-view').style.display = 'block';
-            
             window.scrollTo(0, previousScrollPosition);
-
             document.getElementById('iframePlayer').src = '';
-            const video = document.getElementById('html5Player');
-            video.pause();
-            if (hlsPlayer) {
-                hlsPlayer.destroy();
-                hlsPlayer = null;
-            }
+            destroyPlayers();
         }
 
         loadAllJSON();
