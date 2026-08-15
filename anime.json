@@ -1,5 +1,34 @@
   [
 	   {
+    "name": "",
+    "image": "",
+    "category": "",
+    "country": "",
+    "language": "",
+    "episodes": {
+      "S1EP1": "",    
+      "S1EP2": "",
+	  "S1EP3": "",
+      "S1EP4": "",
+      "S1EP5": "",
+      "S1EP6": "",
+      "S1EP7": "",
+      "S1EP8": "",
+      "S1EP9": "",
+      "S1EP10": "",
+      "S1EP11": "",
+      "S1EP12": "",
+      "S1EP13": "",
+	  "S1EP14": "",
+	  "S1EP15": "",
+	  "S1EP16": "",
+	  "S1EP17": "",
+	  "S1EP18": "",
+	  "S1EP19": "",
+	  "S1EP20": ""
+	  }
+	},
+	   {
     "name": "May I Ask for One Final Thing?",
     "image": "https://animotaku.fr/wp-content/uploads/2024/09/anime-may-i-ask-for-one-final-thing-visuel-2-1024x1536.jpg",
     "category": "ANIMATION",
