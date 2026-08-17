@@ -2,10 +2,13 @@ name: Update tv.json Data
 
 on:
   schedule:
-    # প্রতি ১ ঘণ্টা পর পর অটোমেটিক চলবে
+    # প্রতি ১ ঘণ্টা পর পর স্বয়ংক্রিয়ভাবে চলবে
     - cron: '0 * * * *'
-  # GitHub Actions ট্যাব থেকে ইচ্ছামতো ম্যানুয়ালি রান করার জন্য
+  # ম্যানুয়ালি যেকোনো সময় 'Run workflow' চাপ দিয়ে আপডেট করার জন্য
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   update-file:
@@ -15,10 +18,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Fetch and Update tv.json from Cloudflare Worker
+      - name: Fetch Data from Cloudflare Worker and Save to tv.json
         run: |
-          # ক্লাউডফ্লেয়ার ওয়ার্কার লিঙ্ক থেকে রেসপন্স নিয়ে tv.json ফাইলে সংরক্ষণ করবে
-          curl -s -H "Referer: https://sobujaka.github.io/" "https://broad-darkness-2d66.jahangir339932.workers.dev/" -o tv.json
+          # ক্লাউডফ্লেয়ার ওয়ার্কারের সঠিক ইউআরএল থেকে ডেটা টেনে tv.json ফাইলে রাখবে
+          curl -sL -H "User-Agent: github-actions" "https://broad-darkness-2d66.jahangir339932.workers.dev/" -o tv.json
 
       - name: Commit and Push Changes
         run: |
