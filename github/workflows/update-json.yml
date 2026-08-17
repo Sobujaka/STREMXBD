@@ -1,34 +1,30 @@
-name: Auto Update JSON Data
+name: Update tv.json Data
 
 on:
   schedule:
-    # প্রতি ১ ঘণ্টা পর পর স্বয়ংক্রিয়ভাবে চলবে (CRON Syntax)
+    # প্রতি ১ ঘণ্টা পর পর স্বয়ংক্রিয়ভাবে চলবে
     - cron: '0 * * * *'
-  # ম্যানুয়ালি নিজের ইচ্ছেমত অ্যাকশন রান করার জন্য
+  # GitHub-এর Actions ট্যাব থেকে 'Run workflow' বাটনে চাপ দিয়ে ইচ্ছামতো রান করার জন্য
   workflow_dispatch:
 
 jobs:
-  update-data:
+  update-file:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Fetch Latest Data / Update JSON File
+      - name: Fetch and Update tv.json
         run: |
-          # যদি কোনও প্রক্সি বা ক্লাউডফ্লেয়ার ওয়ার্কার ইউআরএল থেকে ডাটা রিফ্রেশ করতে চান:
-          # curl -s "https://broad-darkness-2d66.jahangir339932.workers.dev/" -o live-tv.json
-          
-          # ফাইলটিতে নতুন টাইমস্ট্যাম্প যুক্ত করে ফাইল আপডেট নিশ্চিত করা
-          echo "Last updated at $(date)" > last_update.txt
+          # আপনার প্রক্সি বা মূল সোর্স লিঙ্ক থেকে tv.json ফাইল আপডেট করার কমান্ড
+          # প্রয়োজন অনুযায়ী নিচের curl লিঙ্কটি পরিবর্তন করে নিতে পারেন
+          curl -s "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/live-tv.json" -o tv.json
 
       - name: Commit and Push Changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git diff-index --quiet HEAD || git commit -m "Auto update JSON and timestamps [cron]"
+          git add tv.json
+          git diff-index --quiet HEAD || git commit -m "Updated tv.json file [Auto/Manual]"
           git push
