@@ -18,7 +18,7 @@ jobs:
       - name: Fetch Latest Data / Update JSON File
         run: |
           # যদি কোনও প্রক্সি বা ক্লাউডফ্লেয়ার ওয়ার্কার ইউআরএল থেকে ডাটা রিফ্রেশ করতে চান:
-          # curl -s "https://your-worker-name.subdomain.workers.dev" -o live-tv.json
+          # curl -s "https://broad-darkness-2d66.jahangir339932.workers.dev/" -o live-tv.json
           
           # ফাইলটিতে নতুন টাইমস্ট্যাম্প যুক্ত করে ফাইল আপডেট নিশ্চিত করা
           echo "Last updated at $(date)" > last_update.txt
