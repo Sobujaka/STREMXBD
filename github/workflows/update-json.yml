@@ -2,9 +2,9 @@ name: Update tv.json Data
 
 on:
   schedule:
-    # প্রতি ১ ঘণ্টা পর পর স্বয়ংক্রিয়ভাবে চলবে
+    # প্রতি ১ ঘণ্টা পর পর অটোমেটিক চলবে
     - cron: '0 * * * *'
-  # GitHub-এর Actions ট্যাব থেকে 'Run workflow' বাটনে চাপ দিয়ে ইচ্ছামতো রান করার জন্য
+  # GitHub Actions ট্যাব থেকে ইচ্ছামতো ম্যানুয়ালি রান করার জন্য
   workflow_dispatch:
 
 jobs:
@@ -15,16 +15,15 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Fetch and Update tv.json
+      - name: Fetch and Update tv.json from Cloudflare Worker
         run: |
-          # আপনার প্রক্সি বা মূল সোর্স লিঙ্ক থেকে tv.json ফাইল আপডেট করার কমান্ড
-          # প্রয়োজন অনুযায়ী নিচের curl লিঙ্কটি পরিবর্তন করে নিতে পারেন
-          curl -s "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/live-tv.json" -o tv.json
+          # ক্লাউডফ্লেয়ার ওয়ার্কার লিঙ্ক থেকে রেসপন্স নিয়ে tv.json ফাইলে সংরক্ষণ করবে
+          curl -s -H "Referer: https://sobujaka.github.io/" "https://broad-darkness-2d66.jahangir339932.workers.dev/" -o tv.json
 
       - name: Commit and Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add tv.json
-          git diff-index --quiet HEAD || git commit -m "Updated tv.json file [Auto/Manual]"
+          git diff-index --quiet HEAD || git commit -m "Auto/Manual update tv.json from Cloudflare Worker"
           git push
