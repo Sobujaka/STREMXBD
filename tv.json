@@ -1,0 +1,99 @@
+[
+{
+    "type": "tv-channel",
+    "country": "Bangladesh",
+    "image": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/5c189c4b-b2e7-4744-b815-26708227496c/dfy83gg-a856587f-fbc0-49c9-bfec-b89d30b51ab5.jpg/v1/fill/w_1154,h_692,q_70,strp/bangladesh_by_frlfarel_dfy83gg-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6IlwvZlwvNWMxODljNGItYjJlNy00NzQ0LWI4MTUtMjY3MDgyMjc0OTZjXC9kZnk4M2dnLWE4NTY1ODdmLWZiYzAtNDljOS1iZmVjLWI4OWQzMGI1MWFiNS5qcGciLCJ3aWR0aCI6Ijw9MTIwMCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.dLmH9SCA_CWQSYeDFiMJM42FVS342JOAxrzawObnMHY",
+    "CN": {
+      "btv_news": { 
+        "name": "BTV News", 
+        "tvglogo": "https://tse3.mm.bing.net/th/id/OIP.1zcoxkCkcDIwDoH-kPco9wAAAA?r=0&w=400&h=400&rs=1&pid=ImgDetMain&o=7&rm=3", 
+        "group": "NEWS", 
+        "url": "https://app24.jagobd.com.bd/c3VydmVyX8RpbEU9Mi8xNy8yMFDEEHGcfRgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcEdsEfeDeKiNkVN3PTOmdFseWRtaW51aiPhnPTI2/btvbd-office-sg.stream/index.m3u8" 
+      },
+      "atn_bangla": { 
+        "name": "ATN Bangla", 
+        "tvglogo": "https://images.seeklogo.com/logo-png/53/1/atn-bangla-logo-png_seeklogo-537053.png", 
+        "group": "ALL", 
+        "url": "https://tvsen5.aynaott.com/atnbangla/index.m3u8" 
+      },
+      "deepto_tv": { 
+        "name": "Deepto TV", 
+        "tvglogo": "https://tse4.mm.bing.net/th/id/OIP.rpzxn2ed6nyI2TEAIs8GtwAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
+        "group": "ALL", 
+        "url": "https://byphdgllyk.gpcdn.net/hls/deeptotv/0_1/index.m3u8" 
+      },
+		 "Maasranga TV": { 
+        "name": "Maasranga TV", 
+        "tvglogo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiwgQtP2TuwjgIQUhmb4D8IGcdEpaP0Xl8CwcYeP5_dF7KyrbAlWr0692nCd_K5IbKdI2ownF2_fOlNYmP_mk-G78Kc1yBbW9MdhLFK8ZiG48UoQmYZNl67Di6JPFekkWZxZlU14mP2E-Hs/s1600/Maasranga_Television_Logo.jpg", 
+        "group": "KIDS", 
+        "url": "https://tvsen5.aynaott.com/maasrangatv/index.m3u8" 
+      },
+      "bangla_vision": { 
+        "name": "Bangla Vision", 
+        "tvglogo": "https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Banglavision.svg/1280px-Banglavision.svg.png", 
+        "group": "ALL", 
+        "url": "https://tvsen5.aynaott.com/banglavision/index.m3u8" 
+      },
+      "boishakhi_tv": { 
+        "name": "Boishakhi TV", 
+        "tvglogo": "https://images.seeklogo.com/logo-png/17/1/boishakhi-tv-logo-png_seeklogo-175644.png", 
+        "group": "ALL", 
+        "url": "https://boishakhi.sonarbanglatv.com/boishakhi/boishakhitv/index.m3u8" 
+      },
+      "rtv": { 
+        "name": "RTV", 
+        "tvglogo": "https://rtvonline.com/Images/rtv-logo.svg", 
+        "group": "ALL", 
+        "url": "https://tvsen5.aynaott.com/RtvHD/index.m3u8" 
+      },
+      "ntv": { 
+        "name": "NTV", 
+        "tvglogo": "https://www.ntvbd.com/sites/all/themes/sloth/images/ntv-facebook.jpg", 
+        "group": "ALL", 
+        "url": "https://tvsen5.aynaott.com/xV4jEKf3D9zc/index.m3u8" 
+      },
+		 "Desh TV": { 
+        "name": "Desh TV", 
+        "tvglogo": "https://images.seeklogo.com/logo-png/60/1/desh-tv-logo-png_seeklogo-606364.png", 
+        "group": "ALL", 
+        "url": "https://app24.jagobd.com.bd/c3VydmVyX8RpbEU9Mi8xNy8yMFDEEHGcfRgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcEdsEfeDeKiNkVN3PTOmdFseWRtaW51aiPhnPTI2/deshtv.stream/tracks-v1a1/mono.m3u8"  
+	  },
+	    "My TV": { 
+        "name": "My TV", 
+        "tvglogo": "https://tse2.mm.bing.net/th/id/OIP.9G4Ro1q2UWrNsZMb7fxPdQHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
+        "group": "ALL", 
+        "url": "https://app24.jagobd.com.bd/c3VydmVyX8RpbEU9Mi8xNy8yMFDEEHGcfRgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcEdsEfeDeKiNkVN3PTOmdFseWRtaW51aiPhnPTI2/mytv-up-off.stream/tracks-v1a1/mono.m3u8"  
+	  }, 
+	  "Mohona TV": { 
+        "name": "Mohona TV", 
+        "tvglogo": "https://www.mawbiz.com.bd/application/views/module/product_image/mohona-tv_1.jpg", 
+        "group": "ALL", 
+        "url": "https://app24.jagobd.com.bd/c3VydmVyX8RpbEU9Mi8xNy8yMFDEEHGcfRgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcEdsEfeDeKiNkVN3PTOmdFseWRtaW51aiPhnPTI2/mohonatv.stream/tracks-v1a1/mono.m3u8"  
+	  },
+      "t_sports": { 
+        "name": "T Sports", 
+        "tvglogo": "https://yt3.googleusercontent.com/bFiobvUTC9dzqtqmHrGpMvIlQ2SpWYVKQFd3M8iP0hKqENuPOUNNVzaQQoJufoIFH-_M0UYn7w=s900-c-k-c0x00ffffff-no-rj", 
+        "group": "SPORTS", 
+        "url": "https://tvsen5.aynaott.com/TnMn5kZz8aLm/index.m3u8" 
+      },
+      "peace_tv": { 
+        "name": "Peace TV", 
+        "tvglogo": "https://tse2.mm.bing.net/th/id/OIP.0f4NmGaHkaxeA-iV6hqXXAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
+        "group": "ISLAMIC CHANNELS", 
+        "url": "https://dzkyvlfyge.erbvr.com/PeaceTvBangla/tracks-v3a1/mono.m3u8?sid=s7AaNdTzDE2912wNcPLejQ" 
+      },
+      "sony_yay": { 
+        "name": "Sony Yay", 
+        "tvglogo": "https://tse3.mm.bing.net/th/id/OIP.HX74tYQ2garyYz_SdRdBXgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
+        "group": "KIDS", 
+        "url": "https://s2.itcnbd.live/server-2/stream/sonyyay.m3u8" 
+      },
+      "Cartoon Network": { 
+        "name": "Cartoon Network", 
+        "tvglogo": "https://i.ibb.co.com/8B0Lpzd/1000021166.png", 
+        "group": "KIDS", 
+        "url": "https://vodzong.mjunoon.tv:8087/streamtest/cartoon-network-87/playlist.m3u8"  
+	  }
+    }
+  }
+]
