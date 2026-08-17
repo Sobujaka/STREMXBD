@@ -684,8 +684,11 @@
             const cleanUrl = url.trim();
             const lowerUrl = cleanUrl.toLowerCase();
 
-            // Direct Media Stream Check
-            if (lowerUrl.includes('.m3u8') || lowerUrl.includes('.mp4') || lowerUrl.includes('.mkv') || lowerUrl.includes('workers.dev')) {
+            // Cloudflare Worker ও Direct HLS Stream অটো-ডিটেকশন
+            const isHlsStream = lowerUrl.includes('.m3u8') || lowerUrl.includes('workers.dev') || lowerUrl.includes('stream?id=');
+            const isDirectVideo = lowerUrl.includes('.mp4') || lowerUrl.includes('.mkv');
+
+            if (isHlsStream || isDirectVideo) {
                 iframe.style.display = 'none';
                 iframe.src = '';
                 artContainer.style.display = 'block';
@@ -693,23 +696,32 @@
                 artInstance = new Artplayer({
                     container: '#artPlayerContainer',
                     url: cleanUrl,
-                    type: lowerUrl.includes('.m3u8') ? 'm3u8' : 'auto',
+                    type: isHlsStream ? 'm3u8' : 'auto',
                     customType: {
                         m3u8: function (video, videoUrl) {
                             if (Hls.isSupported()) {
                                 hlsInstance = new Hls({
                                     enableWorker: true,
                                     lowLatencyMode: true,
-                                    backBufferLength: 90
+                                    backBufferLength: 90,
+                                    xhrSetup: function (xhr, url) {
+                                        xhr.withCredentials = false;
+                                    }
                                 });
                                 hlsInstance.loadSource(videoUrl);
                                 hlsInstance.attachMedia(video);
                                 hlsInstance.on(Hls.Events.ERROR, function (event, data) {
                                     if (data.fatal) {
-                                        console.warn("HLS Fatal error detected, trying proxy fallback...");
-                                        // CORS Fix Proxy Fallback
-                                        if (!videoUrl.includes('corsproxy.io')) {
-                                            hlsInstance.loadSource('https://corsproxy.io/?' + encodeURIComponent(videoUrl));
+                                        switch (data.type) {
+                                            case Hls.ErrorTypes.NETWORK_ERROR:
+                                                hlsInstance.startLoad();
+                                                break;
+                                            case Hls.ErrorTypes.MEDIA_ERROR:
+                                                hlsInstance.recoverMediaError();
+                                                break;
+                                            default:
+                                                destroyPlayers();
+                                                break;
                                         }
                                     }
                                 });
