@@ -684,11 +684,9 @@
             const cleanUrl = url.trim();
             const lowerUrl = cleanUrl.toLowerCase();
 
-            // Cloudflare Worker ও Direct HLS Stream অটো-ডিটেকশন
-            const isHlsStream = lowerUrl.includes('.m3u8') || lowerUrl.includes('workers.dev') || lowerUrl.includes('stream?id=');
-            const isDirectVideo = lowerUrl.includes('.mp4') || lowerUrl.includes('.mkv');
+            const isProxyStream = lowerUrl.includes('workers.dev') || lowerUrl.includes('/stream') || lowerUrl.includes('.m3u8');
 
-            if (isHlsStream || isDirectVideo) {
+            if (isProxyStream || lowerUrl.includes('.mp4')) {
                 iframe.style.display = 'none';
                 iframe.src = '';
                 artContainer.style.display = 'block';
@@ -696,20 +694,19 @@
                 artInstance = new Artplayer({
                     container: '#artPlayerContainer',
                     url: cleanUrl,
-                    type: isHlsStream ? 'm3u8' : 'auto',
+                    type: isProxyStream ? 'm3u8' : 'auto',
                     customType: {
                         m3u8: function (video, videoUrl) {
                             if (Hls.isSupported()) {
                                 hlsInstance = new Hls({
                                     enableWorker: true,
                                     lowLatencyMode: true,
-                                    backBufferLength: 90,
-                                    xhrSetup: function (xhr, url) {
-                                        xhr.withCredentials = false;
-                                    }
+                                    maxBufferLength: 30,
+                                    maxMaxBufferLength: 60
                                 });
                                 hlsInstance.loadSource(videoUrl);
                                 hlsInstance.attachMedia(video);
+                                
                                 hlsInstance.on(Hls.Events.ERROR, function (event, data) {
                                     if (data.fatal) {
                                         switch (data.type) {
@@ -735,13 +732,10 @@
                     screenshot: true,
                     fullscreen: true,
                     fullscreenWeb: true,
-                    playbackRate: true,
-                    aspectRatio: true,
                     theme: '#3b82f6',
                 });
 
             } else {
-                // External Embed / Iframe Link
                 artContainer.style.display = 'none';
                 iframe.style.display = 'block';
                 iframe.src = cleanUrl;
