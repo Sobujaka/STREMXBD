@@ -1,1 +1,1 @@
-Server Error: Expected ',' or '}' after property value in JSON at position 617 (line 5 column 557)
+Server Error: JSON format is severely corrupted and couldn't be auto-repaired.
