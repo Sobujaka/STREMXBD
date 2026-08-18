@@ -82,7 +82,7 @@
         "group": "ALL", 
         "url": "https://app24.jagobd.com.bd/c3VydmVyX8RpbEU9Mi8xNy8yMFDEEHGcfRgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcEdsEfeDeKiNkVN3PTOmdFseWRtaW51aiPhnPTI2/mohonatv.stream/tracks-v1a1/mono.m3u8"  
 	  },
-		 "jungle_book": {
+	  "jungle_book": {
     "name": "Jungle Book",
     "tvglogo": "https://pash.ink/storage/uploads/JungleBook_Logo.png",
     "group": "KIDS",
@@ -94,13 +94,13 @@
     "group": "MOVIE",
     "url": "https://live-stream.utkalbongo.com/hls/livebanglatvstream.m3u8"
   },
-		 "me_tv": {
+	"me_tv": {
     "name": "Me-tv",
     "tvglogo": "https://th.bing.com/th/id/OIP.8GLNEcaUbZmiWdnTkTAeGQHaHa?w=108&h=108&c=1&bgcl=78167d&r=0&o=7&pid=ImgRC&rm=3",
     "group": "BANGLA",
     "url": "https://iptvbd.live/metv1080/1080.m3u8"
   },
-		 "rajdhani_tv": {
+   "rajdhani_tv": {
     "name": "Rajdhani TV",
     "tvglogo": "https://www.jagobd.com/wp-content/uploads/2024/08/rajdhani.jpeg",
     "group": "MOVIE",
@@ -112,7 +112,7 @@
     "group": "SONG",
     "url": "https://cdn-4.pishow.tv/live/1143/master.m3u8"
   },
-		"g_series": {
+   "g_series": {
     "name": "G Series",
     "tvglogo": "https://th.bing.com/th/id/OIP.OFA2CI3juA9d_xBpO14WSgHaHa?r=0&o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3",
     "group": "TV SHOW",
