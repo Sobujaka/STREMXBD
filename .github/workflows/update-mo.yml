@@ -18,7 +18,7 @@ jobs:
 
       - name: Fetch Data from Cloudflare Worker and Save to mo.json
         run: |
-          curl -sL -H "User-Agent: github-actions" "https://broad-darkness-2d66.jahangir339932.workers.dev/" -o mo.json
+          curl -sL -H "User-Agent: github-actions" "https://fragrant-silence-b9d8.jahangir339932.workers.dev/" -o mo.json
 
       - name: Commit and Push Changes
         run: |
