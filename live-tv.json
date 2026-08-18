@@ -68,7 +68,7 @@
         "name": "Desh TV", 
         "tvglogo": "https://images.seeklogo.com/logo-png/60/1/desh-tv-logo-png_seeklogo-606364.png", 
         "group": "ALL", 
-        "url": "https://app24.jagobd.com.bd/c3VydmVyX8RpbEU9Mi8xNy8yMFDEEHGcfRgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcEdsEfeDeKiNkVN3PTOmdFseWRtaW51aiPhnPTI2/deshtv.stream/tracks-v1a1/mono.m3u8"  
+        "url": "https://app24.jagobd.com.bd/c3VydmVyX8RpbEU9Mi8xNy8yMFDEEHGcfRgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcEdsEfeDeKiNkVN3PTOmdFseWRtaW51aiPhnPTI2/deshtv.stream/tracks-v1a1/mono.m3u8 yasol"  
       },
       "My TV": { 
         "name": "My TV", 
@@ -176,7 +176,7 @@
         "name": "Sony Yay", 
         "tvglogo": "https://tse3.mm.bing.net/th/id/OIP.HX74tYQ2garyYz_SdRdBXgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
         "group": "KIDS", 
-        "url": "https://s2.itcnbd.live/server-2/stream/sonyyay.m3u8" 
+        "url": "https://s2.itcnbd.live/server-2/stream/sonyyay.m3u8 yasol" 
       },
       "Cartoon_Network": { 
         "name": "Cartoon Network", 
