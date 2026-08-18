@@ -389,6 +389,7 @@
 
         let loadedData = {}, currentTab = 'All', artInstance = null, hlsInstance = null;
         let previousScrollPosition = 0;
+        let allFlatItems = [];
 
         function repairAndParseJSON(jsonText) {
             try {
@@ -431,6 +432,7 @@
 
             populateDropdowns();
             applyFilters();
+            checkAndRestorePlayerFromHash();
         }
 
         function populateDropdowns() {
@@ -494,6 +496,7 @@
             });
 
             const grouped = groupItemsByName(filtered);
+            allFlatItems = grouped;
             renderGrid(currentTab !== 'Live TV' ? shuffleArray(grouped) : grouped);
         }
 
@@ -543,11 +546,43 @@
             mainContent.appendChild(grid);
         }
 
-        function openPlayerPage(item) {
+        function checkAndRestorePlayerFromHash() {
+            if (window.location.hash.startsWith('#player')) {
+                try {
+                    const hashData = decodeURIComponent(window.location.hash.substring(8));
+                    const params = new URLSearchParams(hashData);
+                    const title = params.get('title');
+                    const country = params.get('country');
+
+                    let matchedItem = null;
+                    if (country) {
+                        Object.values(loadedData).forEach(cat => {
+                            if (Array.isArray(cat)) {
+                                cat.forEach(i => { if (i.type === 'tv-channel' && i.country === country) matchedItem = i; });
+                            }
+                        });
+                    } else if (title) {
+                        matchedItem = allFlatItems.find(i => (i.title || i.name) === title);
+                    }
+
+                    if (matchedItem) {
+                        openPlayerPage(matchedItem, false);
+                    }
+                } catch(e) {}
+            }
+        }
+
+        function openPlayerPage(item, updateHash = true) {
             previousScrollPosition = window.scrollY || document.documentElement.scrollTop;
             document.getElementById('home-view').style.display = 'none';
             document.getElementById('player-view').style.display = 'block';
             document.getElementById('player-view').scrollTop = 0;
+
+            const displayTitle = item.type === "tv-channel" ? item.country : (item.title || item.name || "Untitled");
+            if (updateHash) {
+                const paramKey = item.type === "tv-channel" ? `country=${encodeURIComponent(item.country)}` : `title=${encodeURIComponent(displayTitle)}`;
+                window.location.hash = `player?${paramKey}`;
+            }
 
             const sidebar = document.getElementById('playerSidebar');
             sidebar.innerHTML = '';
@@ -757,6 +792,7 @@
         }
 
         function closePlayerPage() {
+            window.location.hash = '';
             document.getElementById('player-view').style.display = 'none';
             document.getElementById('home-view').style.display = 'block';
             window.scrollTo(0, previousScrollPosition);
