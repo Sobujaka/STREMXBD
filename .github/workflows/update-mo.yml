@@ -1,0 +1,32 @@
+name: Update mo.json Data
+
+on:
+  schedule:
+    # প্রতি ১ ঘণ্টা পর পর অটোমেটিক রান হবে
+    - cron: '0 * * * *'
+  # ম্যানুয়ালি রান করার অপশন
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-file:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Fetch Data from Cloudflare Worker and Save to mo.json
+        run: |
+          # Cloudflare Worker URL থেকে ডেটা নামিয়ে mo.json-এ রিপ্লেস করবে
+          curl -sL -H "User-Agent: github-actions" "https:// broad-darkness-2d66.jahangir339932.workers.dev/" -o mo.json
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add mo.json
+          git diff-index --quiet HEAD || git commit -m "Auto/Manual update mo.json from Cloudflare Worker"
+          git push
