@@ -377,17 +377,17 @@
         let loadedData = {}, currentTab = 'All', artInstance = null, hlsInstance = null;
         let previousScrollPosition = 0;
 
-        // নিরাপদভাবে JSON পার্স করার ক্লিন ফাংশন
         function repairAndParseJSON(jsonText) {
             try {
                 return JSON.parse(jsonText);
             } catch (e) {
                 try {
-                    let cleaned = jsonText.replace(/,\s*([\]}])/g, '$1')
-                                         .replace(/}\s*"/g, '},"');
+                    let cleaned = jsonText.replace(/"\s*\n*\r*\s*"/g, '","')
+                                         .replace(/([0-9]|"|true|false|null)\s*\n*\r*\s*"([^"]+)":/g, '$1,"$2":')
+                                         .replace(/,\s*([\]}])/g, '$1');
                     return JSON.parse(cleaned);
                 } catch (repairError) {
-                    return [];
+                    return new Function("return " + jsonText)();
                 }
             }
         }
@@ -654,7 +654,7 @@
                         div.classList.add('active');
                         loadVideo(ch.url, ch.name);
                     };
-                    div.innerHTML = `<img src="${ch.tvglogo || ''}" alt="${ch.name}"><span>${ch.name}</span>`;
+                    div.innerHTML = `<img src="${ch.tvglogo}" alt="${ch.name}"><span>${ch.name}</span>`;
                     container.appendChild(div);
                     if (isFirst) { div.click(); isFirst = false; }
                 }
@@ -672,7 +672,6 @@
             }
         }
 
-        // অপটিমাইজড এবং অল-ইন-ওয়ান ভিডিও লোডার
         function loadVideo(url, title) {
             const iframe = document.getElementById('iframePlayer');
             const artContainer = document.getElementById('artPlayerContainer');
@@ -685,10 +684,9 @@
             const cleanUrl = url.trim();
             const lowerUrl = cleanUrl.toLowerCase();
 
-            // Cloudflare Worker, M3U8 এবং MP4 ডিটেকশন ফিক্সড
-            const isHlsStream = lowerUrl.includes('workers.dev') || lowerUrl.includes('/stream') || lowerUrl.includes('.m3u8');
+            const isProxyStream = lowerUrl.includes('workers.dev') || lowerUrl.includes('/stream') || lowerUrl.includes('.m3u8');
 
-            if (isHlsStream || lowerUrl.includes('.mp4')) {
+            if (isProxyStream || lowerUrl.includes('.mp4')) {
                 iframe.style.display = 'none';
                 iframe.src = '';
                 artContainer.style.display = 'block';
@@ -696,7 +694,7 @@
                 artInstance = new Artplayer({
                     container: '#artPlayerContainer',
                     url: cleanUrl,
-                    type: isHlsStream ? 'm3u8' : 'auto',
+                    type: isProxyStream ? 'm3u8' : 'auto',
                     customType: {
                         m3u8: function (video, videoUrl) {
                             if (Hls.isSupported()) {
@@ -713,7 +711,6 @@
                                     if (data.fatal) {
                                         switch (data.type) {
                                             case Hls.ErrorTypes.NETWORK_ERROR:
-                                                console.log("Network error encounter, trying to recover...");
                                                 hlsInstance.startLoad();
                                                 break;
                                             case Hls.ErrorTypes.MEDIA_ERROR:
