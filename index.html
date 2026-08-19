@@ -322,11 +322,11 @@
     <div id="home-view">
         <div class="navbar">
             <input type="text" id="searchInput" class="search-box" placeholder="Search title..." oninput="applyFilters()">
-            <button class="nav-link active" onclick="filterTab('All', this)">All</button>
-            <button class="nav-link" onclick="filterTab('Anime', this)">Anime</button>
-            <button class="nav-link" onclick="filterTab('Movie', this)">Movie</button>
-            <button class="nav-link" onclick="filterTab('TV Series', this)">TV Series</button>
-            <button class="nav-link" onclick="filterTab('Live TV', this)">Live TV</button>
+            <button class="nav-link active" data-tab="All" onclick="filterTab('All', this)">All</button>
+            <button class="nav-link" data-tab="Anime" onclick="filterTab('Anime', this)">Anime</button>
+            <button class="nav-link" data-tab="Movie" onclick="filterTab('Movie', this)">Movie</button>
+            <button class="nav-link" data-tab="TV Series" onclick="filterTab('TV Series', this)">TV Series</button>
+            <button class="nav-link" data-tab="Live TV" onclick="filterTab('Live TV', this)">Live TV</button>
 
             <select id="countrySelect" class="select-link" onchange="applyFilters()"><option value="all">Country: All</option></select>
             <select id="categorySelect" class="select-link" onchange="applyFilters()"><option value="all">Category: All</option></select>
@@ -430,9 +430,28 @@
                 }
             });
 
+            // লোকাল স্টোরেজ থেকে আগের স্টেট রিকভার করা
+            restoreState();
             populateDropdowns();
             applyFilters();
             checkAndRestorePlayerFromHash();
+        }
+
+        function restoreState() {
+            const savedTab = localStorage.getItem('selectedTab');
+            if (savedTab) {
+                currentTab = savedTab;
+                document.querySelectorAll('.nav-link').forEach(btn => {
+                    if (btn.getAttribute('data-tab') === currentTab) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            }
+
+            const savedSearch = localStorage.getItem('searchVal');
+            if (savedSearch) document.getElementById('searchInput').value = savedSearch;
         }
 
         function populateDropdowns() {
@@ -446,21 +465,28 @@
                     });
                 }
             });
-            fillSelect('countrySelect', 'Country', Array.from(countries));
-            fillSelect('categorySelect', 'Category', Array.from(categories));
-            fillSelect('languageSelect', 'Language', Array.from(languages));
+            fillSelect('countrySelect', 'Country', Array.from(countries), 'selectedCountry');
+            fillSelect('categorySelect', 'Category', Array.from(categories), 'selectedCategory');
+            fillSelect('languageSelect', 'Language', Array.from(languages), 'selectedLanguage');
         }
 
-        function fillSelect(id, label, options) {
+        function fillSelect(id, label, options, storageKey) {
             const select = document.getElementById(id);
             select.innerHTML = `<option value="all">${label}: All</option>`;
             options.forEach(opt => select.appendChild(new Option(opt, opt)));
+            
+            const savedVal = localStorage.getItem(storageKey);
+            if (savedVal && options.includes(savedVal)) {
+                select.value = savedVal;
+            }
         }
 
         function filterTab(tabName, element) {
             document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
             if(element) element.classList.add('active');
             currentTab = tabName;
+            localStorage.setItem('selectedTab', tabName);
+
             const isLiveTV = tabName === 'Live TV';
             document.getElementById('countrySelect').disabled = isLiveTV;
             document.getElementById('categorySelect').disabled = isLiveTV;
@@ -473,6 +499,12 @@
             const countryVal = document.getElementById('countrySelect').value;
             const categoryVal = document.getElementById('categorySelect').value;
             const languageVal = document.getElementById('languageSelect').value;
+
+            // মেমোরিতে স্টেট সেভ রাখা
+            localStorage.setItem('searchVal', searchVal);
+            localStorage.setItem('selectedCountry', countryVal);
+            localStorage.setItem('selectedCategory', categoryVal);
+            localStorage.setItem('selectedLanguage', languageVal);
 
             let items = [];
             if (currentTab === 'All') {
