@@ -76,7 +76,7 @@
             margin-bottom: 30px;
         }
 
-        /* আপডেট করা কার্ড স্টাইল (সবুজ বর্ডার ও শ্যাডো) */
+        /* কার্ডের বর্ডার সবুজ */
         .card {
             background-color: #161e2e;
             border-radius: 6px;
@@ -104,21 +104,17 @@
 
         .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        /* আপডেট করা কার্ড-ইনফো স্টাইল (সবুজ ব্যাকগ্রাউন্ড) */
-        .card-info { 
-            padding: 6px 8px; 
-            background-color: #10b981;
-        }
+        /* কার্ড ইনফো ও টাইটেল আগের স্টাইলে ফেরত আনা হয়েছে */
+        .card-info { padding: 6px 8px; }
 
         .card-title {
             font-size: 11px;
             font-weight: 600;
-            color: #ffffff;
+            color: #f8fafc;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             text-transform: capitalize;
-            text-align: center;
         }
 
         #player-view {
@@ -820,7 +816,7 @@
                     screenshot: true,
                     fullscreen: true,
                     fullscreenWeb: true,
-                    theme: '#10b981',
+                    theme: '#3b82f6',
                 });
 
             } else {
