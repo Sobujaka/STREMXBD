@@ -76,17 +76,22 @@
             margin-bottom: 30px;
         }
 
+        /* আপডেট করা কার্ড স্টাইল (সবুজ বর্ডার ও শ্যাডো) */
         .card {
             background-color: #161e2e;
             border-radius: 6px;
             overflow: hidden;
             position: relative;
             cursor: pointer;
-            border: 1px solid #1f2937;
-            transition: transform 0.2s, border-color 0.2s;
+            border: 1.5px solid #10b981;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
         }
 
-        .card:hover { transform: translateY(-5px); border-color: #3b82f6; }
+        .card:hover { 
+            transform: translateY(-5px); 
+            border-color: #059669; 
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
 
         .card-image-wrapper {
             position: relative;
@@ -99,16 +104,21 @@
 
         .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        .card-info { padding: 6px 8px; }
+        /* আপডেট করা কার্ড-ইনফো স্টাইল (সবুজ ব্যাকগ্রাউন্ড) */
+        .card-info { 
+            padding: 6px 8px; 
+            background-color: #10b981;
+        }
 
         .card-title {
             font-size: 11px;
             font-weight: 600;
-            color: #f8fafc;
+            color: #ffffff;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             text-transform: capitalize;
+            text-align: center;
         }
 
         #player-view {
@@ -163,7 +173,6 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
 
-        /* Google Drive Pop-out icon blocker overlay */
         .drive-icon-blocker {
             position: absolute;
             top: 0;
@@ -430,7 +439,6 @@
                 }
             });
 
-            // লোকাল স্টোরেজ থেকে আগের স্টেট রিকভার করা
             restoreState();
             populateDropdowns();
             applyFilters();
@@ -500,7 +508,6 @@
             const categoryVal = document.getElementById('categorySelect').value;
             const languageVal = document.getElementById('languageSelect').value;
 
-            // মেমোরিতে স্টেট সেভ রাখা
             localStorage.setItem('searchVal', searchVal);
             localStorage.setItem('selectedCountry', countryVal);
             localStorage.setItem('selectedCategory', categoryVal);
@@ -813,7 +820,7 @@
                     screenshot: true,
                     fullscreen: true,
                     fullscreenWeb: true,
-                    theme: '#3b82f6',
+                    theme: '#10b981',
                 });
 
             } else {
