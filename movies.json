@@ -8,14 +8,6 @@
     "Movie link": "https://hadeh.pitoyoabdi.workers.dev/saringan/Lupa%20Aturan%20Main%20(1990).mp4"
   },
   {
-    "title": "Setan Kredit (1981)",
-    "image": "http://i.ibb.co/kx1Ps5L/Setan-Kredit-1981.jpg",
-    "category": "",
-    "country": "",
-    "language": "",
-    "Movie link": "https://hadeh.pitoyoabdi.workers.dev/Setan.Kredit.1982.mp4"
-  },
-  {
     "title": "Untitled Movie",
     "image": "http://i.ibb.co/zrLrZZf/Bisa-Naik-Bisa-Turun-1991.jpg",
     "category": "",
@@ -106,9 +98,9 @@
   {
     "title": "Supercell (2023)",
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHylI1lWr_n86mgJ7EKj7AwKTrwZ78XH813g&usqp=CAU",
-    "category": "",
-    "country": "",
-    "language": "",
+    "category": "OTHER",
+    "country": "USA",
+    "language": "ENGLISH",
     "Movie link": "https://www.dropbox.com/s/rvofrvr53a2wva0/dzifp-supercell2023.mp4?dl=1"
   },
   {
@@ -162,9 +154,9 @@
   {
     "title": "Palmer (2021)",
     "image": "https://i.ibb.co/XjsNd2G/palmer.jpg",
-    "category": "",
-    "country": "",
-    "language": "",
+    "category": "DRAMA",
+    "country": "United States",
+    "language": "English",
     "Movie link": "https://www.dropbox.com/s/cio3d6sdrln9bwh/palmer.mp4?dl=1"
   },
   {
@@ -179,8 +171,8 @@
     "title": "Dune (2021)",
     "image": "https://i.ibb.co/s6NVj2J/dune.jpg",
     "category": "",
-    "country": "",
-    "language": "",
+    "country": "United States",
+    "language": "ENGLISH",
     "Movie link": "https://www.dropbox.com/s/0hq5vopq6qook0m/dune.mp4?dl=1"
   },
   {
@@ -982,14 +974,6 @@
     "country": "",
     "language": "",
     "movie_link": "https://fmftp.net/api/stream/video/stream?type=movies&id=20271"
-  },
-  {
-    "title": "Untitled Movie",
-    "image": "https://m.media-amazon.com/images/M/MV5BNjQ5MDI5YTEtYmJkMi00MjczLTg0NzMtN2Y5MGEyZDlmMTdlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
-    "category": "",
-    "country": "",
-    "language": "",
-    "movie_link": "https://fmftp.net/api/stream/video/stream?type=movies&id=18649"
   },
   {
     "title": "Shontaan",
