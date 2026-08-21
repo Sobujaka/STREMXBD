@@ -458,34 +458,65 @@
             if (savedSearch) document.getElementById('searchInput').value = savedSearch;
         }
 
+        // টেক্সট সুন্দরভাবে বড় হাতের করার হেল্পার ফাংশন
+        function capitalizeText(str) {
+            if (!str) return '';
+            return str.toLowerCase().split(' ').map(word => {
+                if (word.includes('&')) {
+                    return word.split('&').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('&');
+                }
+                return word.charAt(0).toUpperCase() + word.slice(1);
+            }).join(' ');
+        }
+
         function populateDropdowns() {
-            const countries = new Set(), categories = new Set(), languages = new Set();
+            const countries = new Map(), categories = new Map(), languages = new Map();
             ['Anime', 'Movie', 'TV Series'].forEach(cat => {
                 if (loadedData[cat] && Array.isArray(loadedData[cat])) {
                     loadedData[cat].forEach(item => {
-                        if (item.country) countries.add(item.country);
-                        
-                        // কমা দিয়ে আলাদা থাকা ক্যাটাগরিগুলোকে আলাদা অপশন হিসেবে সেটে যোগ করা
-                        if (item.category) {
-                            item.category.split(',').forEach(c => categories.add(c.trim()));
+                        if (item.country) {
+                            const raw = item.country.trim();
+                            const key = raw.toLowerCase();
+                            if (!countries.has(key)) countries.set(key, capitalizeText(raw));
                         }
                         
-                        if (item.language) languages.add(item.language);
+                        if (item.category) {
+                            item.category.split(',').forEach(c => {
+                                const raw = c.trim();
+                                const key = raw.toLowerCase();
+                                if (raw && !categories.has(key)) categories.set(key, capitalizeText(raw));
+                            });
+                        }
+                        
+                        if (item.language) {
+                            const raw = item.language.trim();
+                            const key = raw.toLowerCase();
+                            if (!languages.has(key)) languages.set(key, capitalizeText(raw));
+                        }
                     });
                 }
             });
-            fillSelect('countrySelect', 'Country', Array.from(countries), 'selectedCountry');
-            fillSelect('categorySelect', 'Category', Array.from(categories), 'selectedCategory');
-            fillSelect('languageSelect', 'Language', Array.from(languages), 'selectedLanguage');
+            fillSelect('countrySelect', 'Country', Array.from(countries.entries()), 'selectedCountry');
+            fillSelect('categorySelect', 'Category', Array.from(categories.entries()), 'selectedCategory');
+            fillSelect('languageSelect', 'Language', Array.from(languages.entries()), 'selectedLanguage');
         }
 
         function fillSelect(id, label, options, storageKey) {
             const select = document.getElementById(id);
             select.innerHTML = `<option value="all">${label}: All</option>`;
-            options.forEach(opt => select.appendChild(new Option(opt, opt)));
+            
+            // নাম অনুসারে সুন্দরভাবে অ্যালফাবেটিকাল সাজানো
+            options.sort((a, b) => a[1].localeCompare(b[1]));
+
+            options.forEach(([key, displayValue]) => {
+                const opt = document.createElement('option');
+                opt.value = key;
+                opt.textContent = displayValue;
+                select.appendChild(opt);
+            });
             
             const savedVal = localStorage.getItem(storageKey);
-            if (savedVal && options.includes(savedVal)) {
+            if (savedVal && options.some(o => o[0] === savedVal)) {
                 select.value = savedVal;
             }
         }
@@ -530,14 +561,16 @@
                 }
                 const title = (item.name || item.title || '').toLowerCase();
                 
-                // কমা থাকা ফিল্টার লজিক প্রক্রিয়াকরণ
-                const itemCategories = item.category ? item.category.split(',').map(c => c.trim()) : [];
+                const itemCategories = item.category ? item.category.split(',').map(c => c.trim().toLowerCase()) : [];
                 const matchesCategory = categoryVal === 'all' || itemCategories.includes(categoryVal);
 
+                const itemCountry = (item.country || '').trim().toLowerCase();
+                const itemLanguage = (item.language || '').trim().toLowerCase();
+
                 return title.includes(searchVal) &&
-                    (countryVal === 'all' || item.country === countryVal) &&
+                    (countryVal === 'all' || itemCountry === countryVal) &&
                     matchesCategory &&
-                    (languageVal === 'all' || item.language === languageVal);
+                    (languageVal === 'all' || itemLanguage === languageVal);
             });
 
             const grouped = groupItemsByName(filtered);
