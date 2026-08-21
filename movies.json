@@ -1,5 +1,5 @@
 [
-    {
+     {
     "title": "",
     "image": "",
     "category": "",
@@ -7,13 +7,21 @@
     "language": "",
     "Movie link": ""
   },
+    {
+    "title": "Maa Inti Bangaram",
+    "image": "https://ctgmovies.com/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Fw500%2F4JO2WYPwBL6qWsKIM4v7loHrNCX.jpg&w=256&q=75",
+    "category": "Action, Thriller, Drama",
+    "country": "INDIA",
+    "language": "Telugu",
+    "Movie link": "https://stream.playcdn.de/playlist/LxkoYywXAyhvMxYiJFEkOS9Ve353T1oWBxMzABxoCWF1Hnl2chpH/42/480.m3u8"
+  },
   {
-    "title": "",
-    "image": "",
-    "category": "",
-    "country": "",
-    "language": "",
-    "Movie link": ""
+    "title": "Lenin",
+    "image": "https://ctgmovies.com/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Fw500%2FrAHQviBq8Fxi20hNtHPGLnr4L0f.jpg&w=256&q=75",
+    "category": "Action, Drama, Romance",
+    "country": "INDIA",
+    "language": "Hindi",
+    "Movie link": "https://ftp.ctgfun.com/Indian/South%20Indian%20Movies/LENiN%20(2026)%20Hindi%20720p%20WEBRip%20x264%20ESub%20%5BDDN%5D/LENiN%20%282026%29%20Hindi%20720p%20WEBRip%20x264%20ESub%20%5BDDN%5D.mp4"
   },
   {
     "title": "Mutiny",
