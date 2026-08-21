@@ -458,7 +458,6 @@
             if (savedSearch) document.getElementById('searchInput').value = savedSearch;
         }
 
-        // টেক্সট সুন্দরভাবে বড় হাতের করার হেল্পার ফাংশন
         function capitalizeText(str) {
             if (!str) return '';
             return str.toLowerCase().split(' ').map(word => {
@@ -481,10 +480,13 @@
                         }
                         
                         if (item.category) {
-                            item.category.split(',').forEach(c => {
-                                const raw = c.trim();
-                                const key = raw.toLowerCase();
-                                if (raw && !categories.has(key)) categories.set(key, capitalizeText(raw));
+                            // কমা, স্লাশ বা স্পেস দিয়ে যুক্ত ক্যাটাগরিগুলোকে আলাদা করা
+                            const catList = item.category.split(/[,/]+/).map(c => c.trim());
+                            catList.forEach(c => {
+                                if (c) {
+                                    const key = c.toLowerCase();
+                                    if (!categories.has(key)) categories.set(key, capitalizeText(c));
+                                }
                             });
                         }
                         
@@ -505,7 +507,6 @@
             const select = document.getElementById(id);
             select.innerHTML = `<option value="all">${label}: All</option>`;
             
-            // নাম অনুসারে সুন্দরভাবে অ্যালফাবেটিকাল সাজানো
             options.sort((a, b) => a[1].localeCompare(b[1]));
 
             options.forEach(([key, displayValue]) => {
@@ -561,7 +562,7 @@
                 }
                 const title = (item.name || item.title || '').toLowerCase();
                 
-                const itemCategories = item.category ? item.category.split(',').map(c => c.trim().toLowerCase()) : [];
+                const itemCategories = item.category ? item.category.split(/[,/]+/).map(c => c.trim().toLowerCase()) : [];
                 const matchesCategory = categoryVal === 'all' || itemCategories.includes(categoryVal);
 
                 const itemCountry = (item.country || '').trim().toLowerCase();
