@@ -396,11 +396,6 @@
         let previousScrollPosition = 0;
         let allFlatItems = [];
 
-        // Multiple URL Fallback Variables
-        let currentUrlList = [];
-        let currentUrlIndex = 0;
-        let currentMediaTitle = '';
-
         function repairAndParseJSON(jsonText) {
             try {
                 return JSON.parse(jsonText);
@@ -485,6 +480,7 @@
                         }
                         
                         if (item.category) {
+                            // কমা, স্লাশ বা স্পেস দিয়ে যুক্ত ক্যাটাগরিগুলোকে আলাদা করা
                             const catList = item.category.split(/[,/]+/).map(c => c.trim());
                             catList.forEach(c => {
                                 if (c) {
@@ -690,7 +686,7 @@
             function playSelectedLanguage(lang) {
                 const currentItem = languagesMap[lang] || item;
                 const movieUrl = currentItem["Movie link"] || currentItem["movie_link"] || currentItem.link || currentItem.url || '';
-                initMultiUrlPlayback(movieUrl, `${currentItem.title || currentItem.name} (${lang})`);
+                loadVideo(movieUrl, `${currentItem.title || currentItem.name} (${lang})`);
             }
             langSelect.onchange = (e) => playSelectedLanguage(e.target.value);
             playSelectedLanguage(langKeys[0]);
@@ -739,7 +735,7 @@
                         btn.onclick = () => {
                             document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
                             btn.classList.add('active');
-                            initMultiUrlPlayback(epData.url, `${activeItem.title || activeItem.name} - ${selectedSeason} ${epData.epName}`);
+                            loadVideo(epData.url, `${activeItem.title || activeItem.name} - ${selectedSeason} ${epData.epName}`);
                         };
                         epGrid.appendChild(btn);
                         if (index === 0) btn.click();
@@ -783,7 +779,7 @@
                     div.onclick = () => {
                         document.querySelectorAll('.channel-item').forEach(c => c.classList.remove('active'));
                         div.classList.add('active');
-                        initMultiUrlPlayback(ch.url, ch.name);
+                        loadVideo(ch.url, ch.name);
                     };
                     div.innerHTML = `<img src="${ch.tvglogo}" alt="${ch.name}"><span>${ch.name}</span>`;
                     container.appendChild(div);
@@ -801,38 +797,6 @@
                 artInstance.destroy();
                 artInstance = null;
             }
-        }
-
-        // ================= MULTI-URL PLAYBACK & AUTO FALLBACK =================
-
-        function initMultiUrlPlayback(urlData, title) {
-            currentMediaTitle = title;
-            currentUrlIndex = 0;
-
-            if (Array.isArray(urlData)) {
-                currentUrlList = urlData.filter(u => typeof u === 'string' && u.trim() !== '');
-            } else if (typeof urlData === 'string' && urlData.trim() !== '') {
-                currentUrlList = [urlData.trim()];
-            } else {
-                currentUrlList = [];
-            }
-
-            if (currentUrlList.length === 0) {
-                alert("No stream URL available!");
-                return;
-            }
-
-            tryNextUrlStream();
-        }
-
-        function tryNextUrlStream() {
-            if (currentUrlIndex >= currentUrlList.length) {
-                console.warn("All stream URLs failed to play.");
-                return;
-            }
-
-            const activeUrl = currentUrlList[currentUrlIndex];
-            loadVideo(activeUrl, currentMediaTitle);
         }
 
         function loadVideo(url, title) {
@@ -873,18 +837,21 @@
                                 
                                 hlsInstance.on(Hls.Events.ERROR, function (event, data) {
                                     if (data.fatal) {
-                                        console.warn(`HLS Fatal error on URL index ${currentUrlIndex}. Trying next URL...`);
-                                        currentUrlIndex++;
-                                        tryNextUrlStream();
+                                        switch (data.type) {
+                                            case Hls.ErrorTypes.NETWORK_ERROR:
+                                                hlsInstance.startLoad();
+                                                break;
+                                            case Hls.ErrorTypes.MEDIA_ERROR:
+                                                hlsInstance.recoverMediaError();
+                                                break;
+                                            default:
+                                                destroyPlayers();
+                                                break;
+                                        }
                                     }
                                 });
                             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                                 video.src = videoUrl;
-                                video.onerror = function() {
-                                    console.warn(`Native Video error on URL index ${currentUrlIndex}. Trying next URL...`);
-                                    currentUrlIndex++;
-                                    tryNextUrlStream();
-                                };
                             }
                         },
                     },
