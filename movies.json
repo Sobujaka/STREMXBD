@@ -1,11 +1,19 @@
 [
-   {
+    {
     "title": "",
     "image": "",
     "category": "",
     "country": "",
     "language": "",
     "Movie link": ""
+  },
+   {
+    "title": "Moana",
+    "image": "https://ctgmovies.com/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Fw500%2FzKVgiv5qHCvCLT4A2ymJi5QeXDH.jpg&w=384&q=75",
+    "category": "Family, Fantasy, Comedy, Adventure",
+    "country": "USA",
+    "language": "Hindi",
+    "Movie link": "https://ftp.ctgfun.com/English/Moana%20(2026)%20Hindi%201080p%20HDTS%20x264%20ESub%20%5BDDN%5D/Moana%20%282026%29%20Hindi%201080p%20HDTS%20x264%20ESub%20%5BDDN%5D.mp4"
   },
    {
     "title": "Pati Patni Aur Woh Do",
