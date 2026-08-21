@@ -1,0 +1,20 @@
+[
+  {
+    "type": "tv-channel",
+    "country": "",
+    "image": "",
+    "CN": {
+      "btv_news": { 
+        "name": "BTV News", 
+        "tvglogo": "", 
+        "group": "", 
+        "url": "" 
+      },
+      "atn_bangla": { 
+        "name": "", 
+        "tvglogo": "", 
+        "group": "ALL", 
+        "url": "" 
+        },
+      }
+  ]
