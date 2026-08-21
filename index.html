@@ -104,7 +104,7 @@
 
         .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        /* কার্ড ইনফো ও টাইটেল আগের স্টাইলে ফেরত আনা হয়েছে */
+        /* কার্ড ইনফো ও টাইটেল */
         .card-info { padding: 6px 8px; }
 
         .card-title {
@@ -464,7 +464,12 @@
                 if (loadedData[cat] && Array.isArray(loadedData[cat])) {
                     loadedData[cat].forEach(item => {
                         if (item.country) countries.add(item.country);
-                        if (item.category) categories.add(item.category);
+                        
+                        // কমা দিয়ে আলাদা থাকা ক্যাটাগরিগুলোকে আলাদা অপশন হিসেবে সেটে যোগ করা
+                        if (item.category) {
+                            item.category.split(',').forEach(c => categories.add(c.trim()));
+                        }
+                        
                         if (item.language) languages.add(item.language);
                     });
                 }
@@ -524,9 +529,14 @@
                     return (item.country || '').toLowerCase().includes(searchVal);
                 }
                 const title = (item.name || item.title || '').toLowerCase();
+                
+                // কমা থাকা ফিল্টার লজিক প্রক্রিয়াকরণ
+                const itemCategories = item.category ? item.category.split(',').map(c => c.trim()) : [];
+                const matchesCategory = categoryVal === 'all' || itemCategories.includes(categoryVal);
+
                 return title.includes(searchVal) &&
                     (countryVal === 'all' || item.country === countryVal) &&
-                    (categoryVal === 'all' || item.category === categoryVal) &&
+                    matchesCategory &&
                     (languageVal === 'all' || item.language === languageVal);
             });
 
