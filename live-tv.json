@@ -186,9 +186,9 @@
       },
       "Cartoon_Network": { 
         "name": "Cartoon Network", 
-        "tvglogo": "https://i.ibb.co.com/8B0Lpzd/1000021166.png yasol", 
+        "tvglogo": "https://i.ibb.co.com/8B0Lpzd/1000021166.png", 
         "group": "KIDS", 
-        "url": "https://vodzong.mjunoon.tv:8087/streamtest/cartoon-network-87/playlist.m3u8"  
+        "url": "https://vodzong.mjunoon.tv:8087/streamtest/cartoon-network-87/playlist.m3u8 yasol"  
       },
       "zoom": {
         "name": "Zoom",
