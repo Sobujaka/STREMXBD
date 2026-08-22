@@ -152,6 +152,33 @@
             overflow: hidden;
             text-overflow: ellipsis;
             padding-bottom: 2px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .server-buttons {
+            display: inline-flex;
+            gap: 8px;
+            vertical-align: middle;
+        }
+
+        .server-btn {
+            background: #1e293b;
+            color: #94a3b8;
+            border: 1px solid #334155;
+            padding: 4px 10px;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .server-btn:hover, .server-btn.active {
+            background: #3b82f6;
+            color: #fff;
+            border-color: #3b82f6;
         }
 
         .video-wrapper {
@@ -796,7 +823,7 @@
                     div.onclick = () => {
                         document.querySelectorAll('.channel-item').forEach(c => c.classList.remove('active'));
                         div.classList.add('active');
-                        playChannelWithFallback(ch.links, ch.name, 0);
+                        playChannelWithButtons(ch.links, ch.name, 0);
                     };
                     div.innerHTML = `<img src="${ch.tvglogo}" alt="${ch.name}"><span>${ch.name}</span>`;
                     container.appendChild(div);
@@ -805,18 +832,29 @@
             });
         }
 
-        function playChannelWithFallback(urls, title, index = 0) {
-            if (!urls || index >= urls.length) {
-                alert("এই চ্যানেলের কোনো লিঙ্কই বর্তমানে কাজ করছে না!");
-                return;
+        function playChannelWithButtons(urls, title, activeIndex = 0) {
+            if (!urls || urls.length === 0) return;
+
+            const titleContainer = document.getElementById('videoTitle');
+            
+            let buttonsHTML = '';
+            if (urls.length > 1) {
+                buttonsHTML = '<div class="server-buttons">';
+                urls.forEach((_, idx) => {
+                    const activeClass = idx === activeIndex ? 'active' : '';
+                    buttonsHTML += `<button class="server-btn ${activeClass}" onclick="switchServer(${idx})">Server ${idx + 1}</button>`;
+                });
+                buttonsHTML += '</div>';
             }
 
-            const currentUrl = urls[index];
-            const displayTitle = `${title} ${urls.length > 1 ? `(Link ${index + 1}/${urls.length})` : ''}`;
+            titleContainer.innerHTML = `<span>${title}</span> ${buttonsHTML}`;
 
-            loadVideo(currentUrl, displayTitle, () => {
-                console.log(`Link ${index + 1} failed. Switch to Link ${index + 2}...`);
-                playChannelWithFallback(urls, title, index + 1);
+            window.switchServer = (index) => {
+                playChannelWithButtons(urls, title, index);
+            };
+
+            loadVideo(urls[activeIndex], `${title} (Server ${activeIndex + 1})`, () => {
+                console.log(`Server ${activeIndex + 1} failed.`);
             });
         }
 
@@ -838,7 +876,11 @@
         function loadVideo(url, title, onErrorCallback = null) {
             const iframe = document.getElementById('iframePlayer');
             const artContainer = document.getElementById('artPlayerContainer');
-            document.getElementById('videoTitle').innerText = title || '';
+            
+            const videoTitleEl = document.getElementById('videoTitle');
+            if (!videoTitleEl.querySelector('.server-buttons')) {
+                videoTitleEl.innerText = title || '';
+            }
 
             destroyPlayers();
 
@@ -867,7 +909,6 @@
                     }
                 };
 
-                // ৮ সেকেন্ডের মধ্যে স্ট্রিমিং না চালুর হলে অটো পরের লিঙ্ক টেস্ট করবে
                 streamTimeout = setTimeout(() => {
                     handleError();
                 }, 8000);
