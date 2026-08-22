@@ -390,7 +390,7 @@
             { name: "Live TV", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/tv.json" }
         ];
 
-        let loadedData = {}, currentTab = 'All', artInstance = null, hlsInstance = null;
+        let loadedData = {}, currentTab = 'All', artInstance = null, hlsInstance = null, streamTimeout = null;
         let previousScrollPosition = 0;
         let allFlatItems = [];
 
@@ -762,7 +762,10 @@
                             links: [ch.url]
                         };
                     } else {
-                        uniqueChannels[chNameKey].links.push(ch.url);
+                        // ব্যাকআপ লিঙ্ক যুক্ত করার পূর্বে ডুপ্লিকেট লিঙ্ক ফিল্টার
+                        if (!uniqueChannels[chNameKey].links.includes(ch.url)) {
+                            uniqueChannels[chNameKey].links.push(ch.url);
+                        }
                     }
                 });
             }
@@ -794,7 +797,7 @@
                     div.onclick = () => {
                         document.querySelectorAll('.channel-item').forEach(c => c.classList.remove('active'));
                         div.classList.add('active');
-                        playChannelWithFallback(ch.links, ch.name);
+                        playChannelWithFallback(ch.links, ch.name, 0);
                     };
                     div.innerHTML = `<img src="${ch.tvglogo}" alt="${ch.name}"><span>${ch.name}</span>`;
                     container.appendChild(div);
@@ -805,17 +808,24 @@
 
         function playChannelWithFallback(urls, title, index = 0) {
             if (!urls || index >= urls.length) {
-                alert("এই চ্যানেলের কোনো লিঙ্কই বর্তমানে চালু হচ্ছে না!");
+                alert("এই চ্যানেলের কোনো লিঙ্কই বর্তমানে কাজ করছে না!");
                 return;
             }
 
             const currentUrl = urls[index];
-            loadVideo(currentUrl, `${title} ${urls.length > 1 ? `(Link ${index + 1})` : ''}`, () => {
+            const displayTitle = `${title} ${urls.length > 1 ? `(Link ${index + 1}/${urls.length})` : ''}`;
+
+            loadVideo(currentUrl, displayTitle, () => {
+                console.log(`Link ${index + 1} failed. Switch to Link ${index + 2}...`);
                 playChannelWithFallback(urls, title, index + 1);
             });
         }
 
         function destroyPlayers() {
+            if (streamTimeout) {
+                clearTimeout(streamTimeout);
+                streamTimeout = null;
+            }
             if (hlsInstance) {
                 hlsInstance.destroy();
                 hlsInstance = null;
@@ -833,7 +843,10 @@
 
             destroyPlayers();
 
-            if (!url) return;
+            if (!url) {
+                if (onErrorCallback) onErrorCallback();
+                return;
+            }
 
             const cleanUrl = url.trim();
             const lowerUrl = cleanUrl.toLowerCase();
@@ -845,6 +858,20 @@
                 iframe.style.display = 'none';
                 iframe.src = '';
                 artContainer.style.display = 'block';
+
+                let hasTriggeredError = false;
+                const handleError = () => {
+                    if (!hasTriggeredError) {
+                        hasTriggeredError = true;
+                        destroyPlayers();
+                        if (onErrorCallback) onErrorCallback();
+                    }
+                };
+
+                // ৫ সেকেন্ডের মধ্যে স্ট্রিমিং না চালুর হলে অটো পরের লিঙ্ক টেস্ট করবে
+                streamTimeout = setTimeout(() => {
+                    handleError();
+                }, 5000);
 
                 artInstance = new Artplayer({
                     container: '#artPlayerContainer',
@@ -862,31 +889,27 @@
                                 hlsInstance.loadSource(videoUrl);
                                 hlsInstance.attachMedia(video);
                                 
+                                hlsInstance.on(Hls.Events.MANIFEST_PARSED, function () {
+                                    if (streamTimeout) {
+                                        clearTimeout(streamTimeout);
+                                        streamTimeout = null;
+                                    }
+                                });
+
                                 hlsInstance.on(Hls.Events.ERROR, function (event, data) {
                                     if (data.fatal) {
-                                        switch (data.type) {
-                                            case Hls.ErrorTypes.NETWORK_ERROR:
-                                                if (onErrorCallback) {
-                                                    onErrorCallback();
-                                                } else {
-                                                    hlsInstance.startLoad();
-                                                }
-                                                break;
-                                            case Hls.ErrorTypes.MEDIA_ERROR:
-                                                hlsInstance.recoverMediaError();
-                                                break;
-                                            default:
-                                                if (onErrorCallback) {
-                                                    onErrorCallback();
-                                                } else {
-                                                    destroyPlayers();
-                                                }
-                                                break;
-                                        }
+                                        handleError();
                                     }
                                 });
                             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                                 video.src = videoUrl;
+                                video.addEventListener('loadedmetadata', () => {
+                                    if (streamTimeout) {
+                                        clearTimeout(streamTimeout);
+                                        streamTimeout = null;
+                                    }
+                                });
+                                video.addEventListener('error', handleError);
                             }
                         },
                     },
@@ -897,6 +920,15 @@
                     fullscreenWeb: true,
                     theme: '#3b82f6',
                 });
+
+                artInstance.on('video:playing', () => {
+                    if (streamTimeout) {
+                        clearTimeout(streamTimeout);
+                        streamTimeout = null;
+                    }
+                });
+
+                artInstance.on('error', handleError);
 
             } else {
                 artContainer.style.display = 'none';
