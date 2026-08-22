@@ -182,13 +182,13 @@
         "name": "Sony Yay", 
         "tvglogo": "https://tse3.mm.bing.net/th/id/OIP.HX74tYQ2garyYz_SdRdBXgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
         "group": "KIDS", 
-        "url": "https://s2.itcnbd.live/server-2/stream/sonyyay.m3u8 yasol" 
+        "url": "https://s2.itcnbd.live/server-2/stream/sonyyay.m3u8" 
       },
       "Cartoon_Network": { 
         "name": "Cartoon Network", 
         "tvglogo": "https://i.ibb.co.com/8B0Lpzd/1000021166.png", 
         "group": "KIDS", 
-        "url": "https://vodzong.mjunoon.tv:8087/streamtest/cartoon-network-87/playlist.m3u8 yasol"  
+        "url": "https://vodzong.mjunoon.tv:8087/streamtest/cartoon-network-87/playlist.m3u8"  
       },
       "zoom": {
         "name": "Zoom",
