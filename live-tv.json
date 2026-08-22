@@ -178,6 +178,12 @@
         "group": "KIDS", 
         "url": "https://vodzong.mjunoon.tv:8087/streamtest/cartoon-network-87/playlist.m3u8"  
       },
+       "Cartoon_Network": { 
+        "name": "Cartoon Network", 
+        "tvglogo": "https://i.ibb.co.com/8B0Lpzd/1000021166.png", 
+        "group": "KIDS", 
+        "url": "https://tvsen5.aynaott.com/cartoonnetwork/index.m3u8"  
+      },
       "zoom": {
         "name": "Zoom",
         "tvglogo": "https://i1.sndcdn.com/avatars-000120257144-5fcxjn-t500x500.jpg",
