@@ -4,17 +4,6 @@
     "country": "Bangladesh",
     "image": "https://copilot.microsoft.com/th/id/BCO.c8b1cdc3-8825-4e16-9237-282f672d929e.png",
     "CN": {
-    "btv": {
-    "name": "BTV NEWS",
-    "tvglogo": "https://tse2.mm.bing.net/th/id/OIP.-m2pq-jn4T5Vl5HmYcXhKwHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
-    "group": "NEWS",
-    "url": "http://103.165.93.31:8095/btv/tracks-v1a1/mono.m3u8 yasol"
-    },
-    "somoy_tv": {
-    "name": "Somoy TV",
-    "tvglogo": "https://basis.org.bd/public/images/logo/201605251226511585975756_Somoy_Logo.jpg",
-    "group": "NEWS",
-    "url": "http://103.165.93.31:8095/somoyTv/tracks-v1a1/mono.m3u8 yasol"
     },
       "atn_bangla": { 
         "name": "ATN Bangla", 
