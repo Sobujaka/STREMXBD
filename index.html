@@ -76,7 +76,6 @@
             margin-bottom: 30px;
         }
 
-        /* কার্ডের বর্ডার সবুজ */
         .card {
             background-color: #161e2e;
             border-radius: 6px;
@@ -104,7 +103,6 @@
 
         .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        /* কার্ড ইনফো ও টাইটেল */
         .card-info { padding: 6px 8px; }
 
         .card-title {
@@ -480,7 +478,6 @@
                         }
                         
                         if (item.category) {
-                            // কমা, স্লাশ বা স্পেস দিয়ে যুক্ত ক্যাটাগরিগুলোকে আলাদা করা
                             const catList = item.category.split(/[,/]+/).map(c => c.trim());
                             catList.forEach(c => {
                                 if (c) {
@@ -750,7 +747,25 @@
 
         function setupLiveTVPlayer(item, sidebar) {
             const groups = new Set();
-            if (item.CN) Object.values(item.CN).forEach(ch => { if(ch.group) groups.add(ch.group); });
+            const uniqueChannels = {};
+
+            if (item.CN) {
+                Object.values(item.CN).forEach(ch => {
+                    if (ch.group) groups.add(ch.group);
+                    const chNameKey = ch.name.trim().toLowerCase();
+
+                    if (!uniqueChannels[chNameKey]) {
+                        uniqueChannels[chNameKey] = {
+                            name: ch.name,
+                            tvglogo: ch.tvglogo,
+                            group: ch.group,
+                            links: [ch.url]
+                        };
+                    } else {
+                        uniqueChannels[chNameKey].links.push(ch.url);
+                    }
+                });
+            }
 
             let groupOptions = '<option value="all">Group: All</option>';
             groups.forEach(g => groupOptions += `<option value="${g}">${g}</option>`);
@@ -759,7 +774,7 @@
                 <div class="filter-group"><label>Group Filter</label><select id="groupSelect" onchange="filterChannels()">${groupOptions}</select></div>
                 <div id="channelList" class="channel-list"></div>
             `;
-            window.currentChannels = item.CN || {};
+            window.currentChannels = uniqueChannels;
             renderChannels('all');
         }
 
@@ -779,12 +794,24 @@
                     div.onclick = () => {
                         document.querySelectorAll('.channel-item').forEach(c => c.classList.remove('active'));
                         div.classList.add('active');
-                        loadVideo(ch.url, ch.name);
+                        playChannelWithFallback(ch.links, ch.name);
                     };
                     div.innerHTML = `<img src="${ch.tvglogo}" alt="${ch.name}"><span>${ch.name}</span>`;
                     container.appendChild(div);
                     if (isFirst) { div.click(); isFirst = false; }
                 }
+            });
+        }
+
+        function playChannelWithFallback(urls, title, index = 0) {
+            if (!urls || index >= urls.length) {
+                alert("এই চ্যানেলের কোনো লিঙ্কই বর্তমানে চালু হচ্ছে না!");
+                return;
+            }
+
+            const currentUrl = urls[index];
+            loadVideo(currentUrl, `${title} ${urls.length > 1 ? `(Link ${index + 1})` : ''}`, () => {
+                playChannelWithFallback(urls, title, index + 1);
             });
         }
 
@@ -799,7 +826,7 @@
             }
         }
 
-        function loadVideo(url, title) {
+        function loadVideo(url, title, onErrorCallback = null) {
             const iframe = document.getElementById('iframePlayer');
             const artContainer = document.getElementById('artPlayerContainer');
             document.getElementById('videoTitle').innerText = title || '';
@@ -839,13 +866,21 @@
                                     if (data.fatal) {
                                         switch (data.type) {
                                             case Hls.ErrorTypes.NETWORK_ERROR:
-                                                hlsInstance.startLoad();
+                                                if (onErrorCallback) {
+                                                    onErrorCallback();
+                                                } else {
+                                                    hlsInstance.startLoad();
+                                                }
                                                 break;
                                             case Hls.ErrorTypes.MEDIA_ERROR:
                                                 hlsInstance.recoverMediaError();
                                                 break;
                                             default:
-                                                destroyPlayers();
+                                                if (onErrorCallback) {
+                                                    onErrorCallback();
+                                                } else {
+                                                    destroyPlayers();
+                                                }
                                                 break;
                                         }
                                     }
