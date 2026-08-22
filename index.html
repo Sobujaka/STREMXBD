@@ -762,7 +762,6 @@
                             links: [ch.url]
                         };
                     } else {
-                        // ব্যাকআপ লিঙ্ক যুক্ত করার পূর্বে ডুপ্লিকেট লিঙ্ক ফিল্টার
                         if (!uniqueChannels[chNameKey].links.includes(ch.url)) {
                             uniqueChannels[chNameKey].links.push(ch.url);
                         }
@@ -868,10 +867,10 @@
                     }
                 };
 
-                // ৫ সেকেন্ডের মধ্যে স্ট্রিমিং না চালুর হলে অটো পরের লিঙ্ক টেস্ট করবে
+                // ৮ সেকেন্ডের মধ্যে স্ট্রিমিং না চালুর হলে অটো পরের লিঙ্ক টেস্ট করবে
                 streamTimeout = setTimeout(() => {
                     handleError();
-                }, 5000);
+                }, 8000);
 
                 artInstance = new Artplayer({
                     container: '#artPlayerContainer',
@@ -882,9 +881,13 @@
                             if (Hls.isSupported()) {
                                 hlsInstance = new Hls({
                                     enableWorker: true,
-                                    lowLatencyMode: true,
-                                    maxBufferLength: 30,
-                                    maxMaxBufferLength: 60
+                                    lowLatencyMode: false,
+                                    maxBufferLength: 60,
+                                    maxMaxBufferLength: 120,
+                                    maxBufferSize: 60 * 1024 * 1024,
+                                    maxBufferHole: 0.5,
+                                    highBufferWatchdogPeriod: 2,
+                                    nudgeMaxRetry: 5
                                 });
                                 hlsInstance.loadSource(videoUrl);
                                 hlsInstance.attachMedia(video);
