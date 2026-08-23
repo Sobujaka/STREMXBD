@@ -196,6 +196,12 @@
         "group": "KIDS", 
         "url": "https://tvsen5.aynaott.com/cartoonnetwork/index.m3u8"  
       },
+      "Muic india": {
+    "name": "Music india",
+    "tvglogo": "https://dtil.tmsimg.com/assets/s143563_ld_h15_aa.png?lock=720x540",
+    "group": "Music",
+    "url": "https://cdn-2.pishow.tv/live/226/master.m3u8"
+    },
       "zoom": {
         "name": "Zoom",
         "tvglogo": "https://i1.sndcdn.com/avatars-000120257144-5fcxjn-t500x500.jpg",
