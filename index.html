@@ -8,6 +8,9 @@
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <!-- Artplayer.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/artplayer/dist/artplayer.js"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -22,7 +25,8 @@
             padding: 20px;
         }
 
-        #home-view { display: block; }
+        #home-view, #history-fav-view { display: block; }
+        #history-fav-view { display: none; }
 
         .navbar {
             display: flex;
@@ -31,6 +35,108 @@
             flex-wrap: wrap;
             padding: 10px 0;
             margin-bottom: 25px;
+            position: relative;
+        }
+
+        .profile-container {
+            position: relative;
+            margin-left: auto;
+            z-index: 1000;
+        }
+
+        .profile-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background-color: #1f2937;
+            border: 2px solid #3b82f6;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .profile-icon:hover { transform: scale(1.05); }
+
+        .profile-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: #94a3b8;
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background-color: #161e2e;
+            border: 1px solid #1f2937;
+            border-radius: 8px;
+            width: 200px;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .user-dropdown.show { display: flex; }
+
+        .dropdown-item {
+            padding: 12px 16px;
+            font-size: 14px;
+            color: #f8fafc;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dropdown-item:hover { background-color: #1f2937; }
+        .dropdown-item.logout { color: #ef4444; border-top: 1px solid #1f2937; }
+
+        .fav-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.2s;
+        }
+        .fav-btn:hover { transform: scale(1.1); }
+        .fav-btn svg { width: 16px; height: 16px; fill: #94a3b8; }
+        .fav-btn.active svg { fill: #ef4444; }
+
+        .view-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #1f2937;
+            padding-bottom: 10px;
+        }
+
+        .view-title { font-size: 22px; font-weight: 600; color: #3b82f6; }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            color: #94a3b8;
         }
 
         .search-box {
@@ -86,9 +192,9 @@
             transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
         }
 
-        .card:hover { 
-            transform: translateY(-5px); 
-            border-color: #059669; 
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #059669;
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
 
@@ -327,9 +433,9 @@
             .media-grid { grid-template-columns: repeat(4, 1fr); }
         }
 
-        @media (max-width: 600px) { 
+        @media (max-width: 600px) {
             body { padding: 10px; }
-            .media-grid { grid-template-columns: repeat(2, 1fr); } 
+            .media-grid { grid-template-columns: repeat(2, 1fr); }
             #player-view { padding: 0; background-color: #0f172a; }
             .player-container { border-radius: 0; border: none; padding: 10px; gap: 12px; }
             .player-title { font-size: 15px; }
@@ -361,8 +467,42 @@
             <select id="countrySelect" class="select-link" onchange="applyFilters()"><option value="all">Country: All</option></select>
             <select id="categorySelect" class="select-link" onchange="applyFilters()"><option value="all">Category: All</option></select>
             <select id="languageSelect" class="select-link" onchange="applyFilters()"><option value="all">Language: All</option></select>
+
+            <div class="profile-container">
+                <div class="profile-icon" id="profileIcon" onclick="toggleDropdown(event)">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                </div>
+                <div class="user-dropdown" id="userDropdown">
+                    <div id="userInfoDisplay" style="padding: 12px 16px; border-bottom: 1px solid #1f2937; display: none;">
+                        <div id="dropdownUserName" style="font-weight: 600; font-size: 14px;"></div>
+                        <div id="dropdownUserEmail" style="font-size: 12px; color: #94a3b8;"></div>
+                    </div>
+                    <div class="dropdown-item" onclick="showFavorites()">
+                        <svg style="width:16px; height:16px; fill:#3b82f6" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        Favorites
+                    </div>
+                    <div class="dropdown-item" onclick="showHistory()">
+                        <svg style="width:16px; height:16px; fill:#10b981" viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+                        History
+                    </div>
+                    <div class="dropdown-item" id="dropdownLoginBtn" onclick="handleAuth()">
+                        Login with Google
+                    </div>
+                    <div class="dropdown-item logout" id="dropdownLogoutBtn" onclick="logout()" style="display: none;">
+                        Logout
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="main-content"></div>
+    </div>
+
+    <div id="history-fav-view">
+        <div class="view-header">
+            <h2 id="historyFavTitle" class="view-title">Favorites</h2>
+            <button class="nav-link" style="color: #ef4444;" onclick="closeHistoryFavView()">Close ✕</button>
+        </div>
+        <div id="history-fav-content"></div>
     </div>
 
     <div id="player-view">
@@ -384,6 +524,168 @@
     </div>
 
     <script>
+        // --- Firebase Configuration ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyCYpyD5bDR2PCVvZR0HHnb410EJWRuZITg",
+            authDomain: "anime-stream-bd.firebaseapp.com",
+            databaseURL: "https://anime-stream-bd-default-rtdb.firebaseio.com",
+            projectId: "anime-stream-bd",
+            storageBucket: "anime-stream-bd.firebasestorage.app",
+            messagingSenderId: "664804369599",
+            appId: "1:664804369599:web:c2ce67b0e0e4a59050520a"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const provider = new firebase.auth.GoogleAuthProvider();
+
+        function handleAuth() {
+            auth.signInWithPopup(provider).then((result) => {
+                console.log("Logged in:", result.user);
+            }).catch((error) => {
+                console.error("Login failed:", error.message);
+                alert("Google Login failed: " + error.message);
+            });
+        }
+
+        function logout() {
+            auth.signOut();
+        }
+
+        auth.onAuthStateChanged((user) => {
+            const loginBtn = document.getElementById('dropdownLoginBtn');
+            const logoutBtn = document.getElementById('dropdownLogoutBtn');
+            const userInfo = document.getElementById('userInfoDisplay');
+            const icon = document.getElementById('profileIcon');
+
+            if (user) {
+                loginBtn.style.display = 'none';
+                logoutBtn.style.display = 'flex';
+                userInfo.style.display = 'block';
+                document.getElementById('dropdownUserName').innerText = user.displayName;
+                document.getElementById('dropdownUserEmail').innerText = user.email;
+                icon.innerHTML = `<img src="${user.photoURL}" alt="Profile">`;
+            } else {
+                loginBtn.style.display = 'flex';
+                logoutBtn.style.display = 'none';
+                userInfo.style.display = 'none';
+                icon.innerHTML = `<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>`;
+            }
+        });
+
+        function toggleDropdown(e) {
+            e.stopPropagation();
+            document.getElementById('userDropdown').classList.toggle('show');
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('.profile-container')) {
+                document.getElementById('userDropdown').classList.remove('show');
+            }
+        }
+
+        // --- History & Favorites Logic ---
+        let watchHistory = JSON.parse(localStorage.getItem('stremxbd_history') || '[]');
+        let favorites = JSON.parse(localStorage.getItem('stremxbd_favorites') || '[]');
+
+        function saveHistory() { localStorage.setItem('stremxbd_history', JSON.stringify(watchHistory)); }
+        function saveFavorites() { localStorage.setItem('stremxbd_favorites', JSON.stringify(favorites)); }
+
+        function addToHistory(item) {
+            const newItem = { ...item };
+            delete newItem.languagesMap;
+            watchHistory = watchHistory.filter(h => (h.title || h.name) !== (newItem.title || newItem.name));
+            watchHistory.unshift(newItem);
+            if (watchHistory.length > 50) watchHistory.pop();
+            saveHistory();
+        }
+
+        function toggleFavorite(e, item) {
+            e.stopPropagation();
+            const title = item.title || item.name;
+            const index = favorites.findIndex(f => (f.title || f.name) === title);
+            if (index > -1) {
+                favorites.splice(index, 1);
+                e.currentTarget.classList.remove('active');
+            } else {
+                const favItem = { ...item };
+                delete favItem.languagesMap;
+                favorites.push(favItem);
+                e.currentTarget.classList.add('active');
+            }
+            saveFavorites();
+        }
+
+        function isFavorite(title) {
+            return favorites.some(f => (f.title || f.name) === title);
+        }
+
+        function showFavorites() {
+            document.getElementById('userDropdown').classList.remove('show');
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('player-view').style.display = 'none';
+            document.getElementById('history-fav-view').style.display = 'block';
+            document.getElementById('historyFavTitle').innerText = 'My Favorites';
+            renderSpecialGrid(favorites, 'history-fav-content');
+        }
+
+        function showHistory() {
+            document.getElementById('userDropdown').classList.remove('show');
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('player-view').style.display = 'none';
+            document.getElementById('history-fav-view').style.display = 'block';
+            document.getElementById('historyFavTitle').innerText = 'Watch History';
+            renderSpecialGrid(watchHistory, 'history-fav-content');
+        }
+
+        function closeHistoryFavView() {
+            document.getElementById('history-fav-view').style.display = 'none';
+            document.getElementById('home-view').style.display = 'block';
+        }
+
+        function renderSpecialGrid(items, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            if (items.length === 0) {
+                container.innerHTML = '<div class="empty-state">No items found here.</div>';
+                return;
+            }
+            const grid = document.createElement('div');
+            grid.className = 'media-grid';
+            items.forEach(item => {
+                const isSquare = item.type === "tv-channel";
+                const displayTitle = isSquare ? item.country : (item.title || item.name || "Untitled");
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => {
+                    closeHistoryFavView();
+                    openPlayerPage(item);
+                };
+
+                const favBtn = document.createElement('button');
+                favBtn.className = 'fav-btn active';
+                favBtn.onclick = (e) => {
+                    toggleFavorite(e, item);
+                    card.remove();
+                    if (grid.children.length === 0) container.innerHTML = '<div class="empty-state">No items found here.</div>';
+                };
+                favBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
+
+                card.appendChild(favBtn);
+                card.innerHTML += `
+                    <div class="card-image-wrapper ${isSquare ? 'square-box' : ''}">
+                        <img src="${item.image || ''}" alt="${displayTitle}">
+                    </div>
+                    <div class="card-info">
+                        <div class="card-title">${displayTitle}</div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            container.appendChild(grid);
+        }
+
         async function checkAdBlocker() {
             const googleAdUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
             try {
@@ -392,7 +694,7 @@
                 fakeAd.innerHTML = '&nbsp;';
                 fakeAd.className = 'adsbox ads-box ad-zone ad-space google-ad';
                 document.body.appendChild(fakeAd);
-                
+
                 setTimeout(() => {
                     if (fakeAd.offsetHeight === 0) showAdBlockWarning();
                     fakeAd.remove();
@@ -446,7 +748,7 @@
         }
 
         async function loadAllJSON() {
-            const fetchPromises = jsonSources.map(source => 
+            const fetchPromises = jsonSources.map(source =>
                 fetch(source.url)
                     .then(res => res.text())
                     .then(textData => ({ category: source.name, data: repairAndParseJSON(textData) }))
@@ -503,7 +805,7 @@
                             const key = raw.toLowerCase();
                             if (!countries.has(key)) countries.set(key, capitalizeText(raw));
                         }
-                        
+
                         if (item.category) {
                             const catList = item.category.split(/[,/]+/).map(c => c.trim());
                             catList.forEach(c => {
@@ -513,7 +815,7 @@
                                 }
                             });
                         }
-                        
+
                         if (item.language) {
                             const raw = item.language.trim();
                             const key = raw.toLowerCase();
@@ -530,7 +832,7 @@
         function fillSelect(id, label, options, storageKey) {
             const select = document.getElementById(id);
             select.innerHTML = `<option value="all">${label}: All</option>`;
-            
+
             options.sort((a, b) => a[1].localeCompare(b[1]));
 
             options.forEach(([key, displayValue]) => {
@@ -539,458 +841,11 @@
                 opt.textContent = displayValue;
                 select.appendChild(opt);
             });
-            
+
             const savedVal = localStorage.getItem(storageKey);
             if (savedVal && options.some(o => o[0] === savedVal)) {
                 select.value = savedVal;
             }
         }
 
-        function filterTab(tabName, element) {
-            document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
-            if(element) element.classList.add('active');
-            currentTab = tabName;
-            localStorage.setItem('selectedTab', tabName);
-
-            const isLiveTV = tabName === 'Live TV';
-            document.getElementById('countrySelect').disabled = isLiveTV;
-            document.getElementById('categorySelect').disabled = isLiveTV;
-            document.getElementById('languageSelect').disabled = isLiveTV;
-            applyFilters();
-        }
-
-        function applyFilters() {
-            const searchVal = document.getElementById('searchInput').value.toLowerCase();
-            const countryVal = document.getElementById('countrySelect').value;
-            const categoryVal = document.getElementById('categorySelect').value;
-            const languageVal = document.getElementById('languageSelect').value;
-
-            localStorage.setItem('searchVal', searchVal);
-            localStorage.setItem('selectedCountry', countryVal);
-            localStorage.setItem('selectedCategory', categoryVal);
-            localStorage.setItem('selectedLanguage', languageVal);
-
-            let items = [];
-            if (currentTab === 'All') {
-                if (loadedData['Anime']) items.push(...loadedData['Anime']);
-                if (loadedData['Movie']) items.push(...loadedData['Movie']);
-                if (loadedData['TV Series']) items.push(...loadedData['TV Series']);
-            } else if (loadedData[currentTab]) {
-                items = loadedData[currentTab];
-            }
-
-            let filtered = items.filter(item => {
-                if (!item) return false;
-                if (currentTab === 'Live TV' || item.type === 'tv-channel') {
-                    return (item.country || '').toLowerCase().includes(searchVal);
-                }
-                const title = (item.name || item.title || '').toLowerCase();
-                
-                const itemCategories = item.category ? item.category.split(/[,/]+/).map(c => c.trim().toLowerCase()) : [];
-                const matchesCategory = categoryVal === 'all' || itemCategories.includes(categoryVal);
-
-                const itemCountry = (item.country || '').trim().toLowerCase();
-                const itemLanguage = (item.language || '').trim().toLowerCase();
-
-                return title.includes(searchVal) &&
-                    (countryVal === 'all' || itemCountry === countryVal) &&
-                    matchesCategory &&
-                    (languageVal === 'all' || itemLanguage === languageVal);
-            });
-
-            const grouped = groupItemsByName(filtered);
-            allFlatItems = grouped;
-            renderGrid(currentTab !== 'Live TV' ? shuffleArray(grouped) : grouped);
-        }
-
-        function groupItemsByName(items) {
-            const map = new Map();
-            items.forEach(item => {
-                if (!item) return;
-                if (item.type === "tv-channel") {
-                    const key = "tv_" + item.country;
-                    if (!map.has(key)) map.set(key, item);
-                    return;
-                }
-                const title = (item.name || item.title || "Untitled").trim();
-                const key = title.toLowerCase();
-
-                if (!map.has(key)) {
-                    map.set(key, { ...item, title: title, languagesMap: { [item.language || 'Default']: item } });
-                } else {
-                    map.get(key).languagesMap[item.language || 'Default'] = item;
-                }
-            });
-            return Array.from(map.values());
-        }
-
-        function renderGrid(items) {
-            const mainContent = document.getElementById('main-content');
-            mainContent.innerHTML = '';
-            const grid = document.createElement('div');
-            grid.className = 'media-grid';
-
-            items.forEach(item => {
-                const isSquare = item.type === "tv-channel";
-                const displayTitle = isSquare ? item.country : (item.title || item.name || "Untitled");
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.onclick = () => openPlayerPage(item);
-                card.innerHTML = `
-                    <div class="card-image-wrapper ${isSquare ? 'square-box' : ''}">
-                        <img src="${item.image || ''}" alt="${displayTitle}">
-                    </div>
-                    <div class="card-info">
-                        <div class="card-title">${displayTitle}</div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-            mainContent.appendChild(grid);
-        }
-
-        function checkAndRestorePlayerFromHash() {
-            if (window.location.hash.startsWith('#player')) {
-                try {
-                    const hashData = decodeURIComponent(window.location.hash.substring(8));
-                    const params = new URLSearchParams(hashData);
-                    const title = params.get('title');
-                    const country = params.get('country');
-
-                    let matchedItem = null;
-                    if (country) {
-                        Object.values(loadedData).forEach(cat => {
-                            if (Array.isArray(cat)) {
-                                cat.forEach(i => { if (i.type === 'tv-channel' && i.country === country) matchedItem = i; });
-                            }
-                        });
-                    } else if (title) {
-                        matchedItem = allFlatItems.find(i => (i.title || i.name) === title);
-                    }
-
-                    if (matchedItem) {
-                        openPlayerPage(matchedItem, false);
-                    }
-                } catch(e) {}
-            }
-        }
-
-        function openPlayerPage(item, updateHash = true) {
-            previousScrollPosition = window.scrollY || document.documentElement.scrollTop;
-            document.getElementById('home-view').style.display = 'none';
-            document.getElementById('player-view').style.display = 'block';
-            document.getElementById('player-view').scrollTop = 0;
-
-            const displayTitle = item.type === "tv-channel" ? item.country : (item.title || item.name || "Untitled");
-            if (updateHash) {
-                const paramKey = item.type === "tv-channel" ? `country=${encodeURIComponent(item.country)}` : `title=${encodeURIComponent(displayTitle)}`;
-                window.location.hash = `player?${paramKey}`;
-            }
-
-            const sidebar = document.getElementById('playerSidebar');
-            sidebar.innerHTML = '';
-
-            if (item.type === "tv-channel") {
-                setupLiveTVPlayer(item, sidebar);
-            } else if (item.episodes || (item.languagesMap && Object.values(item.languagesMap)[0].episodes)) {
-                setupSeriesPlayer(item, sidebar);
-            } else {
-                setupMoviePlayer(item, sidebar);
-            }
-        }
-
-        function setupMoviePlayer(item, sidebar) {
-            const languagesMap = item.languagesMap || { [item.language || 'Default']: item };
-            const langKeys = Object.keys(languagesMap);
-            let langOptions = langKeys.map(lang => `<option value="${lang}">${lang}</option>`).join('');
-
-            sidebar.innerHTML = `<div class="filter-group"><label>Language</label><select id="movieLangSelect">${langOptions}</select></div>`;
-            const langSelect = document.getElementById('movieLangSelect');
-
-            function playSelectedLanguage(lang) {
-                const currentItem = languagesMap[lang] || item;
-                const movieUrl = currentItem["Movie link"] || currentItem["movie_link"] || currentItem.link || currentItem.url || '';
-                loadVideo(movieUrl, `${currentItem.title || currentItem.name} (${lang})`);
-            }
-            langSelect.onchange = (e) => playSelectedLanguage(e.target.value);
-            playSelectedLanguage(langKeys[0]);
-        }
-
-        function setupSeriesPlayer(item, sidebar) {
-            const languagesMap = item.languagesMap || { [item.language || 'Default']: item };
-            const langKeys = Object.keys(languagesMap);
-            let langOptions = langKeys.map(lang => `<option value="${lang}">${lang}</option>`).join('');
-
-            sidebar.innerHTML = `
-                <div class="filter-group"><label>Language</label><select id="langSelect">${langOptions}</select></div>
-                <div class="filter-group"><label>Season</label><select id="seasonSelect"></select></div>
-                <div class="filter-group"><label>Episodes</label><div id="episodesGrid" class="episodes-grid"></div></div>
-            `;
-
-            const langSelect = document.getElementById('langSelect');
-            const seasonSelect = document.getElementById('seasonSelect');
-            const epGrid = document.getElementById('episodesGrid');
-
-            function loadSeriesContent(selectedLang) {
-                const activeItem = languagesMap[selectedLang] || item;
-                const episodes = activeItem.episodes || {};
-                const seasonsMap = {};
-
-                Object.keys(episodes).forEach(key => {
-                    const match = key.match(/(S\d+)(EP\d+)/i);
-                    if (match) {
-                        const season = match[1].toUpperCase(), ep = match[2].toUpperCase();
-                        if (!seasonsMap[season]) seasonsMap[season] = [];
-                        seasonsMap[season].push({ epName: ep, url: episodes[key] });
-                    } else {
-                        if (!seasonsMap['S1']) seasonsMap['S1'] = [];
-                        seasonsMap['S1'].push({ epName: key, url: episodes[key] });
-                    }
-                });
-
-                seasonSelect.innerHTML = Object.keys(seasonsMap).map(s => `<option value="${s}">Season ${s.replace('S', '')}</option>`).join('');
-
-                function renderEpisodes(selectedSeason) {
-                    epGrid.innerHTML = '';
-                    (seasonsMap[selectedSeason] || []).forEach((epData, index) => {
-                        const btn = document.createElement('button');
-                        btn.className = 'ep-btn';
-                        btn.innerText = epData.epName;
-                        btn.onclick = () => {
-                            document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
-                            btn.classList.add('active');
-                            loadVideo(epData.url, `${activeItem.title || activeItem.name} - ${selectedSeason} ${epData.epName}`);
-                        };
-                        epGrid.appendChild(btn);
-                        if (index === 0) btn.click();
-                    });
-                }
-                seasonSelect.onchange = (e) => renderEpisodes(e.target.value);
-                renderEpisodes(Object.keys(seasonsMap)[0] || 'S1');
-            }
-            langSelect.onchange = (e) => loadSeriesContent(e.target.value);
-            loadSeriesContent(langKeys[0]);
-        }
-
-        function setupLiveTVPlayer(item, sidebar) {
-            const groups = new Set();
-            const uniqueChannels = {};
-
-            if (item.CN) {
-                Object.values(item.CN).forEach(ch => {
-                    if (ch.group) groups.add(ch.group);
-                    const chNameKey = ch.name.trim().toLowerCase();
-
-                    if (!uniqueChannels[chNameKey]) {
-                        uniqueChannels[chNameKey] = {
-                            name: ch.name,
-                            tvglogo: ch.tvglogo,
-                            group: ch.group,
-                            links: [ch.url]
-                        };
-                    } else {
-                        if (!uniqueChannels[chNameKey].links.includes(ch.url)) {
-                            uniqueChannels[chNameKey].links.push(ch.url);
-                        }
-                    }
-                });
-            }
-
-            let groupOptions = '<option value="all">Group: All</option>';
-            groups.forEach(g => groupOptions += `<option value="${g}">${g}</option>`);
-
-            sidebar.innerHTML = `
-                <div class="filter-group"><label>Group Filter</label><select id="groupSelect" onchange="filterChannels()">${groupOptions}</select></div>
-                <div id="channelList" class="channel-list"></div>
-            `;
-            window.currentChannels = uniqueChannels;
-            renderChannels('all');
-        }
-
-        function filterChannels() {
-            renderChannels(document.getElementById('groupSelect').value);
-        }
-
-        function renderChannels(group) {
-            const container = document.getElementById('channelList');
-            container.innerHTML = '';
-            let isFirst = true;
-
-            Object.values(window.currentChannels).forEach(ch => {
-                if (group === 'all' || ch.group === group) {
-                    const div = document.createElement('div');
-                    div.className = 'channel-item';
-                    div.onclick = () => {
-                        document.querySelectorAll('.channel-item').forEach(c => c.classList.remove('active'));
-                        div.classList.add('active');
-                        playChannelWithButtons(ch.links, ch.name, 0);
-                    };
-                    div.innerHTML = `<img src="${ch.tvglogo}" alt="${ch.name}"><span>${ch.name}</span>`;
-                    container.appendChild(div);
-                    if (isFirst) { div.click(); isFirst = false; }
-                }
-            });
-        }
-
-        function playChannelWithButtons(urls, title, activeIndex = 0) {
-            if (!urls || urls.length === 0) return;
-
-            const titleContainer = document.getElementById('videoTitle');
-            
-            let buttonsHTML = '';
-            if (urls.length > 1) {
-                buttonsHTML = '<div class="server-buttons">';
-                urls.forEach((_, idx) => {
-                    const activeClass = idx === activeIndex ? 'active' : '';
-                    buttonsHTML += `<button class="server-btn ${activeClass}" onclick="switchServer(${idx})">Server ${idx + 1}</button>`;
-                });
-                buttonsHTML += '</div>';
-            }
-
-            titleContainer.innerHTML = `<span>${title}</span> ${buttonsHTML}`;
-
-            window.switchServer = (index) => {
-                playChannelWithButtons(urls, title, index);
-            };
-
-            loadVideo(urls[activeIndex], `${title} (Server ${activeIndex + 1})`, () => {
-                console.log(`Server ${activeIndex + 1} failed.`);
-            });
-        }
-
-        function destroyPlayers() {
-            if (streamTimeout) {
-                clearTimeout(streamTimeout);
-                streamTimeout = null;
-            }
-            if (hlsInstance) {
-                hlsInstance.destroy();
-                hlsInstance = null;
-            }
-            if (artInstance) {
-                artInstance.destroy();
-                artInstance = null;
-            }
-        }
-
-        function loadVideo(url, title, onErrorCallback = null) {
-            const iframe = document.getElementById('iframePlayer');
-            const artContainer = document.getElementById('artPlayerContainer');
-            
-            const videoTitleEl = document.getElementById('videoTitle');
-            if (!videoTitleEl.querySelector('.server-buttons')) {
-                videoTitleEl.innerText = title || '';
-            }
-
-            destroyPlayers();
-
-            if (!url) {
-                if (onErrorCallback) onErrorCallback();
-                return;
-            }
-
-            const cleanUrl = url.trim();
-            const lowerUrl = cleanUrl.toLowerCase();
-
-            const isProxyStream = lowerUrl.includes('workers.dev') || lowerUrl.includes('/stream') || lowerUrl.includes('.m3u8');
-            const isDirectVideo = lowerUrl.includes('.mp4') || lowerUrl.includes('.mkv');
-
-            if (isProxyStream || isDirectVideo) {
-                iframe.style.display = 'none';
-                iframe.src = '';
-                artContainer.style.display = 'block';
-
-                let hasTriggeredError = false;
-                const handleError = () => {
-                    if (!hasTriggeredError) {
-                        hasTriggeredError = true;
-                        destroyPlayers();
-                        if (onErrorCallback) onErrorCallback();
-                    }
-                };
-
-                streamTimeout = setTimeout(() => {
-                    handleError();
-                }, 8000);
-
-                artInstance = new Artplayer({
-                    container: '#artPlayerContainer',
-                    url: cleanUrl,
-                    type: lowerUrl.includes('.m3u8') ? 'm3u8' : 'auto',
-                    customType: {
-                        m3u8: function (video, videoUrl) {
-                            if (Hls.isSupported()) {
-                                hlsInstance = new Hls({
-                                    enableWorker: true,
-                                    lowLatencyMode: false,
-                                    maxBufferLength: 60,
-                                    maxMaxBufferLength: 120,
-                                    maxBufferSize: 60 * 1024 * 1024,
-                                    maxBufferHole: 0.5,
-                                    highBufferWatchdogPeriod: 2,
-                                    nudgeMaxRetry: 5
-                                });
-                                hlsInstance.loadSource(videoUrl);
-                                hlsInstance.attachMedia(video);
-                                
-                                hlsInstance.on(Hls.Events.MANIFEST_PARSED, function () {
-                                    if (streamTimeout) {
-                                        clearTimeout(streamTimeout);
-                                        streamTimeout = null;
-                                    }
-                                });
-
-                                hlsInstance.on(Hls.Events.ERROR, function (event, data) {
-                                    if (data.fatal) {
-                                        handleError();
-                                    }
-                                });
-                            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                                video.src = videoUrl;
-                                video.addEventListener('loadedmetadata', () => {
-                                    if (streamTimeout) {
-                                        clearTimeout(streamTimeout);
-                                        streamTimeout = null;
-                                    }
-                                });
-                                video.addEventListener('error', handleError);
-                            }
-                        },
-                    },
-                    autoplay: true,
-                    pip: true,
-                    screenshot: true,
-                    fullscreen: true,
-                    fullscreenWeb: true,
-                    theme: '#3b82f6',
-                });
-
-                artInstance.on('video:playing', () => {
-                    if (streamTimeout) {
-                        clearTimeout(streamTimeout);
-                        streamTimeout = null;
-                    }
-                });
-
-                artInstance.on('error', handleError);
-
-            } else {
-                artContainer.style.display = 'none';
-                iframe.style.display = 'block';
-                iframe.src = cleanUrl;
-            }
-        }
-
-        function closePlayerPage() {
-            window.location.hash = '';
-            document.getElementById('player-view').style.display = 'none';
-            document.getElementById('home-view').style.display = 'block';
-            window.scrollTo(0, previousScrollPosition);
-            document.getElementById('iframePlayer').src = '';
-            destroyPlayers();
-        }
-
-        loadAllJSON();
-    </script>
-</body>
-</html>
+        function filterTab
