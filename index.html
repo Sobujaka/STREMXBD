@@ -520,6 +520,7 @@
                 <div class="user-dropdown" id="userDropdown" onclick="event.stopPropagation()">
                     <div class="dropdown-item" id="user-info-tag" style="font-size: 12px; color: #94a3b8; display:none;"></div>
                     <div class="dropdown-item" id="status-tag" style="color: #fbbf24; font-weight: bold;">Status: Free User</div>
+                    <div class="dropdown-item" id="sub-days-tag" style="font-size: 12px; color: #10b981; font-weight: 600; display:none;"></div>
                     <div class="dropdown-item" onclick="openPayment()" style="background: #fbbf24; color: #000; font-weight: bold;">💎 Buy Premium</div>
                     
                     <!-- Integrated Compact Premium Code Input Box -->
@@ -605,6 +606,7 @@
 
         let currentUser = null;
         let isPremium = false;
+        let remainingDays = 0;
         let playbackTimer = null;
 
         if(!localStorage.getItem('deviceId')) {
@@ -617,14 +619,11 @@
             currentUser = user;
             const profileIcon = document.getElementById('profileIcon');
             const googleBtnText = document.getElementById('googleBtnText');
-            const userInfoTag = document.getElementById('user-info-tag');
 
             if (user) {
                 // User logged in
                 profileIcon.innerHTML = `<img src="${user.photoURL || 'https://via.placeholder.com/38'}" alt="profile">`;
                 googleBtnText.innerText = "Logout";
-                userInfoTag.style.display = "block";
-                userInfoTag.innerText = `👤 ${user.displayName || user.email}`;
                 
                 // Check if active user has valid premium stored
                 const userPremiumCode = localStorage.getItem(`premiumCode_${user.uid}`);
@@ -632,14 +631,15 @@
                     verifyPremiumCodeOnLogin(userPremiumCode);
                 } else {
                     isPremium = false;
+                    remainingDays = 0;
                     updateUI();
                 }
             } else {
                 // User logged out
                 profileIcon.innerHTML = `<svg style="width:24px; height:24px; fill:#94a3b8" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>`;
                 googleBtnText.innerText = "Login with Google";
-                userInfoTag.style.display = "none";
                 isPremium = false;
+                remainingDays = 0;
                 updateUI();
             }
         });
@@ -670,18 +670,28 @@
                         const dateStr = found.code.split('date="')[1].split('"')[0];
                         const [d, m, y] = dateStr.split('/').map(Number);
                         const expDate = new Date(y, m - 1, d);
-                        if (new Date() > expDate) {
+                        const today = new Date();
+
+                        if (today > expDate) {
                             isPremium = false;
+                            remainingDays = 0;
                             updateUI();
                             return;
                         }
+
+                        const diffTime = expDate - today;
+                        remainingDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    } else {
+                        remainingDays = null;
                     }
                     isPremium = true;
                 } else {
                     isPremium = false;
+                    remainingDays = 0;
                 }
             } catch(e) {
                 isPremium = false;
+                remainingDays = 0;
             }
             updateUI();
         }
@@ -707,31 +717,34 @@
                 const found = codes.find(c => c.code.includes(enteredCode));
 
                 if (found) {
-                    // Initialize device array if not present
                     let usedDevices = found.usedDevices || (found.usedBy ? [found.usedBy] : []);
                     let usedAccount = found.accountUid || null;
 
-                    // Account lock check
                     if (usedAccount && usedAccount !== currentUser.uid) {
                         alert("Error: This code is already activated on another Google Account!");
                         return;
                     }
 
-                    // Device limit check (Max 3 Devices allowed per code)
                     if (!usedDevices.includes(myDeviceId) && usedDevices.length >= 3) {
                         alert("Error: Limit reached! This code is already active on 3 devices (Mobile, TV, PC).");
                         return;
                     }
 
-                    // Expiration date check
                     if (found.code.includes('date=')) {
                         const dateStr = found.code.split('date="')[1].split('"')[0];
                         const [d, m, y] = dateStr.split('/').map(Number);
                         const expDate = new Date(y, m - 1, d);
-                        if (new Date() > expDate) {
+                        const today = new Date();
+
+                        if (today > expDate) {
                             alert("Error: This code has expired!");
                             return;
                         }
+
+                        const diffTime = expDate - today;
+                        remainingDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    } else {
+                        remainingDays = null;
                     }
 
                     isPremium = true;
@@ -746,9 +759,35 @@
 
         function updateUI() {
             const statusTag = document.getElementById('status-tag');
+            const subDaysTag = document.getElementById('sub-days-tag');
+            const userInfoTag = document.getElementById('user-info-tag');
+
             if (statusTag) {
                 statusTag.innerText = isPremium ? "Premium Active 💎" : "Status: Free User";
                 statusTag.style.color = isPremium ? "#fbbf24" : "#94a3b8";
+            }
+
+            if (subDaysTag) {
+                if (isPremium && remainingDays !== null) {
+                    subDaysTag.style.display = "block";
+                    subDaysTag.innerText = `⏳ Expiry: ${remainingDays} days remaining`;
+                } else if (isPremium) {
+                    subDaysTag.style.display = "block";
+                    subDaysTag.innerText = `⏳ Lifetime / Unlimited`;
+                } else {
+                    subDaysTag.style.display = "none";
+                }
+            }
+
+            if (currentUser && userInfoTag) {
+                userInfoTag.style.display = "block";
+                let nameText = `👤 ${currentUser.displayName || currentUser.email}`;
+                if (isPremium && remainingDays !== null) {
+                    nameText += ` (${remainingDays}d left)`;
+                }
+                userInfoTag.innerText = nameText;
+            } else if (userInfoTag) {
+                userInfoTag.style.display = "none";
             }
         }
 
@@ -1060,7 +1099,6 @@
         }
 
         function openPlayerPage(item, updateHash = true) {
-            // Live TV Premium Restriction Check
             if ((currentTab === 'Live TV' || item.type === 'tv-channel') && !isPremium) {
                 alert('Live TV is only available for Premium Users!');
                 openPayment();
@@ -1089,7 +1127,6 @@
                 setupMoviePlayer(item, sidebar);
             }
 
-            // Free User Playback Limit (5 Minutes Timer)
             if (!isPremium) {
                 if (playbackTimer) clearTimeout(playbackTimer);
                 playbackTimer = setTimeout(() => {
