@@ -604,6 +604,13 @@
         const googleProvider = new firebase.auth.GoogleAuthProvider();
 
         let currentUser = null;
+        let isPremium = false;
+        let playbackTimer = null;
+
+        if(!localStorage.getItem('deviceId')) {
+            localStorage.setItem('deviceId', 'DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase());
+        }
+        const myDeviceId = localStorage.getItem('deviceId');
 
         // User Auth State Change Listener
         auth.onAuthStateChanged((user) => {
@@ -618,11 +625,22 @@
                 googleBtnText.innerText = "Logout";
                 userInfoTag.style.display = "block";
                 userInfoTag.innerText = `👤 ${user.displayName || user.email}`;
+                
+                // Check if active user has valid premium stored
+                const userPremiumCode = localStorage.getItem(`premiumCode_${user.uid}`);
+                if (userPremiumCode) {
+                    verifyPremiumCodeOnLogin(userPremiumCode);
+                } else {
+                    isPremium = false;
+                    updateUI();
+                }
             } else {
                 // User logged out
                 profileIcon.innerHTML = `<svg style="width:24px; height:24px; fill:#94a3b8" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>`;
                 googleBtnText.innerText = "Login with Google";
                 userInfoTag.style.display = "none";
+                isPremium = false;
+                updateUI();
             }
         });
 
@@ -641,15 +659,39 @@
         }
 
         // --- Premium Security System ---
-        let isPremium = localStorage.getItem('isPremium') === 'true';
-        let playbackTimer = null;
+        async function verifyPremiumCodeOnLogin(code) {
+            try {
+                const res = await fetch('https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/pemiumcode.json');
+                const codes = await res.json();
+                const found = codes.find(c => c.code.includes(code));
 
-        if(!localStorage.getItem('deviceId')) {
-            localStorage.setItem('deviceId', 'DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase());
+                if (found) {
+                    if (found.code.includes('date=')) {
+                        const dateStr = found.code.split('date="')[1].split('"')[0];
+                        const [d, m, y] = dateStr.split('/').map(Number);
+                        const expDate = new Date(y, m - 1, d);
+                        if (new Date() > expDate) {
+                            isPremium = false;
+                            updateUI();
+                            return;
+                        }
+                    }
+                    isPremium = true;
+                } else {
+                    isPremium = false;
+                }
+            } catch(e) {
+                isPremium = false;
+            }
+            updateUI();
         }
-        const myDeviceId = localStorage.getItem('deviceId');
 
         async function applyPremiumCode() {
+            if (!currentUser) {
+                alert("Please Login with Google first to apply a Premium Code!");
+                return;
+            }
+
             const codeInput = document.getElementById('premiumCodeInput');
             const enteredCode = codeInput ? codeInput.value.trim() : "";
             
@@ -665,11 +707,23 @@
                 const found = codes.find(c => c.code.includes(enteredCode));
 
                 if (found) {
-                    if (found.usedBy && found.usedBy !== myDeviceId) {
-                        alert("Error: This code is already used on another device!");
+                    // Initialize device array if not present
+                    let usedDevices = found.usedDevices || (found.usedBy ? [found.usedBy] : []);
+                    let usedAccount = found.accountUid || null;
+
+                    // Account lock check
+                    if (usedAccount && usedAccount !== currentUser.uid) {
+                        alert("Error: This code is already activated on another Google Account!");
                         return;
                     }
 
+                    // Device limit check (Max 3 Devices allowed per code)
+                    if (!usedDevices.includes(myDeviceId) && usedDevices.length >= 3) {
+                        alert("Error: Limit reached! This code is already active on 3 devices (Mobile, TV, PC).");
+                        return;
+                    }
+
+                    // Expiration date check
                     if (found.code.includes('date=')) {
                         const dateStr = found.code.split('date="')[1].split('"')[0];
                         const [d, m, y] = dateStr.split('/').map(Number);
@@ -681,9 +735,8 @@
                     }
 
                     isPremium = true;
-                    localStorage.setItem('isPremium', 'true');
-                    localStorage.setItem('activeCode', enteredCode);
-                    alert("Success! Premium Activated on this device.");
+                    localStorage.setItem(`premiumCode_${currentUser.uid}`, enteredCode);
+                    alert("Success! Premium Activated for your Google Account on this device.");
                     location.reload();
                 } else {
                     alert("Invalid Premium Code!");
@@ -695,7 +748,7 @@
             const statusTag = document.getElementById('status-tag');
             if (statusTag) {
                 statusTag.innerText = isPremium ? "Premium Active 💎" : "Status: Free User";
-                if(isPremium) statusTag.style.color = "#fbbf24";
+                statusTag.style.color = isPremium ? "#fbbf24" : "#94a3b8";
             }
         }
 
