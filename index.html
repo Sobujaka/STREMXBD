@@ -43,6 +43,7 @@
             color: #3b82f6;
             font-size: 22px;
             font-weight: bold;
+            cursor: pointer;
         }
 
         .search-box {
@@ -250,6 +251,35 @@
         .card-image-wrapper.square-box { aspect-ratio: 1 / 1; }
 
         .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        /* Action Icons (Love & Delete) */
+        .card-action-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: rgba(15, 23, 42, 0.85);
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: transform 0.2s, background 0.2s;
+            backdrop-filter: blur(4px);
+        }
+
+        .card-action-btn:hover {
+            transform: scale(1.15);
+            background: rgba(15, 23, 42, 1);
+        }
+
+        .card-action-btn svg {
+            width: 16px;
+            height: 16px;
+        }
 
         .card-info { padding: 6px 8px; }
 
@@ -500,7 +530,7 @@
     <!-- Home View -->
     <div id="home-view">
         <div class="navbar">
-            <span class="brand-title">STREMXBD</span>
+            <span class="brand-title" onclick="filterTab('All', document.querySelector('[data-tab=All]'))">STREMXBD</span>
             <input type="text" id="searchInput" class="search-box" placeholder="Search title..." oninput="applyFilters()">
             <button class="nav-link active" data-tab="All" onclick="filterTab('All', this)">All</button>
             <button class="nav-link" data-tab="Anime" onclick="filterTab('Anime', this)">Anime</button>
@@ -521,6 +551,10 @@
                     <div class="dropdown-item" id="user-info-tag" style="font-size: 12px; color: #94a3b8; display:none;"></div>
                     <div class="dropdown-item" id="status-tag" style="color: #fbbf24; font-weight: bold;">Status: Free User</div>
                     <div class="dropdown-item" id="sub-days-tag" style="font-size: 12px; color: #10b981; font-weight: 600; display:none;"></div>
+                    
+                    <!-- Favorite Menu Option -->
+                    <div class="dropdown-item" onclick="showFavorites()" style="color: #ef4444; font-weight: bold;">❤️ Favorites</div>
+
                     <div class="dropdown-item" onclick="openPayment()" style="background: #fbbf24; color: #000; font-weight: bold;">💎 Buy Premium</div>
                     
                     <!-- Integrated Compact Premium Code Input Box -->
@@ -614,6 +648,67 @@
         }
         const myDeviceId = localStorage.getItem('deviceId');
 
+        // Favorites Data Logic
+        function getFavorites() {
+            return JSON.parse(localStorage.getItem('stremxbd_favorites') || '[]');
+        }
+
+        function isFavorite(idKey) {
+            const favs = getFavorites();
+            return favs.some(item => item.idKey === idKey);
+        }
+
+        function toggleFavorite(e, item, idKey) {
+            e.stopPropagation();
+            let favs = getFavorites();
+            const index = favs.findIndex(i => i.idKey === idKey);
+
+            if (index > -1) {
+                favs.splice(index, 1);
+            } else {
+                favs.push({ ...item, idKey: idKey });
+            }
+            localStorage.setItem('stremxbd_favorites', JSON.stringify(favs));
+            
+            if (currentTab === 'Favorites') {
+                showFavorites();
+            } else {
+                applyFilters();
+            }
+        }
+
+        function removeFavorite(e, idKey) {
+            e.stopPropagation();
+            let favs = getFavorites();
+            favs = favs.filter(i => i.idKey !== idKey);
+            localStorage.setItem('stremxbd_favorites', JSON.stringify(favs));
+            
+            if (currentTab === 'Favorites') {
+                showFavorites();
+            } else {
+                applyFilters();
+            }
+        }
+
+        function showFavorites() {
+            document.getElementById('userDropdown').classList.remove('show');
+            currentTab = 'Favorites';
+            document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById('countrySelect').disabled = true;
+            document.getElementById('categorySelect').disabled = true;
+            document.getElementById('languageSelect').disabled = true;
+
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            const favs = getFavorites();
+            const filtered = favs.filter(item => {
+                const title = item.type === "tv-channel" ? item.country : (item.title || item.name || "");
+                return title.toLowerCase().includes(searchVal);
+            });
+
+            renderGrid(filtered, true);
+        }
+
         // User Auth State Change Listener
         auth.onAuthStateChanged((user) => {
             currentUser = user;
@@ -621,11 +716,9 @@
             const googleBtnText = document.getElementById('googleBtnText');
 
             if (user) {
-                // User logged in
                 profileIcon.innerHTML = `<img src="${user.photoURL || 'https://via.placeholder.com/38'}" alt="profile">`;
                 googleBtnText.innerText = "Logout";
                 
-                // Check if active user has valid premium stored
                 const userPremiumCode = localStorage.getItem(`premiumCode_${user.uid}`);
                 if (userPremiumCode) {
                     verifyPremiumCodeOnLogin(userPremiumCode);
@@ -635,7 +728,6 @@
                     updateUI();
                 }
             } else {
-                // User logged out
                 profileIcon.innerHTML = `<svg style="width:24px; height:24px; fill:#94a3b8" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>`;
                 googleBtnText.innerText = "Login with Google";
                 isPremium = false;
@@ -891,7 +983,7 @@
 
         function restoreState() {
             const savedTab = localStorage.getItem('selectedTab');
-            if (savedTab) {
+            if (savedTab && savedTab !== 'Favorites') {
                 currentTab = savedTab;
                 document.querySelectorAll('.nav-link').forEach(btn => {
                     if (btn.getAttribute('data-tab') === currentTab) {
@@ -983,6 +1075,11 @@
         }
 
         function applyFilters() {
+            if (currentTab === 'Favorites') {
+                showFavorites();
+                return;
+            }
+
             const searchVal = document.getElementById('searchInput').value.toLowerCase();
             const countryVal = document.getElementById('countrySelect').value;
             const categoryVal = document.getElementById('categorySelect').value;
@@ -1047,20 +1144,56 @@
             return Array.from(map.values());
         }
 
-        function renderGrid(items) {
+        function renderGrid(items, isFavoritesPage = false) {
             const mainContent = document.getElementById('main-content');
             mainContent.innerHTML = '';
+            
+            if (isFavoritesPage && items.length === 0) {
+                mainContent.innerHTML = '<div style="text-align:center; padding: 50px 0; color: #94a3b8; font-size: 16px;">No Favorite Items Found ❤️</div>';
+                return;
+            }
+
             const grid = document.createElement('div');
             grid.className = 'media-grid';
 
             items.forEach(item => {
                 const isSquare = item.type === "tv-channel";
                 const displayTitle = isSquare ? item.country : (item.title || item.name || "Untitled");
+                const idKey = isSquare ? "tv_" + item.country : displayTitle.toLowerCase();
+                const favStatus = isFavorite(idKey);
+
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.onclick = () => openPlayerPage(item);
+
+                // Action Icon (Love Icon or Delete Icon)
+                let actionBtnHTML = '';
+                if (isFavoritesPage) {
+                    // Trash / Delete Icon in Favorites Page
+                    actionBtnHTML = `
+                        <button class="card-action-btn" onclick="removeFavorite(event, '${idKey}')" title="Remove from Favorites">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                        </button>
+                    `;
+                } else {
+                    // Heart Icon in standard Grid
+                    const heartFill = favStatus ? '#ef4444' : 'none';
+                    const heartStroke = favStatus ? '#ef4444' : '#ffffff';
+                    actionBtnHTML = `
+                        <button class="card-action-btn" onclick="toggleFavorite(event, ${JSON.stringify(item).replace(/"/g, '&quot;')}, '${idKey}')" title="Add to Favorites">
+                            <svg viewBox="0 0 24 24" fill="${heartFill}" stroke="${heartStroke}" stroke-width="2">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                        </button>
+                    `;
+                }
+
                 card.innerHTML = `
                     <div class="card-image-wrapper ${isSquare ? 'square-box' : ''}">
+                        ${actionBtnHTML}
                         <img src="${item.image || ''}" alt="${displayTitle}">
                     </div>
                     <div class="card-info">
