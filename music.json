@@ -1,0 +1,13 @@
+[
+  {
+    "name": "Arijit Singh Hits",
+    "country": "India",
+    "category": "Pop",
+    "singer": "Arijit Singh",
+    "image": "https://example.com/cover.jpg",
+    "episodes": {
+      "Track 01": "https://example.com/song1.mp4",
+      "Track 02": "https://example.com/song2.mp4"
+    }
+  }
+]
