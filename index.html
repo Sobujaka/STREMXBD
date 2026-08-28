@@ -35,7 +35,6 @@
             position: relative;
         }
 
-        /* Top Row for Brand Title, Download Boxes & User Profile */
         .nav-top-row {
             display: flex;
             align-items: center;
@@ -55,7 +54,6 @@
             text-transform: uppercase;
         }
 
-        /* App Download Cards Container */
         .download-cards-container {
             display: flex;
             align-items: center;
@@ -109,7 +107,6 @@
             font-weight: 500;
         }
 
-        /* Modern & Beautiful Search Bar */
         .search-container {
             position: relative;
             width: 100%;
@@ -157,7 +154,6 @@
             fill: #3b82f6;
         }
 
-        /* Navigation Links & Selects Row */
         .nav-links-row {
             display: flex;
             align-items: center;
@@ -200,7 +196,6 @@
 
         .select-link option { background-color: #0f172a; color: #ffffff; }
 
-        /* Profile & Dropdown Styles */
         .profile-container { position: relative; z-index: 1000; }
         .profile-icon { 
             width: 38px; height: 38px; 
@@ -240,7 +235,6 @@
         }
         .dropdown-item:hover { background-color: #1f2937; }
 
-        /* Premium Compact Box inside Dropdown */
         .dropdown-code-box {
             padding: 10px 12px;
             background-color: #0f172a;
@@ -291,7 +285,6 @@
             background-color: #f59e0b;
         }
 
-        /* Google Login Button Style */
         .google-btn {
             display: flex;
             align-items: center;
@@ -312,7 +305,6 @@
             background-color: #e2e8f0;
         }
 
-        /* Premium Payment Modal */
         #payment-modal { 
             display: none; 
             position: fixed; 
@@ -370,7 +362,6 @@
 
         .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        /* Delete Icon in Favorites Grid */
         .card-action-btn {
             position: absolute;
             top: 6px;
@@ -399,7 +390,6 @@
             height: 16px;
         }
 
-        /* Player Favorite Icon Button Style */
         .player-fav-btn {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid #334155;
@@ -755,6 +745,10 @@
                 <button class="nav-link" data-tab="Movie" onclick="filterTab('Movie', this)">Movie</button>
                 <button class="nav-link" data-tab="TV Series" onclick="filterTab('TV Series', this)">TV Series</button>
                 <button class="nav-link" data-tab="Live TV" onclick="filterTab('Live TV', this)">Live TV</button>
+                <button class="nav-link" data-tab="Music" onclick="filterTab('Music', this)">Music</button>
+                <button class="nav-link" data-tab="Sports" onclick="filterTab('Sports', this)">Sports</button>
+                <button class="nav-link" data-tab="Kids" onclick="filterTab('Kids', this)">Kids</button>
+                <button class="nav-link" data-tab="Education" onclick="filterTab('Education', this)">Education</button>
 
                 <select id="countrySelect" class="select-link" onchange="applyFilters()"><option value="all">Country: All</option></select>
                 <select id="categorySelect" class="select-link" onchange="applyFilters()"><option value="all">Category: All</option></select>
@@ -802,7 +796,6 @@
     </div>
 
     <script>
-        // --- Firebase Configuration ---
         const firebaseConfig = {
             apiKey: "AIzaSyDeDyktkprPR_mAk5-twzfjC9IKzHvVo9o",
             authDomain: "stremxbd.firebaseapp.com",
@@ -813,7 +806,6 @@
             measurementId: "G-9LVH35RY4R"
         };
 
-        // Firebase Initialize
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
@@ -832,7 +824,6 @@
         }
         const myDeviceId = localStorage.getItem('deviceId');
 
-        // Favorites Data Logic
         function getFavorites() {
             return JSON.parse(localStorage.getItem('stremxbd_favorites') || '[]');
         }
@@ -895,7 +886,6 @@
             renderGrid(filtered, true);
         }
 
-        // User Auth State Change Listener
         auth.onAuthStateChanged((user) => {
             currentUser = user;
             const profileIcon = document.getElementById('profileIcon');
@@ -936,7 +926,6 @@
             }
         }
 
-        // --- Premium Security System ---
         async function verifyPremiumCodeOnLogin(code) {
             try {
                 const res = await fetch('https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/pemiumcode.json');
@@ -1082,7 +1071,6 @@
             if (dropdown) dropdown.classList.remove('show');
         };
 
-        // --- AdBlocker Logic ---
         async function checkAdBlocker() {
             const googleAdUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
             try {
@@ -1109,12 +1097,15 @@
 
         window.addEventListener('load', checkAdBlocker);
 
-        // --- Content & Player Core Logic ---
         const jsonSources = [
             { name: "Anime", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/anime.json" },
             { name: "Movie", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/movies.json" },
             { name: "TV Series", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/tv-sriese.json" },
-            { name: "Live TV", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/live-tv.json" }
+            { name: "Live TV", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/live-tv.json" },
+            { name: "Music", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/music.json" },
+            { name: "Sports", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/sports.json" },
+            { name: "Kids", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/kids.json" },
+            { name: "Education", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/education.json" }
         ];
 
         let loadedData = {}, currentTab = 'All', artInstance = null, hlsInstance = null, streamTimeout = null;
@@ -1196,7 +1187,7 @@
 
         function populateDropdowns() {
             const countries = new Map(), categories = new Map(), languages = new Map();
-            ['Anime', 'Movie', 'TV Series'].forEach(cat => {
+            ['Anime', 'Movie', 'TV Series', 'Music', 'Sports', 'Kids', 'Education'].forEach(cat => {
                 if (loadedData[cat] && Array.isArray(loadedData[cat])) {
                     loadedData[cat].forEach(item => {
                         if (item.country) {
