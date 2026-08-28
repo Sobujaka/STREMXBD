@@ -1272,6 +1272,7 @@
                 if (loadedData['Anime']) items.push(...loadedData['Anime']);
                 if (loadedData['Movie']) items.push(...loadedData['Movie']);
                 if (loadedData['TV Series']) items.push(...loadedData['TV Series']);
+                if (loadedData['Music']) items.push(...loadedData['Music']);
             } else if (loadedData[currentTab]) {
                 items = loadedData[currentTab];
             }
@@ -1472,18 +1473,27 @@
         }
 
         function setupSeriesPlayer(item, sidebar) {
+            const isMusic = currentTab === 'Music';
             const languagesMap = item.languagesMap || { [item.language || 'Default']: item };
             const langKeys = Object.keys(languagesMap);
-            let langOptions = langKeys.map(lang => `<option value="${lang}">${lang}</option>`).join('');
+            
+            let langHTML = '';
+            if (!isMusic && langKeys.length > 1) {
+                let langOptions = langKeys.map(lang => `<option value="${lang}">${lang}</option>`).join('');
+                langHTML = `<div class="filter-group"><label>Language</label><select id="langSelect">${langOptions}</select></div>`;
+            }
+
+            let seasonHTML = '';
+            if (!isMusic) {
+                seasonHTML = `<div class="filter-group"><label>Season</label><select id="seasonSelect"></select></div>`;
+            }
 
             sidebar.innerHTML = `
-                <div class="filter-group"><label>Language</label><select id="langSelect">${langOptions}</select></div>
-                <div class="filter-group"><label>Season</label><select id="seasonSelect"></select></div>
-                <div class="filter-group"><label>Episodes</label><div id="episodesGrid" class="episodes-grid"></div></div>
+                ${langHTML}
+                ${seasonHTML}
+                <div class="filter-group"><label>${isMusic ? 'Tracks / Songs' : 'Episodes'}</label><div id="episodesGrid" class="episodes-grid" style="${isMusic ? 'grid-template-columns: repeat(2, 1fr);' : ''}"></div></div>
             `;
 
-            const langSelect = document.getElementById('langSelect');
-            const seasonSelect = document.getElementById('seasonSelect');
             const epGrid = document.getElementById('episodesGrid');
 
             function loadSeriesContent(selectedLang) {
@@ -1493,7 +1503,7 @@
 
                 Object.keys(episodes).forEach(key => {
                     const match = key.match(/(S\d+)(EP\d+)/i);
-                    if (match) {
+                    if (match && !isMusic) {
                         const season = match[1].toUpperCase(), ep = match[2].toUpperCase();
                         if (!seasonsMap[season]) seasonsMap[season] = [];
                         seasonsMap[season].push({ epName: ep, url: episodes[key] });
@@ -1503,27 +1513,40 @@
                     }
                 });
 
-                seasonSelect.innerHTML = Object.keys(seasonsMap).map(s => `<option value="${s}">Season ${s.replace('S', '')}</option>`).join('');
+                if (!isMusic) {
+                    const seasonSelect = document.getElementById('seasonSelect');
+                    seasonSelect.innerHTML = Object.keys(seasonsMap).map(s => `<option value="${s}">Season ${s.replace('S', '')}</option>`).join('');
+                    
+                    seasonSelect.onchange = (e) => renderEpisodes(e.target.value);
+                    renderEpisodes(Object.keys(seasonsMap)[0] || 'S1');
+                } else {
+                    renderEpisodes('S1');
+                }
 
                 function renderEpisodes(selectedSeason) {
                     epGrid.innerHTML = '';
                     (seasonsMap[selectedSeason] || []).forEach((epData, index) => {
                         const btn = document.createElement('button');
                         btn.className = 'ep-btn';
+                        btn.style.textAlign = isMusic ? 'left' : 'center';
+                        btn.style.padding = isMusic ? '10px' : '8px 0';
                         btn.innerText = epData.epName;
                         btn.onclick = () => {
                             document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
                             btn.classList.add('active');
-                            loadVideo(epData.url, `${activeItem.title || activeItem.name} - ${selectedSeason} ${epData.epName}`);
+                            loadVideo(epData.url, `${activeItem.title || activeItem.name} - ${epData.epName}`);
                         };
                         epGrid.appendChild(btn);
                         if (index === 0) btn.click();
                     });
                 }
-                seasonSelect.onchange = (e) => renderEpisodes(e.target.value);
-                renderEpisodes(Object.keys(seasonsMap)[0] || 'S1');
             }
-            langSelect.onchange = (e) => loadSeriesContent(e.target.value);
+
+            if (!isMusic && langKeys.length > 1) {
+                const langSelect = document.getElementById('langSelect');
+                langSelect.onchange = (e) => loadSeriesContent(e.target.value);
+            }
+            
             loadSeriesContent(langKeys[0]);
         }
 
@@ -1665,7 +1688,7 @@
             const lowerUrl = cleanUrl.toLowerCase();
 
             const isProxyStream = lowerUrl.includes('workers.dev') || lowerUrl.includes('/stream') || lowerUrl.includes('.m3u8');
-            const isDirectVideo = lowerUrl.includes('.mp4') || lowerUrl.includes('.mkv');
+            const isDirectVideo = lowerUrl.includes('.mp4') || lowerUrl.includes('.mkv') || lowerUrl.includes('.mp3') || lowerUrl.includes('.aac');
 
             if (isProxyStream || isDirectVideo) {
                 iframe.style.display = 'none';
