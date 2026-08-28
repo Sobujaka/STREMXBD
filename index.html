@@ -577,6 +577,14 @@
             margin-top: 10px;
         }
 
+        /* Music playlist vertical list style */
+        .music-episodes-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
         .ep-btn {
             background: #0f172a;
             border: 1px solid #1f2937;
@@ -588,7 +596,19 @@
             text-align: center;
         }
 
-        .ep-btn:hover, .ep-btn.active { background: #3b82f6; border-color: #3b82f6; }
+        .music-ep-btn {
+            background: #0f172a;
+            border: 1px solid #1f2937;
+            color: #fff;
+            padding: 10px 12px;
+            font-size: 13px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+        }
+
+        .ep-btn:hover, .ep-btn.active, .music-ep-btn:hover, .music-ep-btn.active { background: #3b82f6; border-color: #3b82f6; }
 
         .channel-list { display: flex; flex-direction: column; gap: 8px; }
 
@@ -1272,6 +1292,7 @@
                 if (loadedData['Anime']) items.push(...loadedData['Anime']);
                 if (loadedData['Movie']) items.push(...loadedData['Movie']);
                 if (loadedData['TV Series']) items.push(...loadedData['TV Series']);
+                if (loadedData['Music']) items.push(...loadedData['Music']);
             } else if (loadedData[currentTab]) {
                 items = loadedData[currentTab];
             }
@@ -1418,6 +1439,8 @@
 
             if (item.type === "tv-channel") {
                 setupLiveTVPlayer(item, sidebar);
+            } else if (item.song) {
+                setupMusicPlayer(item, sidebar);
             } else if (item.episodes || (item.languagesMap && Object.values(item.languagesMap)[0].episodes)) {
                 setupSeriesPlayer(item, sidebar);
             } else {
@@ -1469,6 +1492,29 @@
             }
             langSelect.onchange = (e) => playSelectedLanguage(e.target.value);
             playSelectedLanguage(langKeys[0]);
+        }
+
+        function setupMusicPlayer(item, sidebar) {
+            sidebar.innerHTML = `
+                <div class="filter-group"><label>Songs</label><div id="episodesGrid" class="music-episodes-grid"></div></div>
+            `;
+
+            const epGrid = document.getElementById('episodesGrid');
+            const songs = item.song || {};
+            const songKeys = Object.keys(songs);
+
+            songKeys.forEach((songName, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'music-ep-btn';
+                btn.innerText = songName.trim();
+                btn.onclick = () => {
+                    document.querySelectorAll('.music-ep-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    loadVideo(songs[songName], `${item.name || item.title} - ${songName.trim()}`);
+                };
+                epGrid.appendChild(btn);
+                if (index === 0) btn.click();
+            });
         }
 
         function setupSeriesPlayer(item, sidebar) {
