@@ -577,7 +577,6 @@
             margin-top: 10px;
         }
 
-        /* Music playlist vertical list style */
         .music-episodes-grid {
             display: flex;
             flex-direction: column;
@@ -695,7 +694,7 @@
     <div id="home-view">
         <div class="navbar">
             <div class="nav-top-row">
-                <span class="brand-title" onclick="filterTab('All', document.querySelector('[data-tab=All]'))">STREMXBD</span>
+                <span class="brand-title" onclick="filterTab('All', document.querySelector('[data-tab=All]'))">WEB-XBD STREAM</span>
                 
                 <div class="download-cards-container">
                     <a href="https://your-domain.com/downloads/stremxbd-tv.apk" class="download-card" title="Download Android TV App">
@@ -1207,7 +1206,20 @@
 
         function populateDropdowns() {
             const countries = new Map(), categories = new Map(), languages = new Map();
-            ['Anime', 'Movie', 'TV Series', 'Music', 'Sports', 'Kids', 'Education'].forEach(cat => {
+            
+            // ট্যাব অনুযায়ী ফিল্টার ডেটা সোর্স নির্ধারণ (All ট্যাবে Music, Sports, Kids, Education থাকবে না)
+            let targetCategories = [];
+            if (currentTab === 'All') {
+                targetCategories = ['Anime', 'Movie', 'TV Series'];
+            } else if (['Music', 'Sports', 'Kids', 'Education'].includes(currentTab)) {
+                targetCategories = [currentTab];
+            } else if (currentTab === 'Live TV') {
+                targetCategories = ['Live TV'];
+            } else {
+                targetCategories = ['Anime', 'Movie', 'TV Series'];
+            }
+
+            targetCategories.forEach(cat => {
                 if (loadedData[cat] && Array.isArray(loadedData[cat])) {
                     loadedData[cat].forEach(item => {
                         if (item.country) {
@@ -1234,6 +1246,7 @@
                     });
                 }
             });
+
             fillSelect('countrySelect', 'Country', Array.from(countries.entries()), 'selectedCountry');
             fillSelect('categorySelect', 'Category', Array.from(categories.entries()), 'selectedCategory');
             fillSelect('languageSelect', 'Language', Array.from(languages.entries()), 'selectedLanguage');
@@ -1255,6 +1268,8 @@
             const savedVal = localStorage.getItem(storageKey);
             if (savedVal && options.some(o => o[0] === savedVal)) {
                 select.value = savedVal;
+            } else {
+                select.value = 'all';
             }
         }
 
@@ -1268,6 +1283,9 @@
             document.getElementById('countrySelect').disabled = isLiveTV;
             document.getElementById('categorySelect').disabled = isLiveTV;
             document.getElementById('languageSelect').disabled = isLiveTV;
+
+            // ট্যাব পরিবর্তন করার সাথে সাথে ড্রপডাউনগুলোও আপডেট করা হচ্ছে
+            populateDropdowns();
             applyFilters();
         }
 
@@ -1292,7 +1310,6 @@
                 if (loadedData['Anime']) items.push(...loadedData['Anime']);
                 if (loadedData['Movie']) items.push(...loadedData['Movie']);
                 if (loadedData['TV Series']) items.push(...loadedData['TV Series']);
-                if (loadedData['Music']) items.push(...loadedData['Music']);
             } else if (loadedData[currentTab]) {
                 items = loadedData[currentTab];
             }
