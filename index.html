@@ -343,6 +343,7 @@
             cursor: pointer;
             border: 1.5px solid #10b981;
             transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+            contain: content; /* Rendering Performance Optimization */
         }
 
         .card:hover { 
@@ -360,7 +361,13 @@
 
         .card-image-wrapper.square-box { aspect-ratio: 1 / 1; }
 
-        .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .card img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            display: block;
+            content-visibility: auto;
+        }
 
         .card-action-btn {
             position: absolute;
@@ -838,6 +845,12 @@
         let playbackTimer = null;
         let currentPlayingItem = null;
 
+        // Lazy rendering Variables
+        let currentPage = 1;
+        const itemsPerPage = 32;
+        let currentRenderItems = [];
+        let isFavoritesView = false;
+
         if(!localStorage.getItem('deviceId')) {
             localStorage.setItem('deviceId', 'DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase());
         }
@@ -902,7 +915,7 @@
                 return title.toLowerCase().includes(searchVal);
             });
 
-            renderGrid(filtered, true);
+            setupInfiniteScroll(filtered, true);
         }
 
         auth.onAuthStateChanged((user) => {
@@ -911,7 +924,7 @@
             const googleBtnText = document.getElementById('googleBtnText');
 
             if (user) {
-                profileIcon.innerHTML = `<img src="${user.photoURL || 'https://via.placeholder.com/38'}" alt="profile">`;
+                profileIcon.innerHTML = `<img src="${user.photoURL || 'https://via.placeholder.com/38'}" alt="profile" loading="lazy">`;
                 googleBtnText.innerText = "Logout";
                 
                 const userPremiumCode = localStorage.getItem(`premiumCode_${user.uid}`);
@@ -1207,7 +1220,6 @@
         function populateDropdowns() {
             const countries = new Map(), categories = new Map(), languages = new Map();
             
-            // ট্যাব অনুযায়ী ফিল্টার ডেটা সোর্স নির্ধারণ (All ট্যাবে Music, Sports, Kids, Education থাকবে না)
             let targetCategories = [];
             if (currentTab === 'All') {
                 targetCategories = ['Anime', 'Movie', 'TV Series'];
@@ -1284,7 +1296,6 @@
             document.getElementById('categorySelect').disabled = isLiveTV;
             document.getElementById('languageSelect').disabled = isLiveTV;
 
-            // ট্যাব পরিবর্তন করার সাথে সাথে ড্রপডাউনগুলোও আপডেট করা হচ্ছে
             populateDropdowns();
             applyFilters();
         }
@@ -1335,7 +1346,7 @@
 
             const grouped = groupItemsByName(filtered);
             allFlatItems = grouped;
-            renderGrid(currentTab !== 'Live TV' ? shuffleArray(grouped) : grouped);
+            setupInfiniteScroll(currentTab !== 'Live TV' ? shuffleArray(grouped) : grouped, false);
         }
 
         function groupItemsByName(items) {
@@ -1359,19 +1370,41 @@
             return Array.from(map.values());
         }
 
-        function renderGrid(items, isFavoritesPage = false) {
+        // Lazy Rendering Engine setup
+        function setupInfiniteScroll(items, isFavoritesPage = false) {
+            currentPage = 1;
+            currentRenderItems = items;
+            isFavoritesView = isFavoritesPage;
+            
             const mainContent = document.getElementById('main-content');
             mainContent.innerHTML = '';
-            
-            if (isFavoritesPage && items.length === 0) {
-                mainContent.innerHTML = '<div style="text-align:center; padding: 50px 0; color: #94a3b8; font-size: 16px;">No Favorite Items Found ❤️</div>';
+
+            if (items.length === 0) {
+                mainContent.innerHTML = `<div style="text-align:center; padding: 50px 0; color: #94a3b8; font-size: 16px;">${isFavoritesPage ? 'No Favorite Items Found ❤️' : 'No Items Found'}</div>`;
                 return;
             }
 
             const grid = document.createElement('div');
             grid.className = 'media-grid';
+            grid.id = 'active-media-grid';
+            mainContent.appendChild(grid);
 
-            items.forEach(item => {
+            renderNextChunk();
+        }
+
+        function renderNextChunk() {
+            const grid = document.getElementById('active-media-grid');
+            if (!grid) return;
+
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = currentPage * itemsPerPage;
+            const chunk = currentRenderItems.slice(start, end);
+
+            if (chunk.length === 0) return;
+
+            const fragment = document.createDocumentFragment();
+
+            chunk.forEach(item => {
                 const isSquare = item.type === "tv-channel";
                 const displayTitle = isSquare ? item.country : (item.title || item.name || "Untitled");
                 const idKey = isSquare ? "tv_" + item.country : displayTitle.toLowerCase();
@@ -1381,7 +1414,7 @@
                 card.onclick = () => openPlayerPage(item);
 
                 let actionBtnHTML = '';
-                if (isFavoritesPage) {
+                if (isFavoritesView) {
                     actionBtnHTML = `
                         <button class="card-action-btn" onclick="removeFavorite(event, '${idKey}')" title="Remove from Favorites">
                             <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1395,16 +1428,27 @@
                 card.innerHTML = `
                     <div class="card-image-wrapper ${isSquare ? 'square-box' : ''}">
                         ${actionBtnHTML}
-                        <img src="${item.image || ''}" alt="${displayTitle}">
+                        <img src="${item.image || ''}" alt="${displayTitle}" loading="lazy" decoding="async">
                     </div>
                     <div class="card-info">
                         <div class="card-title">${displayTitle}</div>
                     </div>
                 `;
-                grid.appendChild(card);
+                fragment.appendChild(card);
             });
-            mainContent.appendChild(grid);
+
+            grid.appendChild(fragment);
+            currentPage++;
         }
+
+        // Scroll listener to dynamically append items when scrolling down
+        window.addEventListener('scroll', () => {
+            if (document.getElementById('home-view').style.display === 'none') return;
+            
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
+                renderNextChunk();
+            }
+        });
 
         function checkAndRestorePlayerFromHash() {
             if (window.location.hash.startsWith('#player')) {
@@ -1643,7 +1687,7 @@
                         div.classList.add('active');
                         playChannelWithButtons(ch.links, ch.name, 0);
                     };
-                    div.innerHTML = `<img src="${ch.tvglogo}" alt="${ch.name}"><span>${ch.name}</span>`;
+                    div.innerHTML = `<img src="${ch.tvglogo}" alt="${ch.name}" loading="lazy"><span>${ch.name}</span>`;
                     container.appendChild(div);
                     if (isFirst) { div.click(); isFirst = false; }
                 }
