@@ -1262,12 +1262,10 @@
             let targetCategories = [];
             if (currentTab === 'All') {
                 targetCategories = ['Anime', 'Movie', 'TV Series'];
-            } else if (['Music', 'Sports', 'Kids', 'Education'].includes(currentTab)) {
+            } else if (['Music', 'Sports', 'Kids', 'Education', 'Live TV'].includes(currentTab)) {
                 targetCategories = [currentTab];
-            } else if (currentTab === 'Live TV') {
-                targetCategories = ['Live TV'];
             } else {
-                targetCategories = ['Anime', 'Movie', 'TV Series'];
+                targetCategories = [currentTab]; // Anime, Movie, or TV Series specific
             }
 
             targetCategories.forEach(cat => {
@@ -1334,6 +1332,11 @@
             document.getElementById('countrySelect').disabled = isLiveTV;
             document.getElementById('categorySelect').disabled = isLiveTV;
             document.getElementById('languageSelect').disabled = isLiveTV;
+
+            // ফিল্টার অপশনগুলো রিসেট করা
+            localStorage.setItem('selectedCountry', 'all');
+            localStorage.setItem('selectedCategory', 'all');
+            localStorage.setItem('selectedLanguage', 'all');
 
             populateDropdowns();
             applyFilters();
