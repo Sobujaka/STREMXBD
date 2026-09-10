@@ -235,7 +235,6 @@
         }
         .dropdown-item:hover { background-color: #1f2937; }
 
-        /* Watch Ad Button Design */
         .watch-ad-item {
             background: linear-gradient(135deg, #10b981, #059669);
             color: #ffffff;
@@ -374,6 +373,24 @@
         }
 
         .card-image-wrapper.square-box { aspect-ratio: 1 / 1; }
+
+        /* Card Language Badge (Top Right) */
+        .card-lang-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: rgba(59, 130, 246, 0.9);
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 7px;
+            border-radius: 4px;
+            z-index: 9;
+            text-transform: uppercase;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+            backdrop-filter: blur(4px);
+            pointer-events: none;
+        }
 
         .card img { 
             width: 100%; 
@@ -764,7 +781,6 @@
                             </div>
                         </div>
 
-                        <!-- 🎬 Watch Ad for 1 Day Premium (Added above Logout) -->
                         <div class="dropdown-item watch-ad-item" onclick="openAdForPremium()">
                             🎬 Watch Ad for 1 Day Premium
                         </div>
@@ -864,7 +880,6 @@
         let playbackTimer = null;
         let currentPlayingItem = null;
 
-        // Lazy rendering Variables
         let currentPage = 1;
         const itemsPerPage = 32;
         let currentRenderItems = [];
@@ -875,9 +890,7 @@
         }
         const myDeviceId = localStorage.getItem('deviceId');
 
-        // 🔥 Open Shortner / Ad Link for 1-Day Premium Code
         function openAdForPremium() {
-            // আপনার অ্যাড শর্টনার / ল্যান্ডিং পেজের লিংকটি এখানে দিন
             const adLink = "https://your-link-shortener-url.com/1day-premium"; 
             window.open(adLink, '_blank');
         }
@@ -1434,6 +1447,20 @@
                 const displayTitle = isSquare ? item.country : (item.title || item.name || "Untitled");
                 const idKey = isSquare ? "tv_" + item.country : displayTitle.toLowerCase();
 
+                let langText = '';
+                if (item.languagesMap) {
+                    const langs = Object.keys(item.languagesMap).filter(l => l && l !== 'Default');
+                    if (langs.length > 1) {
+                        langText = 'Multiple';
+                    } else if (langs.length === 1) {
+                        langText = langs[0];
+                    } else if (item.language) {
+                        langText = item.language;
+                    }
+                } else if (item.language) {
+                    langText = item.language;
+                }
+
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.onclick = () => openPlayerPage(item);
@@ -1450,9 +1477,12 @@
                     `;
                 }
 
+                const langBadgeHTML = langText ? `<div class="card-lang-badge">${langText}</div>` : '';
+
                 card.innerHTML = `
                     <div class="card-image-wrapper ${isSquare ? 'square-box' : ''}">
                         ${actionBtnHTML}
+                        ${langBadgeHTML}
                         <img src="${item.image || ''}" alt="${displayTitle}" loading="lazy" decoding="async">
                     </div>
                     <div class="card-info">
@@ -1500,7 +1530,6 @@
             }
         }
 
-        // 🔒 STRICT PREMIUM CHECK: প্রিমিয়াম ইউজার না হলে ভিডিও/বক্স ওপেন হওয়া ব্লক
         function openPlayerPage(item, updateHash = true) {
             if (!isPremium) {
                 alert('⚠️ Access Denied! Please enter a Premium Code to play videos and access boxes.');
