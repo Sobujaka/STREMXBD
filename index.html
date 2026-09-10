@@ -1053,8 +1053,7 @@
             }
 
             try {
-                // আপনার নতুন Cloudflare Worker URL
-                const res = await fetch('https://noisy-haze-107f.jahangir339932.workers.dev/');
+                const res = await fetch('https://broad-darkness-2d66.jahangir339932.workers.dev/');
                 const codes = await res.json();
                 
                 const found = codes.find(c => c.code.includes(enteredCode));
@@ -1068,9 +1067,8 @@
                         return;
                     }
 
-                    // শুধুমাত্র ১টি ডিভাইসের সীমা চেক
-                    if (!usedDevices.includes(myDeviceId) && usedDevices.length >= 1) {
-                        alert("Error: Limit reached! This code is already active on 1 device.");
+                    if (!usedDevices.includes(myDeviceId) && usedDevices.length >= 3) {
+                        alert("Error: Limit reached! This code is already active on 3 devices (Mobile, TV, PC).");
                         return;
                     }
 
