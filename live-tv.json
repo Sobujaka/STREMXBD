@@ -60,13 +60,13 @@
       },
       "rtv": { 
         "name": "RTV", 
-        "tvglogo": "https://rtvonline.com/Images/rtv-logo.svg", 
+        "tvglogo": "https://rtvonline.com/templates/web-view/images/rtv-logo.svg", 
         "group": "ALL", 
         "url": "https://tvsen5.aynaott.com/RtvHD/index.m3u8" 
       },
        "rtv 1": { 
         "name": "RTV", 
-        "tvglogo": "https://rtvonline.com/Images/rtv-logo.svg", 
+        "tvglogo": "https://rtvonline.com/templates/web-view/images/rtv-logo.svg", 
         "group": "ALL", 
         "url": "https://tvsen6.aynaott.com/rtv/index.m3u8" 
       },
