@@ -28,6 +28,12 @@
         "group": "TV SHOW",
         "url": "https://tvsen6.aynaott.com/ZeeBangla/index.m3u8"
       },
+       "zee_bangla": {
+        "name": "Zee Bangla",
+        "tvglogo": "https://tse1.mm.bing.net/th/id/OIP.ksnD5W5tbRfqTNQuTLg9WAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+        "group": "TV SHOW",
+        "url": "https://raw.githubusercontent.com/amazeyourself/adaptive-streams/refs/heads/main/streams/in/YuppTV/ZeeBanglaHD.m3u8"
+      },
       "Maasranga TV": { 
         "name": "Maasranga TV", 
         "tvglogo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiwgQtP2TuwjgIQUhmb4D8IGcdEpaP0Xl8CwcYeP5_dF7KyrbAlWr0692nCd_K5IbKdI2ownF2_fOlNYmP_mk-G78Kc1yBbW9MdhLFK8ZiG48UoQmYZNl67Di6JPFekkWZxZlU14mP2E-Hs/s1600/Maasranga_Television_Logo.jpg", 
