@@ -130,6 +130,12 @@
         "group": "KIDS",
         "url": "https://server.thelegitpro.in/rongeentv/rongeentv/index.m3u8"
       },
+       "rongeen_tv1": {
+        "name": "Rongeen TV",
+        "tvglogo": "https://s3.aynaott.com/storage/296b530024a470f52313692636810e04",
+        "group": "KIDS",
+        "url": "https://server.thelegitpro.in/rongeentv/rongeentv/tracks-v1a1/mono.m3u8"
+      },
       "t_sports": { 
         "name": "T Sports", 
         "tvglogo": "https://yt3.googleusercontent.com/bFiobvUTC9dzqtqmHrGpMvIlQ2SpWYVKQFd3M8iP0hKqENuPOUNNVzaQQoJufoIFH-_M0UYn7w=s900-c-k-c0x00ffffff-no-rj", 
