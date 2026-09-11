@@ -40,6 +40,12 @@
         "group": "ALL", 
         "url": "https://tvsen5.aynaott.com/banglavision/index.m3u8" 
       },
+       "bangla_vision1": { 
+        "name": "Bangla Vision", 
+        "tvglogo": "https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Banglavision.svg/1280px-Banglavision.svg.png", 
+        "group": "ALL", 
+        "url": "https://tvsen5.aynaott.com/tgUzpPc9r6xw/index.m3u8" 
+      },
       "boishakhi_tv": { 
         "name": "Boishakhi TV", 
         "tvglogo": "https://images.seeklogo.com/logo-png/17/1/boishakhi-tv-logo-png_seeklogo-175644.png", 
