@@ -790,7 +790,7 @@
                             <span id="googleBtnText">Login with Google</span>
                         </button>
 
-                        <div class="dropdown-item" style="color: #ef4444;" onclick="localStorage.clear(); location.reload();">Reset App</div>
+                        <div class="dropdown-item" style="color: #ef4444;" onclick="localStorage.clear(); sessionStorage.clear(); location.reload();">Reset App</div>
                     </div>
                 </div>
             </div>
@@ -1146,12 +1146,10 @@
             if (dropdown) dropdown.classList.remove('show');
         };
 
-        // অ্যাড ব্লকার চেক ফাংশনটি নিষ্ক্রিয় করা হলো যেন প্লেয়ার থেকে বের করে না দেয়
         function checkAdBlocker() {
             return true;
         }
 
-        // প্লেয়ার চালু অবস্থায় ব্রাউজার রিফ্রেশ বা কেটে যাওয়ার প্রোটেকশন
         window.addEventListener('beforeunload', function (e) {
             if (currentPlayingItem) {
                 e.preventDefault();
@@ -1218,6 +1216,23 @@
             applyFilters();
             checkAndRestorePlayerFromHash();
             updateUI();
+            
+            // পেজ রিফ্রেশ বা রিলোড হলে প্লেয়ার রিস্টোর করার ফাংশন কল
+            restorePlayerStateAfterRefresh();
+        }
+
+        function restorePlayerStateAfterRefresh() {
+            const savedPlayingItem = sessionStorage.getItem('stremxbd_active_player_item');
+            if (savedPlayingItem) {
+                try {
+                    const item = JSON.parse(savedPlayingItem);
+                    setTimeout(() => {
+                        openPlayerPage(item, false);
+                    }, 500);
+                } catch (e) {
+                    sessionStorage.removeItem('stremxbd_active_player_item');
+                }
+            }
         }
 
         function restoreState() {
@@ -1528,6 +1543,9 @@
                 openPayment();
                 return;
             }
+
+            // পেজ রিফ্রেশ বা রিলোডের জন্য প্লেয়ার স্টেট সেভ করে রাখা
+            sessionStorage.setItem('stremxbd_active_player_item', JSON.stringify(item));
 
             currentPlayingItem = item;
             previousScrollPosition = window.scrollY || document.documentElement.scrollTop;
@@ -1902,6 +1920,10 @@
                 clearTimeout(playbackTimer);
                 playbackTimer = null;
             }
+            
+            // ব্যবহারকারী নিজে বের হলে সেভ করা প্লেয়ার স্টেট মুছে ফেলা
+            sessionStorage.removeItem('stremxbd_active_player_item');
+            
             window.location.hash = '';
             document.getElementById('player-view').style.display = 'none';
             document.getElementById('home-view').style.display = 'block';
