@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WEB-XBD STREAM Streaming App</title>
+    <title>STREMXBD Streaming App</title>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/artplayer/dist/artplayer.js"></script>
     
@@ -346,24 +346,12 @@
         .contact-icon:hover { transform: scale(1.1); }
         .price-item { display: flex; justify-content: space-between; padding: 12px; background: #0f172a; margin-bottom: 8px; border-radius: 6px; border: 1px solid #1e293b; }
 
-        /* Row Section Styles (9 Columns layout) */
-        .row-section {
-            margin-bottom: 25px;
-        }
-
-        .row-header {
-            font-size: 16px;
-            font-weight: 700;
-            color: #3b82f6;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
+        /* প্রতি সারিতে ৯টি বক্স (9 columns) */
         .media-grid {
             display: grid;
             grid-template-columns: repeat(9, minmax(0, 1fr));
             gap: 10px;
+            margin-bottom: 30px;
         }
 
         .card {
@@ -381,35 +369,6 @@
             transform: translateY(-5px); 
             border-color: #059669; 
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-        }
-
-        /* More Button Card Style */
-        .card.more-card {
-            border: 1.5px dashed #3b82f6;
-            background: rgba(59, 130, 246, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .card.more-card:hover {
-            background: rgba(59, 130, 246, 0.25);
-            border-color: #60a5fa;
-        }
-        .more-card-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            width: 100%;
-            padding: 10px;
-            text-align: center;
-        }
-        .more-card-content span {
-            font-size: 12px;
-            font-weight: 700;
-            color: #60a5fa;
-            text-transform: uppercase;
         }
 
         .card-image-wrapper {
@@ -748,7 +707,7 @@
 
         @media (max-width: 600px) { 
             body { padding: 10px; }
-            .media-grid { grid-template-columns: repeat(2, 1fr); } 
+            .media-grid { grid-template-columns: repeat(3, 1fr); } 
             #player-view { padding: 0; background-color: #0f172a; }
             .player-container { border-radius: 0; border: none; padding: 10px; gap: 12px; }
             .player-title { font-size: 15px; }
@@ -782,7 +741,7 @@
     <div id="home-view">
         <div class="navbar">
             <div class="nav-top-row">
-                <span class="brand-title" onclick="filterTab('All', document.querySelector('[data-tab=All]'))">WEB-XBD STREAM</span>
+                <span class="brand-title" onclick="filterTab('All', document.querySelector('[data-tab=All]'))">STREAMXBD</span>
                 
                 <div class="download-cards-container">
                     <a href="https://your-domain.com/downloads/stremxbd-tv.apk" class="download-card" title="Download Android TV App">
@@ -1248,6 +1207,15 @@
             }
         }
 
+        function shuffleArray(array) {
+            let shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
         async function loadAllJSON() {
             const fetchPromises = jsonSources.map(source => 
                 fetch(source.url)
@@ -1428,12 +1396,7 @@
 
             const grouped = groupItemsByName(filtered);
             allFlatItems = grouped;
-
-            if (currentTab === 'All' && !searchVal && countryVal === 'all' && categoryVal === 'all' && languageVal === 'all') {
-                renderLanguageRows(grouped);
-            } else {
-                setupStandardGrid(grouped);
-            }
+            setupInfiniteScroll(currentTab !== 'Live TV' ? shuffleArray(grouped) : grouped, false);
         }
 
         function groupItemsByName(items) {
@@ -1455,160 +1418,6 @@
                 }
             });
             return Array.from(map.values());
-        }
-
-        function renderLanguageRows(items) {
-            const mainContent = document.getElementById('main-content');
-            mainContent.innerHTML = '';
-
-            const langSet = new Set();
-            items.forEach(item => {
-                if (item.languagesMap) {
-                    Object.keys(item.languagesMap).forEach(l => { if (l && l !== 'Default') langSet.add(l.toLowerCase()); });
-                } else if (item.language) {
-                    langSet.add(item.language.toLowerCase());
-                }
-            });
-
-            let sortedLangs = Array.from(langSet);
-            sortedLangs.sort((a, b) => {
-                if (a === 'hindi') return -1;
-                if (b === 'hindi') return 1;
-                if (a === 'english') return -1;
-                if (b === 'english') return 1;
-                return a.localeCompare(b);
-            });
-
-            if (sortedLangs.length === 0) {
-                sortedLangs = ['hindi', 'english'];
-            }
-
-            const contentFragment = document.createDocumentFragment();
-
-            sortedLangs.forEach(lang => {
-                const animeItems = items.filter(i => {
-                    const isAnimeCat = (i.category || '').toLowerCase().includes('anime') || loadedData['Anime']?.some(a => (a.title || a.name) === i.title);
-                    const itemLangs = i.languagesMap ? Object.keys(i.languagesMap).map(l => l.toLowerCase()) : [(i.language || '').toLowerCase()];
-                    return isAnimeCat && itemLangs.includes(lang);
-                });
-
-                if (animeItems.length > 0) {
-                    contentFragment.appendChild(createRowSectionWithMore(animeItems, `${capitalizeText(lang)} Anime`));
-                }
-
-                const tvItems = items.filter(i => {
-                    const isTV = (i.category || '').toLowerCase().includes('series') || (i.category || '').toLowerCase().includes('tv') || loadedData['TV Series']?.some(t => (t.title || t.name) === i.title);
-                    const itemLangs = i.languagesMap ? Object.keys(i.languagesMap).map(l => l.toLowerCase()) : [(i.language || '').toLowerCase()];
-                    return isTV && itemLangs.includes(lang);
-                });
-
-                if (tvItems.length > 0) {
-                    contentFragment.appendChild(createRowSectionWithMore(tvItems, `${capitalizeText(lang)} TV Series`));
-                }
-
-                const movieItems = items.filter(i => {
-                    const isMovie = !animeItems.includes(i) && !tvItems.includes(i);
-                    const itemLangs = i.languagesMap ? Object.keys(i.languagesMap).map(l => l.toLowerCase()) : [(i.language || '').toLowerCase()];
-                    return isMovie && itemLangs.includes(lang);
-                });
-
-                if (movieItems.length > 0) {
-                    contentFragment.appendChild(createRowSectionWithMore(movieItems, `${capitalizeText(lang)} Movies`));
-                }
-            });
-
-            if (!contentFragment.hasChildNodes()) {
-                mainContent.innerHTML = `<div style="text-align:center; padding: 50px 0; color: #94a3b8; font-size: 16px;">No Items Found</div>`;
-                return;
-            }
-
-            mainContent.appendChild(contentFragment);
-        }
-
-        // Row Section generator where 9th box acts as a "More" button if items exceed 9
-        function createRowSectionWithMore(items, sectionTitle = '') {
-            const section = document.createElement('div');
-            section.className = 'row-section';
-
-            if (sectionTitle) {
-                const header = document.createElement('div');
-                header.className = 'row-header';
-                header.innerText = sectionTitle;
-                section.appendChild(header);
-            }
-
-            const grid = document.createElement('div');
-            grid.className = 'media-grid';
-
-            const needsMore = items.length > 9;
-            const displayLimit = needsMore ? 8 : 9;
-            const displayChunk = items.slice(0, displayLimit);
-
-            displayChunk.forEach(item => {
-                const displayTitle = item.title || item.name || "Untitled";
-
-                let langText = '';
-                if (item.languagesMap) {
-                    const langs = Object.keys(item.languagesMap).filter(l => l && l !== 'Default');
-                    if (langs.length > 1) langText = 'Multiple';
-                    else if (langs.length === 1) langText = langs[0];
-                } else if (item.language) {
-                    langText = item.language;
-                }
-
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.onclick = () => openPlayerPage(item);
-                const langBadgeHTML = langText ? `<div class="card-lang-badge">${langText}</div>` : '';
-
-                card.innerHTML = `
-                    <div class="card-image-wrapper">
-                        ${langBadgeHTML}
-                        <img src="${item.image || ''}" alt="${displayTitle}" loading="lazy" decoding="async">
-                    </div>
-                    <div class="card-info">
-                        <div class="card-title">${displayTitle}</div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-
-            // 9th Box as "More" button if there are more items
-            if (needsMore) {
-                const moreCard = document.createElement('div');
-                moreCard.className = 'card more-card';
-                moreCard.onclick = () => {
-                    setupStandardGrid(items);
-                };
-                moreCard.innerHTML = `
-                    <div class="more-card-content">
-                        <span>More (${items.length - 8}+)</span>
-                    </div>
-                `;
-                grid.appendChild(moreCard);
-            }
-
-            section.appendChild(grid);
-            return section;
-        }
-
-        function setupStandardGrid(items) {
-            const mainContent = document.getElementById('main-content');
-            mainContent.innerHTML = '';
-
-            if (items.length === 0) {
-                mainContent.innerHTML = `<div style="text-align:center; padding: 50px 0; color: #94a3b8; font-size: 16px;">No Items Found</div>`;
-                return;
-            }
-
-            const grid = document.createElement('div');
-            grid.className = 'media-grid';
-            grid.id = 'active-media-grid';
-            mainContent.appendChild(grid);
-
-            currentRenderItems = items;
-            currentPage = 1;
-            renderNextChunk();
         }
 
         function setupInfiniteScroll(items, isFavoritesPage = false) {
@@ -1700,7 +1509,6 @@
 
         window.addEventListener('scroll', () => {
             if (document.getElementById('home-view').style.display === 'none') return;
-            if (!document.getElementById('active-media-grid')) return;
             
             if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
                 renderNextChunk();
