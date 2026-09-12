@@ -1146,31 +1146,18 @@
             if (dropdown) dropdown.classList.remove('show');
         };
 
-        async function checkAdBlocker() {
-            const googleAdUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
-            try {
-                await fetch(googleAdUrl, { method: 'HEAD', mode: 'no-cors' });
-                const fakeAd = document.createElement('div');
-                fakeAd.innerHTML = '&nbsp;';
-                fakeAd.className = 'adsbox ads-box ad-zone ad-space google-ad';
-                document.body.appendChild(fakeAd);
-                
-                setTimeout(() => {
-                    if (fakeAd.offsetHeight === 0) showAdBlockWarning();
-                    fakeAd.remove();
-                }, 100);
-            } catch (error) {
-                showAdBlockWarning();
+        // অ্যাড ব্লকার চেক ফাংশনটি নিষ্ক্রিয় করা হলো যেন প্লেয়ার থেকে বের করে না দেয়
+        function checkAdBlocker() {
+            return true;
+        }
+
+        // প্লেয়ার চালু অবস্থায় ব্রাউজার রিফ্রেশ বা কেটে যাওয়ার প্রোটেকশন
+        window.addEventListener('beforeunload', function (e) {
+            if (currentPlayingItem) {
+                e.preventDefault();
+                e.returnValue = '';
             }
-        }
-
-        function showAdBlockWarning() {
-            document.getElementById('adblock-overlay').style.display = 'flex';
-            document.getElementById('home-view').style.display = 'none';
-            document.getElementById('player-view').style.display = 'none';
-        }
-
-        window.addEventListener('load', checkAdBlocker);
+        });
 
         const jsonSources = [
             { name: "Anime", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/anime.json" },
