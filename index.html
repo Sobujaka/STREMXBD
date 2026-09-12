@@ -346,10 +346,9 @@
         .contact-icon:hover { transform: scale(1.1); }
         .price-item { display: flex; justify-content: space-between; padding: 12px; background: #0f172a; margin-bottom: 8px; border-radius: 6px; border: 1px solid #1e293b; }
 
-        /* প্রতি সারিতে ৯টি বক্স (9 columns) */
         .media-grid {
             display: grid;
-            grid-template-columns: repeat(9, minmax(0, 1fr));
+            grid-template-columns: repeat(8, minmax(0, 1fr));
             gap: 10px;
             margin-bottom: 30px;
         }
@@ -694,10 +693,6 @@
         .adblock-box p { color: #94a3b8; font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
         .adblock-box button { background: #3b82f6; color: #fff; border: none; padding: 10px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; }
 
-        @media (max-width: 1200px) {
-            .media-grid { grid-template-columns: repeat(6, 1fr); }
-        }
-
         @media (max-width: 1024px) {
             .player-container { flex-direction: column; }
             .player-sidebar-wrapper { width: 100%; }
@@ -707,7 +702,7 @@
 
         @media (max-width: 600px) { 
             body { padding: 10px; }
-            .media-grid { grid-template-columns: repeat(3, 1fr); } 
+            .media-grid { grid-template-columns: repeat(2, 1fr); } 
             #player-view { padding: 0; background-color: #0f172a; }
             .player-container { border-radius: 0; border: none; padding: 10px; gap: 12px; }
             .player-title { font-size: 15px; }
@@ -890,7 +885,7 @@
         let currentPlayingItem = null;
 
         let currentPage = 1;
-        const itemsPerPage = 36;
+        const itemsPerPage = 32;
         let currentRenderItems = [];
         let isFavoritesView = false;
 
