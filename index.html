@@ -790,7 +790,7 @@
                             <span id="googleBtnText">Login with Google</span>
                         </button>
 
-                        <div class="dropdown-item" style="color: #ef4444;" onclick="localStorage.clear(); sessionStorage.clear(); location.reload();">Reset App</div>
+                        <div class="dropdown-item" style="color: #ef4444;" onclick="localStorage.clear(); location.reload();">Reset App</div>
                     </div>
                 </div>
             </div>
@@ -1146,16 +1146,31 @@
             if (dropdown) dropdown.classList.remove('show');
         };
 
-        function checkAdBlocker() {
-            return true;
+        async function checkAdBlocker() {
+            const googleAdUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+            try {
+                await fetch(googleAdUrl, { method: 'HEAD', mode: 'no-cors' });
+                const fakeAd = document.createElement('div');
+                fakeAd.innerHTML = '&nbsp;';
+                fakeAd.className = 'adsbox ads-box ad-zone ad-space google-ad';
+                document.body.appendChild(fakeAd);
+                
+                setTimeout(() => {
+                    if (fakeAd.offsetHeight === 0) showAdBlockWarning();
+                    fakeAd.remove();
+                }, 100);
+            } catch (error) {
+                showAdBlockWarning();
+            }
         }
 
-        window.addEventListener('beforeunload', function (e) {
-            if (currentPlayingItem) {
-                e.preventDefault();
-                e.returnValue = '';
-            }
-        });
+        function showAdBlockWarning() {
+            document.getElementById('adblock-overlay').style.display = 'flex';
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('player-view').style.display = 'none';
+        }
+
+        window.addEventListener('load', checkAdBlocker);
 
         const jsonSources = [
             { name: "Anime", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/anime.json" },
@@ -1216,23 +1231,6 @@
             applyFilters();
             checkAndRestorePlayerFromHash();
             updateUI();
-            
-            // পেজ রিফ্রেশ বা রিলোড হলে প্লেয়ার রিস্টোর করার ফাংশন কল
-            restorePlayerStateAfterRefresh();
-        }
-
-        function restorePlayerStateAfterRefresh() {
-            const savedPlayingItem = sessionStorage.getItem('stremxbd_active_player_item');
-            if (savedPlayingItem) {
-                try {
-                    const item = JSON.parse(savedPlayingItem);
-                    setTimeout(() => {
-                        openPlayerPage(item, false);
-                    }, 500);
-                } catch (e) {
-                    sessionStorage.removeItem('stremxbd_active_player_item');
-                }
-            }
         }
 
         function restoreState() {
@@ -1543,9 +1541,6 @@
                 openPayment();
                 return;
             }
-
-            // পেজ রিফ্রেশ বা রিলোডের জন্য প্লেয়ার স্টেট সেভ করে রাখা
-            sessionStorage.setItem('stremxbd_active_player_item', JSON.stringify(item));
 
             currentPlayingItem = item;
             previousScrollPosition = window.scrollY || document.documentElement.scrollTop;
@@ -1920,10 +1915,6 @@
                 clearTimeout(playbackTimer);
                 playbackTimer = null;
             }
-            
-            // ব্যবহারকারী নিজে বের হলে সেভ করা প্লেয়ার স্টেট মুছে ফেলা
-            sessionStorage.removeItem('stremxbd_active_player_item');
-            
             window.location.hash = '';
             document.getElementById('player-view').style.display = 'none';
             document.getElementById('home-view').style.display = 'block';
