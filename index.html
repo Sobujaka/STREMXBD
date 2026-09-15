@@ -1275,12 +1275,18 @@
             targetCategories.forEach(cat => {
                 if (loadedData[cat] && Array.isArray(loadedData[cat])) {
                     loadedData[cat].forEach(item => {
+                        // Country Splitter
                         if (item.country) {
-                            const raw = item.country.trim();
-                            const key = raw.toLowerCase();
-                            if (!countries.has(key)) countries.set(key, capitalizeText(raw));
+                            const countryList = item.country.split(/[,/]+/).map(c => c.trim());
+                            countryList.forEach(c => {
+                                if (c) {
+                                    const key = c.toLowerCase();
+                                    if (!countries.has(key)) countries.set(key, capitalizeText(c));
+                                }
+                            });
                         }
                         
+                        // Category Splitter
                         if (item.category) {
                             const catList = item.category.split(/[,/]+/).map(c => c.trim());
                             catList.forEach(c => {
@@ -1291,10 +1297,15 @@
                             });
                         }
                         
+                        // Language Splitter
                         if (item.language) {
-                            const raw = item.language.trim();
-                            const key = raw.toLowerCase();
-                            if (!languages.has(key)) languages.set(key, capitalizeText(raw));
+                            const langList = item.language.split(/[,/]+/).map(l => l.trim());
+                            langList.forEach(l => {
+                                if (l) {
+                                    const key = l.toLowerCase();
+                                    if (!languages.has(key)) languages.set(key, capitalizeText(l));
+                                }
+                            });
                         }
                     });
                 }
@@ -1380,13 +1391,16 @@
                 const itemCategories = item.category ? item.category.split(/[,/]+/).map(c => c.trim().toLowerCase()) : [];
                 const matchesCategory = categoryVal === 'all' || itemCategories.includes(categoryVal);
 
-                const itemCountry = (item.country || '').trim().toLowerCase();
-                const itemLanguage = (item.language || '').trim().toLowerCase();
+                const itemCountries = item.country ? item.country.split(/[,/]+/).map(c => c.trim().toLowerCase()) : [];
+                const matchesCountry = countryVal === 'all' || itemCountries.includes(countryVal);
+
+                const itemLanguages = item.language ? item.language.split(/[,/]+/).map(l => l.trim().toLowerCase()) : [];
+                const matchesLanguage = languageVal === 'all' || itemLanguages.includes(languageVal);
 
                 return title.includes(searchVal) &&
-                    (countryVal === 'all' || itemCountry === countryVal) &&
+                    matchesCountry &&
                     matchesCategory &&
-                    (languageVal === 'all' || itemLanguage === languageVal);
+                    matchesLanguage;
             });
 
             const grouped = groupItemsByName(filtered);
