@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STREMXBD Streaming App</title>
+    <title>WEB-XBD STREAM Streaming App</title>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/artplayer/dist/artplayer.js"></script>
     
@@ -736,7 +736,7 @@
     <div id="home-view">
         <div class="navbar">
             <div class="nav-top-row">
-                <span class="brand-title" onclick="filterTab('All', document.querySelector('[data-tab=All]'))">STREAMXBD</span>
+                <span class="brand-title" onclick="filterTab('All', document.querySelector('[data-tab=All]'))">WEB-XBD STREAM</span>
                 
                 <div class="download-cards-container">
                     <a href="https://your-domain.com/downloads/stremxbd-tv.apk" class="download-card" title="Download Android TV App">
@@ -1275,7 +1275,6 @@
             targetCategories.forEach(cat => {
                 if (loadedData[cat] && Array.isArray(loadedData[cat])) {
                     loadedData[cat].forEach(item => {
-                        // Country Splitter
                         if (item.country) {
                             const countryList = item.country.split(/[,/]+/).map(c => c.trim());
                             countryList.forEach(c => {
@@ -1286,7 +1285,6 @@
                             });
                         }
                         
-                        // Category Splitter
                         if (item.category) {
                             const catList = item.category.split(/[,/]+/).map(c => c.trim());
                             catList.forEach(c => {
@@ -1297,7 +1295,6 @@
                             });
                         }
                         
-                        // Language Splitter
                         if (item.language) {
                             const langList = item.language.split(/[,/]+/).map(l => l.trim());
                             langList.forEach(l => {
@@ -1603,20 +1600,42 @@
         }
 
         function setupMoviePlayer(item, sidebar) {
-            const languagesMap = item.languagesMap || { [item.language || 'Default']: item };
-            const langKeys = Object.keys(languagesMap);
+            let rawLangs = [];
+            if (item.languagesMap) {
+                rawLangs = Object.keys(item.languagesMap);
+            } else if (item.language) {
+                rawLangs = item.language.split(/[,/]+/).map(l => l.trim());
+            } else {
+                rawLangs = ['Default'];
+            }
+
+            let langKeys = [];
+            rawLangs.forEach(l => {
+                const subLangs = l.split(/[,/]+/).map(sub => sub.trim());
+                subLangs.forEach(sub => {
+                    if (sub && !langKeys.includes(sub)) langKeys.push(sub);
+                });
+            });
+
             let langOptions = langKeys.map(lang => `<option value="${lang}">${lang}</option>`).join('');
 
             sidebar.innerHTML = `<div class="filter-group"><label>Language</label><select id="movieLangSelect">${langOptions}</select></div>`;
             const langSelect = document.getElementById('movieLangSelect');
 
             function playSelectedLanguage(lang) {
-                const currentItem = languagesMap[lang] || item;
+                let currentItem = item;
+                if (item.languagesMap) {
+                    currentItem = Object.values(item.languagesMap).find(i => 
+                        (i.language || '').toLowerCase().includes(lang.toLowerCase())
+                    ) || item;
+                }
+                
                 const movieUrl = currentItem["Movie link"] || currentItem["movie_link"] || currentItem.link || currentItem.url || '';
                 loadVideo(movieUrl, `${currentItem.title || currentItem.name} (${lang})`);
             }
+            
             langSelect.onchange = (e) => playSelectedLanguage(e.target.value);
-            playSelectedLanguage(langKeys[0]);
+            if (langKeys.length > 0) playSelectedLanguage(langKeys[0]);
         }
 
         function setupMusicPlayer(item, sidebar) {
@@ -1643,8 +1662,23 @@
         }
 
         function setupSeriesPlayer(item, sidebar) {
-            const languagesMap = item.languagesMap || { [item.language || 'Default']: item };
-            const langKeys = Object.keys(languagesMap);
+            let rawLangs = [];
+            if (item.languagesMap) {
+                rawLangs = Object.keys(item.languagesMap);
+            } else if (item.language) {
+                rawLangs = item.language.split(/[,/]+/).map(l => l.trim());
+            } else {
+                rawLangs = ['Default'];
+            }
+
+            let langKeys = [];
+            rawLangs.forEach(l => {
+                const subLangs = l.split(/[,/]+/).map(sub => sub.trim());
+                subLangs.forEach(sub => {
+                    if (sub && !langKeys.includes(sub)) langKeys.push(sub);
+                });
+            });
+
             let langOptions = langKeys.map(lang => `<option value="${lang}">${lang}</option>`).join('');
 
             sidebar.innerHTML = `
@@ -1658,7 +1692,13 @@
             const epGrid = document.getElementById('episodesGrid');
 
             function loadSeriesContent(selectedLang) {
-                const activeItem = languagesMap[selectedLang] || item;
+                let activeItem = item;
+                if (item.languagesMap) {
+                    activeItem = Object.values(item.languagesMap).find(i => 
+                        (i.language || '').toLowerCase().includes(selectedLang.toLowerCase())
+                    ) || item;
+                }
+
                 const episodes = activeItem.episodes || {};
                 const seasonsMap = {};
 
@@ -1685,7 +1725,7 @@
                         btn.onclick = () => {
                             document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
                             btn.classList.add('active');
-                            loadVideo(epData.url, `${activeItem.title || activeItem.name} - ${selectedSeason} ${epData.epName}`);
+                            loadVideo(epData.url, `${activeItem.title || activeItem.name} - ${selectedSeason} ${epData.epName} (${selectedLang})`);
                         };
                         epGrid.appendChild(btn);
                         if (index === 0) btn.click();
@@ -1695,7 +1735,7 @@
                 renderEpisodes(Object.keys(seasonsMap)[0] || 'S1');
             }
             langSelect.onchange = (e) => loadSeriesContent(e.target.value);
-            loadSeriesContent(langKeys[0]);
+            if (langKeys.length > 0) loadSeriesContent(langKeys[0]);
         }
 
         function setupLiveTVPlayer(item, sidebar) {
