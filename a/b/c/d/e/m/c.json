@@ -4,94 +4,89 @@
     "country": "Bangladesh",
     "image": "https://copilot.microsoft.com/th/id/BCO.c8b1cdc3-8825-4e16-9237-282f672d929e.png",
     "CN": {
-    "ananda_tv": {
-    "name": "Ananda TV",
-    "tvglogo": "",
-    "group": "Bangladesh",
-    "url": "https://tvsen6.aynaott.com/LeUAm4F1iixYns3s3Non/index.m3u8"
-  },
-    "btv_ctg": {
-    "name": "BTV CTG",
-    "tvglogo": "https://s3.aynaott.com/storage/00da8a07fb26b2fb79359ee535e4c7bc",
-    "group": "Bangla",
-    "url": "https://tvsen6.aynaott.com/TjGR1GcxKetHNVcMVxbq/index.m3u8?e=1784102576&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=901c0ca2f1ba54041a543dce43641c12"
-  },
-    "bijoy_tv": {
-    "name": "Bijoy TV",
-    "tvglogo": "",
-    "group": "Bangladesh",
-    "url": "https://stream.ottplus.live/live/bijoy_tv_abr/live/bijoy_tv_720/chunks.m3u8"
-  },
-    "desh_tv": {
-    "name": "Desh TV",
-    "tvglogo": "",
-    "group": "Bangladesh",
-    "url": "https://tvsen6.aynaott.com/ryFkXfd1a4CQ7mMdc820/index.m3u8"
-  },
-    "bangla_tv": {
-    "name": "Bangla TV",
-    "tvglogo": "https://s3.aynaott.com/storage/e42ecfa90e3d6b15bdb7fea5ef673864",
-    "group": "Bangla",
-    "url": "https://tvsen6.aynaott.com/39ee93nUbCCmm5LsyD4t/index.m3u8?e=1784102569&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=fb1f6e0c49c7406611ea2bbd605ed275"
-  },
-    "asian_tv": {
-    "name": "Asian TV",
-    "tvglogo": "https://s3.aynaott.com/storage/5282cec3a2e9349b750540d658cf1b6c",
-    "group": "Bangla",
-    "url": "https://tvsen6.aynaott.com/pKb5k6NnzxsKpWUs6E8M/index.m3u8?e=1784102565&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=e4293f68c5bc8aa8e6ac3e088ca754f4"
-  },
-    "sa_tv": {
-    "name": "SA TV",
-    "tvglogo": "",
-    "group": "Bangladesh",
-    "url": "https://tvsen6.aynaott.com/rELXiuUXqbgzPb06Npom/index.m3u8"
-  },
-    "etv": {
-    "name": "ETV",
-    "tvglogo": "https://s3.aynaott.com/storage/8a1af81802b0728c064c2adabcdc72c8",
-    "group": "Bangla",
-    "url": "https://tvsen6.aynaott.com/y4mEVZNAbeNWTbd6Z2Pw/index.m3u8?e=1784102562&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=7e70b215021d5b63d625a677bec65a1d"
-  },
-    "channel_i": {
-    "name": "Channel I",
-    "tvglogo": "",
-    "group": "Bangladesh",
-    "url": "https://tvsen6.aynaott.com/FNHpYvGZ7FkCE10PwTHm/index.m3u8"
-  },
-    "dbc_news": {
-    "name": "DBC News",
-    "tvglogo": "https://s3.aynaott.com/storage/2c5a73ac3f9772a9cb2d18df1b152545",
-    "group": "News",
-    "url": "https://tvsen6.aynaott.com/pF66Tkz0qFwP2aMMqHyt/index.m3u8?e=1784102535&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=d1848b7fd84cef719a89b61f0f5704ee"
-    },
-    "news_24_bd": {
-    "name": "News 24 BD",
-    "tvglogo": "https://s3.aynaott.com/storage/7c002f22c02096b0d1ba833ae9ea6d5b",
-    "group": "News",
-    "url": "https://tvsen6.aynaott.com/cdgr3tw6WoG7JyRnLbi0/index.m3u8?e=1784102534&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=ff40b53535a0e90b724ac25ff41c590c"
-    },
-    "ekattor_tv": {
-    "name": "Ekattor TV",
-    "tvglogo": "",
-    "group": "Bangladesh",
-    "url": "https://tvsen6.aynaott.com/EWDrV5QskgarZEUBb3pU/index.m3u8"
-    },
-    "name": "Jamuna TV",
-    "tvglogo": "https://s3.aynaott.com/storage/aac6488b68844e5756ab46eb79659de8",
-    "group": "News",
-    "url": "https://tvsen6.aynaott.com/EWDrV5QskgarZEUBb3pU/index.m3u8"
+      "ananda_tv": {
+        "name": "Ananda TV",
+        "tvglogo": "https://tse4.mm.bing.net/th/id/OIP.3Hmvj3Qx8TktwIIf5YZh6gHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+        "group": "ALL",
+        "url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8"
+      },
+      "btv_ctg": {
+        "name": "BTV CTG",
+        "tvglogo": "https://s3.aynaott.com/storage/00da8a07fb26b2fb79359ee535e4c7bc",
+        "group": "Bangla",
+        "url": "https://tvsen6.aynaott.com/TjGR1GcxKetHNVcMVxbq/index.m3u8?e=1784102576&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=901c0ca2f1ba54041a543dce43641c12"
+      },
+      "bijoy_tv": {
+        "name": "Bijoy TV",
+        "tvglogo": "",
+        "group": "Bangladesh",
+        "url": "https://stream.ottplus.live/live/bijoy_tv_abr/live/bijoy_tv_720/chunks.m3u8"
+      },
+      "desh_tv": {
+        "name": "Desh TV",
+        "tvglogo": "",
+        "group": "Bangladesh",
+        "url": "https://tvsen6.aynaott.com/ryFkXfd1a4CQ7mMdc820/index.m3u8"
+      },
+      "bangla_tv": {
+        "name": "Bangla TV",
+        "tvglogo": "https://s3.aynaott.com/storage/e42ecfa90e3d6b15bdb7fea5ef673864",
+        "group": "Bangla",
+        "url": "https://tvsen6.aynaott.com/39ee93nUbCCmm5LsyD4t/index.m3u8?e=1784102569&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=fb1f6e0c49c7406611ea2bbd605ed275"
+      },
+      "asian_tv": {
+        "name": "Asian TV",
+        "tvglogo": "https://s3.aynaott.com/storage/5282cec3a2e9349b750540d658cf1b6c",
+        "group": "Bangla",
+        "url": "https://tvsen6.aynaott.com/pKb5k6NnzxsKpWUs6E8M/index.m3u8?e=1784102565&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=e4293f68c5bc8aa8e6ac3e088ca754f4"
+      },
+      "sa_tv": {
+        "name": "SA TV",
+        "tvglogo": "",
+        "group": "Bangladesh",
+        "url": "https://tvsen6.aynaott.com/rELXiuUXqbgzPb06Npom/index.m3u8"
+      },
+      "etv": {
+        "name": "ETV",
+        "tvglogo": "https://s3.aynaott.com/storage/8a1af81802b0728c064c2adabcdc72c8",
+        "group": "Bangla",
+        "url": "https://tvsen6.aynaott.com/y4mEVZNAbeNWTbd6Z2Pw/index.m3u8?e=1784102562&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=7e70b215021d5b63d625a677bec65a1d"
+      },
+      "channel_i": {
+        "name": "Channel I",
+        "tvglogo": "",
+        "group": "Bangladesh",
+        "url": "https://tvsen6.aynaott.com/FNHpYvGZ7FkCE10PwTHm/index.m3u8"
+      },
+      "dbc_news": {
+        "name": "DBC News",
+        "tvglogo": "https://s3.aynaott.com/storage/2c5a73ac3f9772a9cb2d18df1b152545",
+        "group": "News",
+        "url": "https://tvsen6.aynaott.com/pF66Tkz0qFwP2aMMqHyt/index.m3u8?e=1784102535&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=d1848b7fd84cef719a89b61f0f5704ee"
+      },
+      "news_24_bd": {
+        "name": "News 24 BD",
+        "tvglogo": "https://s3.aynaott.com/storage/7c002f22c02096b0d1ba833ae9ea6d5b",
+        "group": "News",
+        "url": "https://tvsen6.aynaott.com/cdgr3tw6WoG7JyRnLbi0/index.m3u8?e=1784102534&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=ff40b53535a0e90b724ac25ff41c590c"
+      },
+      "ekattor_tv": {
+        "name": "Ekattor TV",
+        "tvglogo": "",
+        "group": "Bangladesh",
+        "url": "https://tvsen6.aynaott.com/EWDrV5QskgarZEUBb3pU/index.m3u8"
+      },
+      "jamuna_tv": {
+        "name": "Jamuna TV",
+        "tvglogo": "https://s3.aynaott.com/storage/aac6488b68844e5756ab46eb79659de8",
+        "group": "News",
+        "url": "https://tvsen6.aynaott.com/EWDrV5QskgarZEUBb3pU/index.m3u8"
       },
       "atn_bangla": { 
         "name": "ATN Bangla", 
         "tvglogo": "https://images.seeklogo.com/logo-png/53/1/atn-bangla-logo-png_seeklogo-537053.png", 
         "group": "ALL", 
         "url": "https://tvsen5.aynaott.com/atnbangla/index.m3u8" 
-      },
-      "ananda_tv": {
-        "name": "Ananda TV",
-        "tvglogo": "https://tse4.mm.bing.net/th/id/OIP.3Hmvj3Qx8TktwIIf5YZh6gHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
-        "group": "ALL",
-        "url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8"
       },
       "deepto_tv": { 
         "name": "Deepto TV", 
@@ -105,25 +100,25 @@
         "group": "TV SHOW",
         "url": "https://tvsen6.aynaott.com/ZeeBangla/index.m3u8"
       },
-    "thikana": {
-    "name": "Thikana",
-    "tvglogo": "https://s3.aynaott.com/storage/6d1aaa03b84a69992940873fc11af8fc",
-    "group": "Bangla",
-    "url": "https://5dd3981940faa.streamlock.net:443/thikanatv/thikanatv/playlist.m3u8"
-       },
-       "zee_bangla": {
+      "thikana": {
+        "name": "Thikana",
+        "tvglogo": "https://s3.aynaott.com/storage/6d1aaa03b84a69992940873fc11af8fc",
+        "group": "Bangla",
+        "url": "https://5dd3981940faa.streamlock.net:443/thikanatv/thikanatv/playlist.m3u8"
+      },
+      "zee_bangla_hd": {
         "name": "Zee Bangla",
         "tvglogo": "https://tse1.mm.bing.net/th/id/OIP.ksnD5W5tbRfqTNQuTLg9WAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "TV SHOW",
         "url": "https://raw.githubusercontent.com/amazeyourself/adaptive-streams/refs/heads/main/streams/in/YuppTV/ZeeBanglaHD.m3u8"
       },
-      "Maasranga TV": { 
+      "maasranga_tv": { 
         "name": "Maasranga TV", 
         "tvglogo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiwgQtP2TuwjgIQUhmb4D8IGcdEpaP0Xl8CwcYeP5_dF7KyrbAlWr0692nCd_K5IbKdI2ownF2_fOlNYmP_mk-G78Kc1yBbW9MdhLFK8ZiG48UoQmYZNl67Di6JPFekkWZxZlU14mP2E-Hs/s1600/Maasranga_Television_Logo.jpg", 
         "group": "KIDS", 
         "url": "https://mtv.sunplex.live/MAASRANGA/tracks-v1a1/mono.m3u8" 
       },
-     "Maasranga TV 1": { 
+      "maasranga_tv_1": { 
         "name": "Maasranga TV", 
         "tvglogo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiwgQtP2TuwjgIQUhmb4D8IGcdEpaP0Xl8CwcYeP5_dF7KyrbAlWr0692nCd_K5IbKdI2ownF2_fOlNYmP_mk-G78Kc1yBbW9MdhLFK8ZiG48UoQmYZNl67Di6JPFekkWZxZlU14mP2E-Hs/s1600/Maasranga_Television_Logo.jpg", 
         "group": "KIDS", 
@@ -135,19 +130,19 @@
         "group": "ALL", 
         "url": "https://tvsen5.aynaott.com/banglavision/index.m3u8" 
       },
-       "bangla_vision1": { 
+      "bangla_vision_1": { 
         "name": "Bangla Vision", 
         "tvglogo": "https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Banglavision.svg/1280px-Banglavision.svg.png", 
         "group": "ALL", 
         "url": "https://tvsen5.aynaott.com/tgUzpPc9r6xw/index.m3u8" 
       },
-    "boishakhi_tv": {
-    "name": "Boishakhi TV",
-    "tvglogo": "",
-    "group": "Bangladesh",
-    "url": "https://tvsen6.aynaott.com/1d3uG9VCgrR9DRtWZM57/index.m3u8"
-     },
-      "boishakhi_tv 1": { 
+      "boishakhi_tv": {
+        "name": "Boishakhi TV",
+        "tvglogo": "",
+        "group": "Bangladesh",
+        "url": "https://tvsen6.aynaott.com/1d3uG9VCgrR9DRtWZM57/index.m3u8"
+      },
+      "boishakhi_tv_1": { 
         "name": "Boishakhi TV", 
         "tvglogo": "https://images.seeklogo.com/logo-png/17/1/boishakhi-tv-logo-png_seeklogo-175644.png", 
         "group": "ALL", 
@@ -159,7 +154,7 @@
         "group": "ALL", 
         "url": "https://tvsen5.aynaott.com/RtvHD/index.m3u8" 
       },
-       "rtv 1": { 
+      "rtv_1": { 
         "name": "RTV", 
         "tvglogo": "https://rtvonline.com/templates/web-view/images/rtv-logo.svg", 
         "group": "ALL", 
@@ -171,48 +166,42 @@
         "group": "ALL", 
         "url": "https://tvsen5.aynaott.com/xV4jEKf3D9zc/index.m3u8" 
       },
-     "ntv1": { 
+      "ntv_1": { 
         "name": "NTV", 
         "tvglogo": "https://www.ntvbd.com/sites/all/themes/sloth/images/ntv-facebook.jpg", 
         "group": "ALL", 
         "url": "https://tvsen5.aynaott.com/JHPxHAWonztVucyc4GzF/index.m3u8" 
       },
-       "ntv2": { 
+      "ntv_2": { 
         "name": "NTV", 
         "tvglogo": "https://www.ntvbd.com/sites/all/themes/sloth/images/ntv-facebook.jpg", 
         "group": "ALL", 
         "url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/ntvuk00332211.stream/playlist.m3u8" 
       },
-    "ananda_tv": {
-    "name": "Ananda TV",
-    "tvglogo": "",
-    "group": "Bangladesh",
-    "url": "https://tvsen6.aynaott.com/LeUAm4F1iixYns3s3Non/index.m3u8"
-  },
-    "My TV1": {
-    "name": "My TV",
-    "tvglogo": "",
-    "group": "Bangladesh",
-    "url": "https://tvsen6.aynaott.com/XMpHaEf0ANBhv8w6NWR7/index.m3u8"
+      "my_tv_1": {
+        "name": "My TV",
+        "tvglogo": "",
+        "group": "Bangladesh",
+        "url": "https://tvsen6.aynaott.com/XMpHaEf0ANBhv8w6NWR7/index.m3u8"
       },
-      "My TV": { 
+      "my_tv": { 
         "name": "My TV", 
         "tvglogo": "https://tse2.mm.bing.net/th/id/OIP.9G4Ro1q2UWrNsZMb7fxPdQHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
         "group": "ALL", 
         "url": "https://app24.jagobd.com.bd/c3VydmVyX8RpbEU9Mi8xNy8yMFDEEHGcfRgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcEdsEfeDeKiNkVN3PTOmdFseWRtaW51aiPhnPTI2/mytv-up-off.stream/tracks-v1a1/mono.m3u8"  
       },
-      "MY TV2": {
-    "name": "My TV",
-    "tvglogo": "https://i.ibb.co.com/bNBq22B/images-2.jpg",
-    "group": "ALL",
-    "url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/mytv-up-off.stream/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9MTAvMTQvMjAyNCAyOjE4OjU2IFBNJmhhc2hfdmFsdWU9a3lza1NOUVpsQlQ3TWQyS1VRSnBuQT09JnZhbGlkbWludXRlcz00MA=="
-     },
-    "mohona_tv": {
-    "name": "Mohona TV",
-    "tvglogo": "",
-    "group": "Bangladesh",
-    "url": "https://stream.ottplus.live/live/mohona_tv_abr/index.m3u8"
-     },
+      "my_tv_2": {
+        "name": "My TV",
+        "tvglogo": "https://i.ibb.co.com/bNBq22B/images-2.jpg",
+        "group": "ALL",
+        "url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/mytv-up-off.stream/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9MTAvMTQvMjAyNCAyOjE4OjU2IFBNJmhhc2hfdmFsdWU9a3lza1NOUVpsQlQ3TWQyS1VRSnBuQT09JnZhbGlkbWludXRlcz00MA=="
+      },
+      "mohona_tv": {
+        "name": "Mohona TV",
+        "tvglogo": "",
+        "group": "Bangladesh",
+        "url": "https://stream.ottplus.live/live/mohona_tv_abr/index.m3u8"
+      },
       "jungle_book": {
         "name": "Jungle Book",
         "tvglogo": "https://pash.ink/storage/uploads/JungleBook_Logo.png",
@@ -249,7 +238,7 @@
         "group": "TV SHOW",
         "url": "https://vods2.aynaott.com/gseriesDrama/tracks-v1a1/mono.ts.m3u8"
       },
-     "g_series1": {
+      "g_series_1": {
         "name": "G Series",
         "tvglogo": "https://th.bing.com/th/id/OIP.OFA2CI3juA9d_xBpO14WSgHaHa?r=0&o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "TV SHOW",
@@ -261,7 +250,7 @@
         "group": "KIDS",
         "url": "https://server.thelegitpro.in/rongeentv/rongeentv/index.m3u8"
       },
-       "rongeen_tv1": {
+      "rongeen_tv_1": {
         "name": "Rongeen TV",
         "tvglogo": "https://s3.aynaott.com/storage/296b530024a470f52313692636810e04",
         "group": "KIDS",
@@ -273,7 +262,7 @@
         "group": "SPORTS", 
         "url": "https://tvsen5.aynaott.com/TnMn5kZz8aLm/index.m3u8" 
       },
-       "t_sports1": { 
+      "t_sports_1": { 
         "name": "T Sports", 
         "tvglogo": "https://yt3.googleusercontent.com/bFiobvUTC9dzqtqmHrGpMvIlQ2SpWYVKQFd3M8iP0hKqENuPOUNNVzaQQoJufoIFH-_M0UYn7w=s900-c-k-c0x00ffffff-no-rj", 
         "group": "SPORTS", 
@@ -309,13 +298,13 @@
         "group": "MOVIE",
         "url": "https://s3.itcnbd.live/channel/a5979fd53c01d1b2.m3u8"
       },
-       "the_movie_club": {
+      "the_movie_club": {
         "name": "THE MOVIE CLUB",
         "tvglogo": "https://cdn.tvivu.com/logos/the-movie-club-160.webp",
         "group": "MOVIE",
         "url": "https://sis-global.prod.samsungtv.plus/v1/tvpprd/sc-mp2ar4ca425xo.m3u8"
       },
-      "the_movie_club1": {
+      "the_movie_club_1": {
         "name": "THE MOVIE CLUB",
         "tvglogo": "https://cdn.tvivu.com/logos/the-movie-club-160.webp",
         "group": "MOVIE",
@@ -327,43 +316,43 @@
         "group": "ISLAMIC CHANNELS", 
         "url": "https://dzkyvlfyge.erbvr.com/PeaceTvBangla/tracks-v3a1/mono.m3u8?sid=s7AaNdTzDE2912wNcPLejQ" 
       },
-    "wow_kidz_720p": {
-    "name": "WOW Kidz (720p)",
-    "tvglogo": "https://d229kpbsb5jevy.cloudfront.net/yupptvnew/content/common/channel/logos/mjvezt.png",
-    "group": "Animation;Kids",
-    "url": "https://yuppparoriglin.akamaized.net/181224/smil:wowkidzhindi.smil/playlist.m3u8?hdnts=st=1735898689~exp=1835898688~acl=*~hmac=f5fe24724fe05481e3841f9eb5ab8efdee0a3dd83645ae9dcf45703f525bab7b"
-     },
+      "wow_kidz_720p": {
+        "name": "WOW Kidz (720p)",
+        "tvglogo": "https://d229kpbsb5jevy.cloudfront.net/yupptvnew/content/common/channel/logos/mjvezt.png",
+        "group": "Animation;Kids",
+        "url": "https://yuppparoriglin.akamaized.net/181224/smil:wowkidzhindi.smil/playlist.m3u8?hdnts=st=1735898689~exp=1835898688~acl=*~hmac=f5fe24724fe05481e3841f9eb5ab8efdee0a3dd83645ae9dcf45703f525bab7b"
+      },
       "sony_yay": { 
         "name": "Sony Yay", 
         "tvglogo": "https://tse3.mm.bing.net/th/id/OIP.HX74tYQ2garyYz_SdRdBXgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
         "group": "KIDS", 
         "url": "https://s2.itcnbd.live/server-2/stream/sonyyay.m3u8" 
       },
-      "Cartoon_Network": { 
+      "cartoon_network": { 
         "name": "Cartoon Network", 
         "tvglogo": "https://i.ibb.co.com/8B0Lpzd/1000021166.png", 
         "group": "KIDS", 
         "url": "https://vodzong.mjunoon.tv:8087/streamtest/cartoon-network-87/playlist.m3u8"  
       },
-       "Cartoon_Network 1": { 
+      "cartoon_network_1": { 
         "name": "Cartoon Network", 
         "tvglogo": "https://i.ibb.co.com/8B0Lpzd/1000021166.png", 
         "group": "KIDS", 
         "url": "https://tvsen5.aynaott.com/cartoonnetwork/index.m3u8"  
       },
-      "Muic india": {
-    "name": "Music india",
-    "tvglogo": "https://dtil.tmsimg.com/assets/s143563_ld_h15_aa.png?lock=720x540",
-    "group": "Music",
-    "url": "https://cdn-2.pishow.tv/live/226/master.m3u8"
-    },
+      "music_india": {
+        "name": "Music india",
+        "tvglogo": "https://dtil.tmsimg.com/assets/s143563_ld_h15_aa.png?lock=720x540",
+        "group": "Music",
+        "url": "https://cdn-2.pishow.tv/live/226/master.m3u8"
+      },
       "zoom": {
         "name": "Zoom",
         "tvglogo": "https://i1.sndcdn.com/avatars-000120257144-5fcxjn-t500x500.jpg",
         "group": "SONG",
         "url": "https://d2esfk1pb9cdob.cloudfront.net/master.m3u8"
       },
-       "zoom 1": {
+      "zoom_1": {
         "name": "Zoom",
         "tvglogo": "https://i1.sndcdn.com/avatars-000120257144-5fcxjn-t500x500.jpg",
         "group": "SONG",
