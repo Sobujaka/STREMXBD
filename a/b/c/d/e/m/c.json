@@ -4,6 +4,12 @@
     "country": "Bangladesh",
     "image": "https://copilot.microsoft.com/th/id/BCO.c8b1cdc3-8825-4e16-9237-282f672d929e.png",
     "CN": {
+    "ananda_tv": {
+    "name": "Ananda TV",
+    "tvglogo": "",
+    "group": "Bangladesh",
+    "url": "https://tvsen6.aynaott.com/LeUAm4F1iixYns3s3Non/index.m3u8"
+  },
     "btv_ctg": {
     "name": "BTV CTG",
     "tvglogo": "https://s3.aynaott.com/storage/00da8a07fb26b2fb79359ee535e4c7bc",
