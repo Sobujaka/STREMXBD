@@ -5,6 +5,12 @@
     "image": "https://copilot.microsoft.com/th/id/BCO.c8b1cdc3-8825-4e16-9237-282f672d929e.png",
     "CN": {
     "jamuna_tv": {
+    "ekattor_tv": {
+    "name": "Ekattor TV",
+    "tvglogo": "",
+    "group": "Bangladesh",
+    "url": "https://tvsen6.aynaott.com/EWDrV5QskgarZEUBb3pU/index.m3u8"
+    },
     "name": "Jamuna TV",
     "tvglogo": "https://s3.aynaott.com/storage/aac6488b68844e5756ab46eb79659de8",
     "group": "News",
