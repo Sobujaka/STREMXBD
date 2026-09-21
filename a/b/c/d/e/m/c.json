@@ -4,7 +4,30 @@
     "country": "Bangladesh",
     "image": "https://copilot.microsoft.com/th/id/BCO.c8b1cdc3-8825-4e16-9237-282f672d929e.png",
     "CN": {
-    "jamuna_tv": {
+    "etv": {
+    "name": "ETV",
+    "tvglogo": "https://s3.aynaott.com/storage/8a1af81802b0728c064c2adabcdc72c8",
+    "group": "Bangla",
+    "url": "https://tvsen6.aynaott.com/y4mEVZNAbeNWTbd6Z2Pw/index.m3u8?e=1784102562&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=7e70b215021d5b63d625a677bec65a1d"
+  },
+    "channel_i": {
+    "name": "Channel I",
+    "tvglogo": "",
+    "group": "Bangladesh",
+    "url": "https://tvsen6.aynaott.com/FNHpYvGZ7FkCE10PwTHm/index.m3u8"
+  },
+    "dbc_news": {
+    "name": "DBC News",
+    "tvglogo": "https://s3.aynaott.com/storage/2c5a73ac3f9772a9cb2d18df1b152545",
+    "group": "News",
+    "url": "https://tvsen6.aynaott.com/pF66Tkz0qFwP2aMMqHyt/index.m3u8?e=1784102535&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=d1848b7fd84cef719a89b61f0f5704ee"
+    },
+    "news_24_bd": {
+    "name": "News 24 BD",
+    "tvglogo": "https://s3.aynaott.com/storage/7c002f22c02096b0d1ba833ae9ea6d5b",
+    "group": "News",
+    "url": "https://tvsen6.aynaott.com/cdgr3tw6WoG7JyRnLbi0/index.m3u8?e=1784102534&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=ff40b53535a0e90b724ac25ff41c590c"
+    },
     "ekattor_tv": {
     "name": "Ekattor TV",
     "tvglogo": "",
@@ -52,6 +75,12 @@
         "group": "KIDS", 
         "url": "https://mtv.sunplex.live/MAASRANGA/tracks-v1a1/mono.m3u8" 
       },
+     "Maasranga TV 1": { 
+        "name": "Maasranga TV", 
+        "tvglogo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiwgQtP2TuwjgIQUhmb4D8IGcdEpaP0Xl8CwcYeP5_dF7KyrbAlWr0692nCd_K5IbKdI2ownF2_fOlNYmP_mk-G78Kc1yBbW9MdhLFK8ZiG48UoQmYZNl67Di6JPFekkWZxZlU14mP2E-Hs/s1600/Maasranga_Television_Logo.jpg", 
+        "group": "KIDS", 
+        "url": "https://tvsen5.aynaott.com/maasrangatv/index.m3u8" 
+      },
       "bangla_vision": { 
         "name": "Bangla Vision", 
         "tvglogo": "https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Banglavision.svg/1280px-Banglavision.svg.png", 
@@ -87,6 +116,12 @@
         "tvglogo": "https://www.ntvbd.com/sites/all/themes/sloth/images/ntv-facebook.jpg", 
         "group": "ALL", 
         "url": "https://tvsen5.aynaott.com/xV4jEKf3D9zc/index.m3u8" 
+      },
+     "ntv1": { 
+        "name": "NTV", 
+        "tvglogo": "https://www.ntvbd.com/sites/all/themes/sloth/images/ntv-facebook.jpg", 
+        "group": "ALL", 
+        "url": "https://tvsen5.aynaott.com/JHPxHAWonztVucyc4GzF/index.m3u8" 
       },
        "ntv2": { 
         "name": "NTV", 
