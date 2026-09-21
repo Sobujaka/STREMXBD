@@ -4,17 +4,17 @@
     "country": "Bangladesh",
     "image": "https://copilot.microsoft.com/th/id/BCO.c8b1cdc3-8825-4e16-9237-282f672d929e.png",
     "CN": {
+        "btv_ctg": {
+        "name": "BTV CTG",
+        "tvglogo": "https://s3.aynaott.com/storage/00da8a07fb26b2fb79359ee535e4c7bc",
+        "group": "Bangla",
+        "url": "https://tvsen6.aynaott.com/TjGR1GcxKetHNVcMVxbq/index.m3u8?e=1784102576&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=901c0ca2f1ba54041a543dce43641c12"
+      },
       "ananda_tv": {
         "name": "Ananda TV",
         "tvglogo": "https://tse4.mm.bing.net/th/id/OIP.3Hmvj3Qx8TktwIIf5YZh6gHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "ALL",
         "url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8"
-      },
-      "btv_ctg": {
-        "name": "BTV CTG",
-        "tvglogo": "https://s3.aynaott.com/storage/00da8a07fb26b2fb79359ee535e4c7bc",
-        "group": "Bangla",
-        "url": "https://tvsen6.aynaott.com/TjGR1GcxKetHNVcMVxbq/index.m3u8?e=1784102576&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=901c0ca2f1ba54041a543dce43641c12"
       },
       "bijoy_tv": {
         "name": "Bijoy TV",
