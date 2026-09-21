@@ -4,6 +4,12 @@
     "country": "Bangladesh",
     "image": "https://copilot.microsoft.com/th/id/BCO.c8b1cdc3-8825-4e16-9237-282f672d929e.png",
     "CN": {
+    "jamuna_tv": {
+    "name": "Jamuna TV",
+    "tvglogo": "https://s3.aynaott.com/storage/aac6488b68844e5756ab46eb79659de8",
+    "group": "News",
+    "url": "https://tvsen6.aynaott.com/EWDrV5QskgarZEUBb3pU/index.m3u8"
+      },
       "atn_bangla": { 
         "name": "ATN Bangla", 
         "tvglogo": "https://images.seeklogo.com/logo-png/53/1/atn-bangla-logo-png_seeklogo-537053.png", 
