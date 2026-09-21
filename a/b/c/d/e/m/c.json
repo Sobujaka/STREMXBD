@@ -4,6 +4,18 @@
     "country": "Bangladesh",
     "image": "https://copilot.microsoft.com/th/id/BCO.c8b1cdc3-8825-4e16-9237-282f672d929e.png",
     "CN": {
+    "btv_ctg": {
+    "name": "BTV CTG",
+    "tvglogo": "https://s3.aynaott.com/storage/00da8a07fb26b2fb79359ee535e4c7bc",
+    "group": "Bangla",
+    "url": "https://tvsen6.aynaott.com/TjGR1GcxKetHNVcMVxbq/index.m3u8?e=1784102576&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=901c0ca2f1ba54041a543dce43641c12"
+  },
+    "bijoy_tv": {
+    "name": "Bijoy TV",
+    "tvglogo": "",
+    "group": "Bangladesh",
+    "url": "https://stream.ottplus.live/live/bijoy_tv_abr/live/bijoy_tv_720/chunks.m3u8"
+  },
     "desh_tv": {
     "name": "Desh TV",
     "tvglogo": "",
@@ -159,24 +171,36 @@
         "group": "ALL", 
         "url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/ntvuk00332211.stream/playlist.m3u8" 
       },
+    "ananda_tv": {
+    "name": "Ananda TV",
+    "tvglogo": "",
+    "group": "Bangladesh",
+    "url": "https://tvsen6.aynaott.com/LeUAm4F1iixYns3s3Non/index.m3u8"
+  },
+    "My TV1": {
+    "name": "My TV",
+    "tvglogo": "",
+    "group": "Bangladesh",
+    "url": "https://tvsen6.aynaott.com/XMpHaEf0ANBhv8w6NWR7/index.m3u8"
+      },
       "My TV": { 
         "name": "My TV", 
         "tvglogo": "https://tse2.mm.bing.net/th/id/OIP.9G4Ro1q2UWrNsZMb7fxPdQHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
         "group": "ALL", 
         "url": "https://app24.jagobd.com.bd/c3VydmVyX8RpbEU9Mi8xNy8yMFDEEHGcfRgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcEdsEfeDeKiNkVN3PTOmdFseWRtaW51aiPhnPTI2/mytv-up-off.stream/tracks-v1a1/mono.m3u8"  
       },
-      "MY TV": {
+      "MY TV2": {
     "name": "My TV",
     "tvglogo": "https://i.ibb.co.com/bNBq22B/images-2.jpg",
     "group": "ALL",
     "url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/mytv-up-off.stream/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9MTAvMTQvMjAyNCAyOjE4OjU2IFBNJmhhc2hfdmFsdWU9a3lza1NOUVpsQlQ3TWQyS1VRSnBuQT09JnZhbGlkbWludXRlcz00MA=="
      },
-      "Mohona TV": { 
-        "name": "Mohona TV", 
-        "tvglogo": "https://www.mawbiz.com.bd/application/views/module/product_image/mohona-tv_1.jpg", 
-        "group": "ALL", 
-        "url": "https://app24.jagobd.com.bd/c3VydmVyX8RpbEU9Mi8xNy8yMFDEEHGcfRgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcEdsEfeDeKiNkVN3PTOmdFseWRtaW51aiPhnPTI2/mohonatv.stream/tracks-v1a1/mono.m3u8"  
-      },
+    "mohona_tv": {
+    "name": "Mohona TV",
+    "tvglogo": "",
+    "group": "Bangladesh",
+    "url": "https://stream.ottplus.live/live/mohona_tv_abr/index.m3u8"
+     },
       "jungle_book": {
         "name": "Jungle Book",
         "tvglogo": "https://pash.ink/storage/uploads/JungleBook_Logo.png",
@@ -212,6 +236,12 @@
         "tvglogo": "https://th.bing.com/th/id/OIP.OFA2CI3juA9d_xBpO14WSgHaHa?r=0&o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "TV SHOW",
         "url": "https://vods2.aynaott.com/gseriesDrama/tracks-v1a1/mono.ts.m3u8"
+      },
+     "g_series1": {
+        "name": "G Series",
+        "tvglogo": "https://th.bing.com/th/id/OIP.OFA2CI3juA9d_xBpO14WSgHaHa?r=0&o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3",
+        "group": "TV SHOW",
+        "url": "https://vods2.aynaott.com/gseriesDrama/index.m3u8"
       },
       "rongeen_tv": {
         "name": "Rongeen TV",
