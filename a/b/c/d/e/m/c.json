@@ -18,13 +18,13 @@
       },
       "bijoy_tv": {
         "name": "Bijoy TV",
-        "tvglogo": "",
+        "tvglogo": "https://tse3.mm.bing.net/th/id/OIP.A4MMLFNJeqBCbORttvHQ3gHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "Bangladesh",
         "url": "https://stream.ottplus.live/live/bijoy_tv_abr/live/bijoy_tv_720/chunks.m3u8"
       },
       "desh_tv": {
         "name": "Desh TV",
-        "tvglogo": "",
+        "tvglogo": "https://images.seeklogo.com/logo-png/60/1/desh-tv-logo-png_seeklogo-606364.png",
         "group": "Bangladesh",
         "url": "https://tvsen6.aynaott.com/ryFkXfd1a4CQ7mMdc820/index.m3u8"
       },
@@ -42,7 +42,7 @@
       },
       "sa_tv": {
         "name": "SA TV",
-        "tvglogo": "",
+        "tvglogo": "https://yt3.googleusercontent.com/HL5ttqw9g34gVINtqq3rCoAyofPFsJg98YkuNz-GB0V8J28HyqIpkjW76AcYNFBol6Nn6zjmDw=s900-c-k-c0x00ffffff-no-rj",
         "group": "Bangladesh",
         "url": "https://tvsen6.aynaott.com/rELXiuUXqbgzPb06Npom/index.m3u8"
       },
@@ -54,7 +54,7 @@
       },
       "channel_i": {
         "name": "Channel I",
-        "tvglogo": "",
+        "tvglogo": "https://images.seeklogo.com/logo-png/53/1/channel-i-logo-png_seeklogo-532023.png",
         "group": "Bangladesh",
         "url": "https://tvsen6.aynaott.com/FNHpYvGZ7FkCE10PwTHm/index.m3u8"
       },
@@ -72,7 +72,7 @@
       },
       "ekattor_tv": {
         "name": "Ekattor TV",
-        "tvglogo": "",
+        "tvglogo": "https://tse3.mm.bing.net/th/id/OIP.L8WzhR3z5NThNdSDB8CX2wAAAA?r=0&w=400&h=415&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "Bangladesh",
         "url": "https://tvsen6.aynaott.com/EWDrV5QskgarZEUBb3pU/index.m3u8"
       },
@@ -138,7 +138,7 @@
       },
       "boishakhi_tv": {
         "name": "Boishakhi TV",
-        "tvglogo": "",
+        "tvglogo": "https://tse1.mm.bing.net/th/id/OIP.bSQ98D4_cesXxTMC_R_MDAHaG3?r=0&w=860&h=797&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "Bangladesh",
         "url": "https://tvsen6.aynaott.com/1d3uG9VCgrR9DRtWZM57/index.m3u8"
       },
@@ -180,7 +180,7 @@
       },
       "my_tv_1": {
         "name": "My TV",
-        "tvglogo": "",
+        "tvglogo": "https://tse2.mm.bing.net/th/id/OIP.9G4Ro1q2UWrNsZMb7fxPdQHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "Bangladesh",
         "url": "https://tvsen6.aynaott.com/XMpHaEf0ANBhv8w6NWR7/index.m3u8"
       },
@@ -198,7 +198,7 @@
       },
       "mohona_tv": {
         "name": "Mohona TV",
-        "tvglogo": "",
+        "tvglogo": "https://tse1.mm.bing.net/th/id/OIP.9CQHmAfcuOc-J8Yq2RU84wAAAA?r=0&w=200&h=160&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "Bangladesh",
         "url": "https://stream.ottplus.live/live/mohona_tv_abr/index.m3u8"
       },
