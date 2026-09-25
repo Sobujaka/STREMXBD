@@ -848,7 +848,7 @@
                 <h2 id="videoTitle" class="player-title"></h2>
                 <div class="video-wrapper" id="videoContainer">
                     <div class="drive-icon-blocker"></div>
-                    <iframe id="iframePlayer" src="" allowfullscreen style="display:none;"></iframe>
+                    <iframe id="iframePlayer" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="display:none;"></iframe>
                     <div id="artPlayerContainer" class="artplayer-app" style="display:none;"></div>
                 </div>
             </div>
@@ -1852,6 +1852,16 @@
             }
         }
 
+        // YouTube URL Helper Function
+        function getYouTubeEmbedUrl(url) {
+            let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            let match = url.match(regExp);
+            if (match && match[2].length === 11) {
+                return `https://www.youtube.com/embed/${match[2]}?autoplay=1`;
+            }
+            return url;
+        }
+
         function loadVideo(url, title, onErrorCallback = null) {
             const iframe = document.getElementById('iframePlayer');
             const artContainer = document.getElementById('artPlayerContainer');
@@ -1874,6 +1884,14 @@
 
             const cleanUrl = url.trim();
             const lowerUrl = cleanUrl.toLowerCase();
+
+            // Check if it's a YouTube link
+            if (lowerUrl.includes('youtube.com') || lowerUrl.includes('youtu.be')) {
+                artContainer.style.display = 'none';
+                iframe.style.display = 'block';
+                iframe.src = getYouTubeEmbedUrl(cleanUrl);
+                return;
+            }
 
             const isProxyStream = lowerUrl.includes('workers.dev') || lowerUrl.includes('/stream') || lowerUrl.includes('.m3u8');
             const isDirectVideo = lowerUrl.includes('.mp4') || lowerUrl.includes('.mkv');
