@@ -1146,24 +1146,28 @@
             if (dropdown) dropdown.classList.remove('show');
         };
 
+        // Adblocker check updated: 5 seconds delay and checks if user is premium
         async function checkAdBlocker() {
-            if (isPremium) return; // Premium user-der jonno ad blocker check hobe na
+            setTimeout(async () => {
+                // Jodi user-er premium active thake, tahole adblocker warning dekhabe na (allow kora hobe)
+                if (isPremium) return;
 
-            const googleAdUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
-            try {
-                await fetch(googleAdUrl, { method: 'HEAD', mode: 'no-cors' });
-                const fakeAd = document.createElement('div');
-                fakeAd.innerHTML = '&nbsp;';
-                fakeAd.className = 'adsbox ads-box ad-zone ad-space google-ad';
-                document.body.appendChild(fakeAd);
-                
-                setTimeout(() => {
-                    if (fakeAd.offsetHeight === 0) showAdBlockWarning();
-                    fakeAd.remove();
-                }, 100);
-            } catch (error) {
-                showAdBlockWarning();
-            }
+                const googleAdUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+                try {
+                    await fetch(googleAdUrl, { method: 'HEAD', mode: 'no-cors' });
+                    const fakeAd = document.createElement('div');
+                    fakeAd.innerHTML = '&nbsp;';
+                    fakeAd.className = 'adsbox ads-box ad-zone ad-space google-ad';
+                    document.body.appendChild(fakeAd);
+                    
+                    setTimeout(() => {
+                        if (fakeAd.offsetHeight === 0 && !isPremium) showAdBlockWarning();
+                        fakeAd.remove();
+                    }, 100);
+                } catch (error) {
+                    if (!isPremium) showAdBlockWarning();
+                }
+            }, 5000); // 5 seconds delay after refresh/load
         }
 
         function showAdBlockWarning() {
@@ -1172,10 +1176,7 @@
             document.getElementById('player-view').style.display = 'none';
         }
 
-        window.addEventListener('load', () => {
-            // Initial check will run after auth state resolves or standard load
-            setTimeout(checkAdBlocker, 500);
-        });
+        window.addEventListener('load', checkAdBlocker);
 
         const jsonSources = [
             { name: "Anime", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/a/b/c/d/e/m/a.json" },
@@ -1236,7 +1237,6 @@
             applyFilters();
             checkAndRestorePlayerFromHash();
             updateUI();
-            checkAdBlocker(); // Re-run check after premium state is loaded from storage/firebase
         }
 
         function restoreState() {
