@@ -6,9 +6,6 @@
     <title>WEB-XBD STREAM Streaming App</title>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/artplayer/dist/artplayer.js"></script>
-    
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
     <style>
         * {
@@ -208,11 +205,6 @@
             justify-content: center; 
             overflow: hidden; 
         }
-        .profile-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
         .user-dropdown { 
             position: absolute; 
             top: 48px; right: 0; 
@@ -301,26 +293,6 @@
 
         .premium-btn:hover {
             background-color: #f59e0b;
-        }
-
-        .google-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background-color: #ffffff;
-            color: #000000;
-            font-weight: 600;
-            padding: 8px 12px;
-            border-radius: 4px;
-            margin: 8px 12px;
-            cursor: pointer;
-            font-size: 13px;
-            border: none;
-            transition: background 0.2s;
-        }
-        .google-btn:hover {
-            background-color: #e2e8f0;
         }
 
         #payment-modal { 
@@ -769,7 +741,6 @@
                         <svg style="width:24px; height:24px; fill:#94a3b8" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
                     </div>
                     <div class="user-dropdown" id="userDropdown" onclick="event.stopPropagation()">
-                        <div class="dropdown-item" id="user-info-tag" style="font-size: 12px; color: #94a3b8; display:none;"></div>
                         <div class="dropdown-item" id="status-tag" style="color: #fbbf24; font-weight: bold;">Status: Free User</div>
                         <div class="dropdown-item" id="sub-days-tag" style="font-size: 12px; color: #10b981; font-weight: 600; display:none;"></div>
                         
@@ -784,11 +755,6 @@
                                 <button class="premium-btn" onclick="applyPremiumCode()">Apply</button>
                             </div>
                         </div>
-
-                        <button class="google-btn" id="googleAuthBtn" onclick="toggleGoogleLogin()">
-                            <svg style="width:16px; height:16px" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
-                            <span id="googleBtnText">Login with Google</span>
-                        </button>
 
                         <div class="dropdown-item" style="color: #ef4444;" onclick="localStorage.clear(); location.reload();">Reset App</div>
                     </div>
@@ -861,26 +827,8 @@
     </div>
 
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyDeDyktkprPR_mAk5-twzfjC9IKzHvVo9o",
-            authDomain: "stremxbd.firebaseapp.com",
-            projectId: "stremxbd",
-            storageBucket: "stremxbd.firebasestorage.app",
-            messagingSenderId: "809199127739",
-            appId: "1:809199127739:web:11f9eaa571bd39681ced9e",
-            measurementId: "G-9LVH35RY4R"
-        };
-
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-
-        const auth = firebase.auth();
-        const googleProvider = new firebase.auth.GoogleAuthProvider();
-
-        let currentUser = null;
-        let isPremium = false;
-        let remainingDays = 0;
+        let isPremium = localStorage.getItem('isPremiumApp') === 'true';
+        let remainingDays = parseInt(localStorage.getItem('premiumRemainingDays') || '0');
         let playbackTimer = null;
         let currentPlayingItem = null;
 
@@ -961,89 +909,7 @@
             setupInfiniteScroll(filtered, true);
         }
 
-        auth.onAuthStateChanged((user) => {
-            currentUser = user;
-            const profileIcon = document.getElementById('profileIcon');
-            const googleBtnText = document.getElementById('googleBtnText');
-
-            if (user) {
-                profileIcon.innerHTML = `<img src="${user.photoURL || 'https://via.placeholder.com/38'}" alt="profile" loading="lazy">`;
-                googleBtnText.innerText = "Logout";
-                
-                const userPremiumCode = localStorage.getItem(`premiumCode_${user.uid}`);
-                if (userPremiumCode) {
-                    verifyPremiumCodeOnLogin(userPremiumCode);
-                } else {
-                    isPremium = false;
-                    remainingDays = 0;
-                    updateUI();
-                }
-            } else {
-                profileIcon.innerHTML = `<svg style="width:24px; height:24px; fill:#94a3b8" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>`;
-                googleBtnText.innerText = "Login with Google";
-                isPremium = false;
-                remainingDays = 0;
-                updateUI();
-            }
-        });
-
-        function toggleGoogleLogin() {
-            if (currentUser) {
-                auth.signOut().then(() => {
-                    alert("Logged out successfully!");
-                });
-            } else {
-                auth.signInWithPopup(googleProvider).then((result) => {
-                    alert(`Welcome ${result.user.displayName}!`);
-                }).catch((error) => {
-                    alert("Login Failed: " + error.message);
-                });
-            }
-        }
-
-        async function verifyPremiumCodeOnLogin(code) {
-            try {
-                const res = await fetch('https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/pemiumcode.json');
-                const codes = await res.json();
-                const found = codes.find(c => c.code.includes(code));
-
-                if (found) {
-                    if (found.code.includes('date=')) {
-                        const dateStr = found.code.split('date="')[1].split('"')[0];
-                        const [d, m, y] = dateStr.split('/').map(Number);
-                        const expDate = new Date(y, m - 1, d);
-                        const today = new Date();
-
-                        if (today > expDate) {
-                            isPremium = false;
-                            remainingDays = 0;
-                            updateUI();
-                            return;
-                        }
-
-                        const diffTime = expDate - today;
-                        remainingDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                    } else {
-                        remainingDays = null;
-                    }
-                    isPremium = true;
-                } else {
-                    isPremium = false;
-                    remainingDays = 0;
-                }
-            } catch(e) {
-                isPremium = false;
-                remainingDays = 0;
-            }
-            updateUI();
-        }
-
         async function applyPremiumCode() {
-            if (!currentUser) {
-                alert("Please Login with Google first to apply a Premium Code!");
-                return;
-            }
-
             const codeInput = document.getElementById('premiumCodeInput');
             const enteredCode = codeInput ? codeInput.value.trim() : "";
             
@@ -1059,16 +925,10 @@
                 const found = codes.find(c => c.code.includes(enteredCode));
 
                 if (found) {
-                    let usedDevices = found.usedDevices || (found.usedBy ? [found.usedBy] : []);
-                    let usedAccount = found.accountUid || null;
-
-                    if (usedAccount && usedAccount !== currentUser.uid) {
-                        alert("Error: This code is already activated on another Google Account!");
-                        return;
-                    }
+                    let usedDevices = found.usedDevices || [];
 
                     if (!usedDevices.includes(myDeviceId) && usedDevices.length >= 3) {
-                        alert("Error: Limit reached! This code is already active on 3 devices (Mobile, TV, PC).");
+                        alert("Error: Limit reached! This code is already active on 3 devices.");
                         return;
                     }
 
@@ -1090,8 +950,12 @@
                     }
 
                     isPremium = true;
-                    localStorage.setItem(`premiumCode_${currentUser.uid}`, enteredCode);
-                    alert("Success! Premium Activated for your Google Account on this device.");
+                    localStorage.setItem('isPremiumApp', 'true');
+                    localStorage.setItem('premiumRemainingDays', remainingDays !== null ? remainingDays : '');
+                    localStorage.setItem('appliedPremiumCode', enteredCode);
+                    
+                    alert("Success! Premium Activated on this device.");
+                    updateUI();
                     location.reload();
                 } else {
                     alert("Invalid Premium Code!");
@@ -1102,7 +966,6 @@
         function updateUI() {
             const statusTag = document.getElementById('status-tag');
             const subDaysTag = document.getElementById('sub-days-tag');
-            const userInfoTag = document.getElementById('user-info-tag');
 
             if (statusTag) {
                 statusTag.innerText = isPremium ? "Premium Active 💎" : "Status: Free User";
@@ -1110,7 +973,7 @@
             }
 
             if (subDaysTag) {
-                if (isPremium && remainingDays !== null) {
+                if (isPremium && remainingDays > 0) {
                     subDaysTag.style.display = "block";
                     subDaysTag.innerText = `⏳ Expiry: ${remainingDays} days remaining`;
                 } else if (isPremium) {
@@ -1119,17 +982,6 @@
                 } else {
                     subDaysTag.style.display = "none";
                 }
-            }
-
-            if (currentUser && userInfoTag) {
-                userInfoTag.style.display = "block";
-                let nameText = `👤 ${currentUser.displayName || currentUser.email}`;
-                if (isPremium && remainingDays !== null) {
-                    nameText += ` (${remainingDays}d left)`;
-                }
-                userInfoTag.innerText = nameText;
-            } else if (userInfoTag) {
-                userInfoTag.style.display = "none";
             }
         }
 
@@ -1146,10 +998,8 @@
             if (dropdown) dropdown.classList.remove('show');
         };
 
-        // Adblocker check updated: 5 seconds delay and checks if user is premium
         async function checkAdBlocker() {
             setTimeout(async () => {
-                // Jodi user-er premium active thake, tahole adblocker warning dekhabe na (allow kora hobe)
                 if (isPremium) return;
 
                 const googleAdUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
@@ -1167,7 +1017,7 @@
                 } catch (error) {
                     if (!isPremium) showAdBlockWarning();
                 }
-            }, 5000); // 5 seconds delay after refresh/load
+            }, 5000);
         }
 
         function showAdBlockWarning() {
