@@ -1,5 +1,39 @@
  [
 	{
+    "name": "Attack on Titan",
+    "image": "https://ctgmovies.com/imgcache/c6/c66728177681ac07d3a7c79d49d923cd3e11458a.webp",
+    "category": "Animation",
+    "country": "",
+    "language": "Hindi",
+    "episodes": {
+      "S1EP1": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",    
+      "S1EP2": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E02.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+	  "S1EP3": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E03.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+      "S1EP4": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E04.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+      "S1EP5": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E05.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+      "S1EP6": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E06.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+      "S1EP7": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E07.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+      "S1EP8": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E08.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+      "S1EP9": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E09.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+      "S1EP10": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E10.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+      "S1EP11": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E11.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+      "S1EP12": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+      "S1EP13": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E13.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+	  "S1EP14": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E14.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+	  "S1EP15": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E15.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+	  "S1EP16": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E16.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+	  "S1EP17": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E17.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+	  "S1EP18": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E18.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+	  "S1EP19": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E19.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+	  "S1EP20": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E20.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv"
+      "S1EP21": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E21.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+      "S1EP22": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E22.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+      "S1EP23": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E23.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+      "S1EP24": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E24.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv",
+      "S1EP25": "https://ftp.ctgfun.com/TV_Series/Attack%20on%20Titan/Attack.on.Titan.S01.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D/Attack.on.Titan.S01E25.Hindi.English.720p.WEBRip.x264.ESub%20%5BDDN%5D.mkv"
+	  }
+	},
+	{
     "name": "Takopi's Original Sin",
     "image": "https://ctgmovies.com/imgcache/a6/a651fbd986e0611f402b3bde3ebb5d941dafaf1a.webp",
     "category": "Animation",
