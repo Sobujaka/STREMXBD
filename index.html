@@ -922,8 +922,10 @@
                 const found = codes.find(c => c.code.includes(enteredCode));
 
                 if (found) {
+                    // Purono data completely reset/clear kora holo
                     isPremium = true;
-                    remainingDays = null;
+                    remainingDays = 0;
+                    localStorage.removeItem('premiumRemainingDays');
 
                     if (found.code.includes('date=')) {
                         const dateStr = found.code.split('date="')[1].split('"')[0];
@@ -941,7 +943,9 @@
                     }
 
                     localStorage.setItem('isPremiumApp', 'true');
-                    localStorage.setItem('premiumRemainingDays', remainingDays !== null ? remainingDays : '');
+                    if (remainingDays > 0) {
+                        localStorage.setItem('premiumRemainingDays', remainingDays);
+                    }
                     localStorage.setItem('appliedPremiumCode', enteredCode);
                     
                     alert("Success! Premium Activated with the new code.");
