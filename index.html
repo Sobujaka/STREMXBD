@@ -38,7 +38,7 @@
             justify-content: space-between;
             width: 100%;
             gap: 15px;
-            flex-wrap: nowrap;
+            flex-wrap: wrap;
         }
 
         .brand-title {
@@ -49,7 +49,6 @@
             cursor: pointer;
             text-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
             text-transform: uppercase;
-            white-space: nowrap;
         }
 
         .download-cards-container {
@@ -58,8 +57,6 @@
             gap: 10px;
             margin-left: auto;
             margin-right: 15px;
-            overflow-x: auto;
-            max-width: 100%;
         }
 
         .download-card {
@@ -74,7 +71,6 @@
             color: #ffffff;
             transition: all 0.3s ease;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            flex-shrink: 0;
         }
 
         .download-card:hover {
@@ -197,11 +193,7 @@
 
         .select-link option { background-color: #0f172a; color: #ffffff; }
 
-        .profile-container { 
-            position: relative; 
-            z-index: 1000; 
-            flex-shrink: 0;
-        }
+        .profile-container { position: relative; z-index: 1000; }
         .profile-icon { 
             width: 38px; height: 38px; 
             border-radius: 50%; 
@@ -236,20 +228,21 @@
         .dropdown-item:hover { background-color: #1f2937; }
 
         .modal-ad-btn {
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: linear-gradient(135deg, #374151, #1f2937);
             color: #ffffff;
             font-weight: bold;
-            padding: 10px 14px;
+            padding: 12px;
             border-radius: 8px;
             text-align: center;
             cursor: pointer;
             margin-bottom: 15px;
+            border: 1px solid #4b5563;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             font-size: 14px;
         }
         .modal-ad-btn:hover {
-            background: linear-gradient(135deg, #059669, #047857);
+            background: linear-gradient(135deg, #4b5563, #374151);
             transform: translateY(-2px);
         }
 
@@ -677,6 +670,7 @@
             .player-container { flex-direction: column; }
             .player-sidebar-wrapper { width: 100%; }
             .media-grid { grid-template-columns: repeat(4, 1fr); }
+            .download-cards-container { margin-left: 0; }
         }
 
         @media (max-width: 600px) { 
@@ -689,6 +683,16 @@
             .player-sidebar { max-height: none; padding: 10px; }
             .episodes-grid { grid-template-columns: repeat(4, 1fr); }
             .brand-title { font-size: 22px; }
+            .download-cards-container {
+                width: 100%;
+                justify-content: space-between;
+                margin-right: 0;
+            }
+            .download-card {
+                padding: 4px 8px;
+            }
+            .download-info .app-title { font-size: 10px; }
+            .download-info .app-sub { font-size: 8px; }
         }
     </style>
 </head>
@@ -783,10 +787,15 @@
     </div>
 
     <div id="payment-modal">
-        <div class="payment-box">
+        <div class="payment-box" style="text-align: center;">
+            <h2 style="color: #3b82f6; margin-bottom: 10px;">Unlock 1 Day Free Premium</h2>
+            <p style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">Watch an ad for 10 seconds to activate your 1-day pass instantly without any code!</p>
+            
             <div class="modal-ad-btn" onclick="openAdForPremium()">
-                🎬 Watch Ad for 3 day Premium
+                Premium Active
             </div>
+            
+            <p style="font-size: 12px; color: #10b981; margin-bottom: 25px;" id="ad-status-msg">Your 1-Day Premium is currently active!</p>
 
             <h2 style="text-align: center; color: #fbbf24;">💎 Subscribe Now</h2>
             <div style="margin: 20px 0;">
@@ -841,7 +850,30 @@
 
         function openAdForPremium() {
             const adLink = "https://www.profitableratecpmnetwork.com/kysef0cy?key=899c3e306436d2a84d7b185f398f16bf"; 
+            const openTime = Date.now();
+            
             window.open(adLink, '_blank');
+            
+            const checkInterval = setInterval(() => {
+                if (document.hasFocus()) {
+                    const elapsedTime = (Date.now() - openTime) / 1000;
+                    clearInterval(checkInterval);
+                    
+                    if (elapsedTime >= 10) {
+                        isPremium = true;
+                        remainingDays = 1;
+                        localStorage.setItem('isPremiumApp', 'true');
+                        localStorage.setItem('premiumRemainingDays', '1');
+                        
+                        alert("Success! 1 Day Premium Activated successfully!");
+                        updateUI();
+                        closePayment();
+                        location.reload();
+                    } else {
+                        alert("Ads dekhar jonno oboshshoi 10 second wait kore abar back asun. Premium active hoyni!");
+                    }
+                }
+            }, 1000);
         }
 
         function getFavorites() {
@@ -916,16 +948,18 @@
             }
 
             try {
-                const res = await fetch('https://broad-darkness-2d66.jahangir339932.workers.dev/');
+                const res = await fetch('https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/pemiumcode.json');
                 const codes = await res.json();
                 
                 const found = codes.find(c => c.code.includes(enteredCode));
 
                 if (found) {
-                    // Purono data completely reset/clear kora holo
-                    isPremium = true;
-                    remainingDays = 0;
-                    localStorage.removeItem('premiumRemainingDays');
+                    let usedDevices = found.usedDevices || [];
+
+                    if (!usedDevices.includes(myDeviceId) && usedDevices.length >= 3) {
+                        alert("Error: Limit reached! This code is already active on 3 devices.");
+                        return;
+                    }
 
                     if (found.code.includes('date=')) {
                         const dateStr = found.code.split('date="')[1].split('"')[0];
@@ -940,15 +974,16 @@
 
                         const diffTime = expDate - today;
                         remainingDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    } else {
+                        remainingDays = null;
                     }
 
+                    isPremium = true;
                     localStorage.setItem('isPremiumApp', 'true');
-                    if (remainingDays > 0) {
-                        localStorage.setItem('premiumRemainingDays', remainingDays);
-                    }
+                    localStorage.setItem('premiumRemainingDays', remainingDays !== null ? remainingDays : '');
                     localStorage.setItem('appliedPremiumCode', enteredCode);
                     
-                    alert("Success! Premium Activated with the new code.");
+                    alert("Success! Premium Activated on this device.");
                     updateUI();
                     location.reload();
                 } else {
@@ -1285,7 +1320,7 @@
             mainContent.innerHTML = '';
 
             if (items.length === 0) {
-                mainContent.innerHTML = `<div style="text-align:center; padding: 50px 0; color: #94a3b8; font-size: 16px;">${isFavoritesPage ? 'No Favorite Items Found ❤️' : 'No Items Found'}</div>`;
+                mainContent.innerHTML = `<div style="text-align:center; padding: 50px 0; color: #94a3b8; font-size: 16px;">${isFavoritesPage ? 'No Favorite Items Found ❤️️' : 'No Items Found'}</div>`;
                 return;
             }
 
