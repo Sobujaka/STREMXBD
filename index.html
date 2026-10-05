@@ -753,7 +753,7 @@
                             </div>
                         </div>
 
-                        <div class="dropdown-item" style="color: #ef4444;" onclick="localStorage.clear(); location.reload();">Reset App</div>
+                        <div class="dropdown-item" style="color: #ef4444;" onclick="resetAppCompletely()">Reset App</div>
                     </div>
                 </div>
             </div>
@@ -911,7 +911,7 @@
             const enteredCode = codeInput ? codeInput.value.trim() : "";
             
             if (!enteredCode) {
-                alert("Please enter a code!");
+                alert("Doya kore ekti premium code din!");
                 return;
             }
 
@@ -925,7 +925,7 @@
                     let usedDevices = found.usedDevices || [];
 
                     if (!usedDevices.includes(myDeviceId) && usedDevices.length >= 3) {
-                        alert("Error: Limit reached! This code is already active on 3 devices.");
+                        alert("Error: Ei code-ti already 3-ti device-e active kora hoyeche!");
                         return;
                     }
 
@@ -936,7 +936,7 @@
                         const today = new Date();
 
                         if (today > expDate) {
-                            alert("Error: This code has expired!");
+                            alert("Error: Ei code-tir meyad shesh hoye geche!");
                             return;
                         }
 
@@ -951,13 +951,26 @@
                     localStorage.setItem('premiumRemainingDays', remainingDays !== null ? remainingDays : '');
                     localStorage.setItem('appliedPremiumCode', enteredCode);
                     
-                    alert("Success! Premium Activated on this device.");
+                    alert("Success! Ei device-e Premium active hoyeche.");
                     updateUI();
                     location.reload();
                 } else {
-                    alert("Invalid Premium Code!");
+                    alert("Invalid Premium Code! Sothik code din.");
                 }
-            } catch(e) { alert("Server Error! Try again later."); }
+            } catch(e) { 
+                alert("Server Error! Porobortite abar chesta korun."); 
+            }
+        }
+
+        function resetAppCompletely() {
+            if (confirm("Apni ki app-ti completely reset korte chan? Shob local data muche jabe.")) {
+                localStorage.removeItem('isPremiumApp');
+                localStorage.removeItem('premiumRemainingDays');
+                localStorage.removeItem('appliedPremiumCode');
+                localStorage.removeItem('stremxbd_favorites');
+                localStorage.clear();
+                location.reload();
+            }
         }
 
         function updateUI() {
