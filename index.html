@@ -39,7 +39,6 @@
             width: 100%;
             gap: 15px;
             flex-wrap: wrap;
-            position: relative;
         }
 
         .brand-title {
@@ -57,7 +56,7 @@
             align-items: center;
             gap: 10px;
             margin-left: auto;
-            margin-right: 65px;
+            margin-right: 15px;
         }
 
         .download-card {
@@ -194,12 +193,7 @@
 
         .select-link option { background-color: #0f172a; color: #ffffff; }
 
-        .profile-container { 
-            position: fixed !important; 
-            top: 20px; 
-            right: 20px; 
-            z-index: 10005; 
-        }
+        .profile-container { position: relative; z-index: 1000; }
         .profile-icon { 
             width: 38px; height: 38px; 
             border-radius: 50%; 
@@ -210,7 +204,6 @@
             align-items: center; 
             justify-content: center; 
             overflow: hidden; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
         }
         .user-dropdown { 
             position: absolute; 
@@ -309,7 +302,7 @@
             top: 0; left: 0; 
             width: 100%; height: 100%; 
             background: rgba(0,0,0,0.9); 
-            z-index: 10006; 
+            z-index: 10005; 
             overflow-y: auto; 
             padding: 20px; 
         }
@@ -677,7 +670,7 @@
             .player-container { flex-direction: column; }
             .player-sidebar-wrapper { width: 100%; }
             .media-grid { grid-template-columns: repeat(4, 1fr); }
-            .download-cards-container { margin-right: 55px; }
+            .download-cards-container { margin-left: 0; }
         }
 
         @media (max-width: 600px) { 
@@ -692,19 +685,14 @@
             .brand-title { font-size: 22px; }
             .download-cards-container {
                 width: 100%;
-                justify-content: flex-start;
+                justify-content: space-between;
                 margin-right: 0;
-                margin-top: 5px;
             }
             .download-card {
                 padding: 4px 8px;
             }
             .download-info .app-title { font-size: 10px; }
             .download-info .app-sub { font-size: 8px; }
-            .profile-container {
-                top: 10px;
-                right: 10px;
-            }
         }
     </style>
 </head>
@@ -854,9 +842,6 @@
         const itemsPerPage = 32;
         let currentRenderItems = [];
         let isFavoritesView = false;
-
-        let currentEpisodeIndex = 0;
-        let allEpisodesList = [];
 
         if(!localStorage.getItem('deviceId')) {
             localStorage.setItem('deviceId', 'DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase());
@@ -1618,14 +1603,11 @@
 
                 function renderEpisodes(selectedSeason) {
                     epGrid.innerHTML = '';
-                    allEpisodesList = seasonsMap[selectedSeason] || [];
-                    
-                    allEpisodesList.forEach((epData, index) => {
+                    (seasonsMap[selectedSeason] || []).forEach((epData, index) => {
                         const btn = document.createElement('button');
                         btn.className = 'ep-btn';
                         btn.innerText = epData.epName;
                         btn.onclick = () => {
-                            currentEpisodeIndex = index;
                             document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
                             btn.classList.add('active');
                             loadVideo(epData.url, `${activeItem.title || activeItem.name} - ${selectedSeason} ${epData.epName} (${selectedLang})`);
@@ -1874,26 +1856,12 @@
                     }
                 });
 
-                artInstance.on('video:ended', () => {
-                    playNextEpisode();
-                });
-
                 artInstance.on('error', handleError);
 
             } else {
                 artContainer.style.display = 'none';
                 iframe.style.display = 'block';
                 iframe.src = cleanUrl;
-            }
-        }
-
-        function playNextEpisode() {
-            if (allEpisodesList.length > 0 && currentEpisodeIndex < allEpisodesList.length - 1) {
-                currentEpisodeIndex++;
-                const nextEpBtn = document.querySelectorAll('.ep-btn')[currentEpisodeIndex];
-                if (nextEpBtn) {
-                    nextEpBtn.click();
-                }
             }
         }
 
