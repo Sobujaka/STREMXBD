@@ -1,5 +1,27 @@
  [
  {
+  "name": "18if",
+  "image": "https://thumb.wikimedia.org/wikipedia/en/thumb/b/bf/18if.anime_key_visual.jpg/250px-18if.anime_key_visual.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+  "category": "ANIMATION",
+  "country": "Japan",
+  "language": "Japanese",
+  "episodes": {
+    "S1EP1": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/18if%20(2017)/Season%201/[HorribleSubs]%2018if%20-%2001%20[720p].mkv",
+    "S1EP2": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/18if%20(2017)/Season%201/[HorribleSubs]%2018if%20-%2002%20[720p].mkv",
+    "S1EP3": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/18if%20(2017)/Season%201/[HorribleSubs]%2018if%20-%2003%20[720p].mkv",
+    "S1EP4": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/18if%20(2017)/Season%201/[HorribleSubs]%2018if%20-%2004%20[720p].mkv",
+    "S1EP5": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/18if%20(2017)/Season%201/[HorribleSubs]%2018if%20-%2005%20[720p].mkv",
+    "S1EP6": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/18if%20(2017)/Season%201/[HorribleSubs]%2018if%20-%2006%20[720p].mkv",
+    "S1EP7": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/18if%20(2017)/Season%201/[HorribleSubs]%2018if%20-%2007%20[720p].mkv",
+    "S1EP8": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/18if%20(2017)/Season%201/[HorribleSubs]%2018if%20-%2008%20[720p].mkv",
+    "S1EP9": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/18if%20(2017)/Season%201/[HorribleSubs]%2018if%20-%2009%20[720p].mkv",
+    "S1EP10": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/18if%20(2017)/Season%201/[HorribleSubs]%2018if%20-%2010%20[720p].mkv",
+    "S1EP11": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/18if%20(2017)/Season%201/[HorribleSubs]%2018if%20-%2011%20[720p].mkv",
+    "S1EP12": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/18if%20(2017)/Season%201/[HorribleSubs]%2018if%20-%2012%20[720p].mkv",
+    "S1EP13": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/18if%20(2017)/Season%201/[HorribleSubs]%2018if%20-%2013%20[720p].mkv"
+  }
+},
+ {
   "name": "11eyes: Tsumi to Batsu to Aganai no Shōjo",
   "image": "https://tse1.mm.bing.net/th/id/OIP.T9AKn1BBDZ6kxF4kZwgMOwHaKK?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
   "category": "ANIMATION",
