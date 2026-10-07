@@ -1,5 +1,26 @@
  [
  {
+  "name": "Absolute_Duo",
+  "image": "https://s3.amazonaws.com/comicgeeks/comics/covers/large-3138671.jpg?1547204904",
+  "category": "ANIMATION",
+  "country": "Japan",
+  "language": "Japanese",
+  "episodes": {
+    "S1EP1": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Absolute%20Duo%20(2015)/Season%201/[Cleo]Absolute_Duo_-_01_(Dual%20Audio_10bit_BD720p).mkv",
+    "S1EP2": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Absolute%20Duo%20(2015)/Season%201/[Cleo]Absolute_Duo_-_02_(Dual%20Audio_10bit_BD720p).mkv",
+    "S1EP3": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Absolute%20Duo%20(2015)/Season%201/[Cleo]Absolute_Duo_-_03_(Dual%20Audio_10bit_BD720p).mkv",
+    "S1EP4": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Absolute%20Duo%20(2015)/Season%201/[Cleo]Absolute_Duo_-_04_(Dual%20Audio_10bit_BD720p).mkv",
+    "S1EP5": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Absolute%20Duo%20(2015)/Season%201/[Cleo]Absolute_Duo_-_05_(Dual%20Audio_10bit_BD720p).mkv",
+    "S1EP6": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Absolute%20Duo%20(2015)/Season%201/[Cleo]Absolute_Duo_-_06_(Dual%20Audio_10bit_BD720p).mkv",
+    "S1EP7": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Absolute%20Duo%20(2015)/Season%201/[Cleo]Absolute_Duo_-_07_(Dual%20Audio_10bit_BD720p).mkv",
+    "S1EP8": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Absolute%20Duo%20(2015)/Season%201/[Cleo]Absolute_Duo_-_08_(Dual%20Audio_10bit_BD720p).mkv",
+    "S1EP9": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Absolute%20Duo%20(2015)/Season%201/[Cleo]Absolute_Duo_-_09_(Dual%20Audio_10bit_BD720p).mkv",
+    "S1EP10": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Absolute%20Duo%20(2015)/Season%201/[Cleo]Absolute_Duo_-_10_(Dual%20Audio_10bit_BD720p).mkv",
+    "S1EP11": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Absolute%20Duo%20(2015)/Season%201/[Cleo]Absolute_Duo_-_11_(Dual%20Audio_10bit_BD720p).mkv",
+    "S1EP12": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Absolute%20Duo%20(2015)/Season%201/[Cleo]Absolute_Duo_-_12_(Dual%20Audio_10bit_BD720p).mkv"
+  }
+},
+ {
   "name": "Oh My Goddess!",
   "image": "https://tse4.mm.bing.net/th/id/OIP.5Jhpr7YFnwleB3K03lybTAHaKM?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
   "category": "ANIMATION",
