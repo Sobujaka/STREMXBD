@@ -1,5 +1,26 @@
  [
  {
+  "name": "Aho-Girl",
+  "image": "https://thumb.wikimedia.org/wikipedia/en/thumb/8/89/Aho_Girl_cover.jpeg/250px-Aho_Girl_cover.jpeg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+  "category": "ANIMATION",
+  "country": "japan",
+  "language": "japanese",
+  "episodes": {
+    "S1EP1": "http://cdn2.discoveryftp.net/Animation Tv Series/Aho Girl (2017)/Season 1/[HorribleSubs] Aho Girl - 01 [720p].mkv",
+    "S1EP2": "http://cdn2.discoveryftp.net/Animation Tv Series/Aho Girl (2017)/Season 1/[HorribleSubs] Aho Girl - 02 [720p].mkv",
+    "S1EP3": "http://cdn2.discoveryftp.net/Animation Tv Series/Aho Girl (2017)/Season 1/[HorribleSubs] Aho Girl - 03 [720p].mkv",
+    "S1EP4": "http://cdn2.discoveryftp.net/Animation Tv Series/Aho Girl (2017)/Season 1/[HorribleSubs] Aho Girl - 04 [720p].mkv",
+    "S1EP5": "http://cdn2.discoveryftp.net/Animation Tv Series/Aho Girl (2017)/Season 1/[HorribleSubs] Aho Girl - 05 [720p].mkv",
+    "S1EP6": "http://cdn2.discoveryftp.net/Animation Tv Series/Aho Girl (2017)/Season 1/[HorribleSubs] Aho Girl - 06 [720p].mkv",
+    "S1EP7": "http://cdn2.discoveryftp.net/Animation Tv Series/Aho Girl (2017)/Season 1/[HorribleSubs] Aho Girl - 07 [720p].mkv",
+    "S1EP8": "http://cdn2.discoveryftp.net/Animation Tv Series/Aho Girl (2017)/Season 1/[HorribleSubs] Aho Girl - 08 [720p].mkv",
+    "S1EP9": "http://cdn2.discoveryftp.net/Animation Tv Series/Aho Girl (2017)/Season 1/[HorribleSubs] Aho Girl - 09 [720p].mkv",
+    "S1EP10": "http://cdn2.discoveryftp.net/Animation Tv Series/Aho Girl (2017)/Season 1/[HorribleSubs] Aho Girl - 10 [720p].mkv",
+    "S1EP11": "http://cdn2.discoveryftp.net/Animation Tv Series/Aho Girl (2017)/Season 1/[HorribleSubs] Aho Girl - 11 [720p].mkv",
+    "S1EP12": "http://cdn2.discoveryftp.net/Animation Tv Series/Aho Girl (2017)/Season 1/[HorribleSubs] Aho Girl - 12 [720p].mkv"
+  }
+},
+ {
   "name": "Oh My Goddess!",
   "image": "https://tse4.mm.bing.net/th/id/OIP.5Jhpr7YFnwleB3K03lybTAHaKM?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
   "category": "ANIMATION",
