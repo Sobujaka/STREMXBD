@@ -1,4 +1,37 @@
  [
+	 {
+  "name": "Accel World",
+  "image": "https://thumb.wikimedia.org/wikipedia/en/thumb/d/dd/Accel_World_cover.png/250px-Accel_World_cover.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+  "category": "ANIMATION",
+  "country": "Japan",
+  "language": "Japanese",
+  "episodes": {
+    "S1EP1": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2001%20(BD%201280x720).mp4",
+    "S1EP2": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2002%20(BD%201280x720).mp4",
+    "S1EP3": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2003%20(BD%201280x720).mp4",
+    "S1EP4": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2004%20(BD%201280x720).mp4",
+    "S1EP5": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2005%20(BD%201280x720).mp4",
+    "S1EP6": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2006%20(BD%201280x720).mp4",
+    "S1EP7": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2007%20(BD%201280x720).mp4",
+    "S1EP8": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2008%20(BD%201280x720).mp4",
+    "S1EP9": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2009%20(BD%201280x720).mp4",
+    "S1EP10": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2010%20(BD%201280x720).mp4",
+    "S1EP11": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2011%20(BD%201280x720).mp4",
+    "S1EP12": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2012%20(BD%201280x720).mp4",
+    "S1EP13": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2013%20(BD%201280x720).mp4",
+    "S1EP14": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2014%20(BD%201280x720).mp4",
+    "S1EP15": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2015%20(BD%201280x720).mp4",
+    "S1EP16": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2016%20(BD%201280x720).mp4",
+    "S1EP17": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2017%20(BD%201280x720).mp4",
+    "S1EP18": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2018%20(BD%201280x720).mp4",
+    "S1EP19": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2019%20(BD%201280x720).mp4",
+    "S1EP20": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2020%20(BD%201280x720).mp4",
+    "S1EP21": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2021%20(BD%201280x720).mp4",
+    "S1EP22": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2022%20(BD%201280x720).mp4",
+    "S1EP23": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2023%20(BD%201280x720).mp4",
+    "S1EP24": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Accel%20World%20(Akuseru%20Warudo)%20(2012)/Season%201/[JacobSwaggedUp]%20Accel%20World%20-%2024%20(BD%201280x720).mp4"
+  }
+},
  {
   "name": "The Jungle Book",
   "image": "https://cdn.ratingraph.com/assets/images/shows/the-jungle-book-the-adventures-of-mowgli-poster-12572.jpg",
