@@ -1,5 +1,24 @@
  [
  {
+  "name": "Aggressive Retsuko",
+  "image": "https://tse4.mm.bing.net/th/id/OIP.FPHOqFySFcmVMuOmR5vLSwAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+  "category": "ANIMATION",
+  "country": "Japan",
+  "language": "Japanese",
+  "episodes": {
+    "S1EP1": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Aggressive%20Retsuko%20(Aggretsuko)%20(2018)/Season%201/Aggretsuko.S01E01.720p.NF.WEB-DL.x264.ESub.Dual.Audio.English+Japanese-Pahe.mkv",
+    "S1EP2": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Aggressive%20Retsuko%20(Aggretsuko)%20(2018)/Season%201/Aggretsuko.S01E02.720p.NF.WEB-DL.x264.ESub.Dual.Audio.English+Japanese-Pahe.mkv",
+    "S1EP3": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Aggressive%20Retsuko%20(Aggretsuko)%20(2018)/Season%201/Aggretsuko.S01E03.720p.NF.WEB-DL.x264.ESub.Dual.Audio.English+Japanese-Pahe.mkv",
+    "S1EP4": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Aggressive%20Retsuko%20(Aggretsuko)%20(2018)/Season%201/Aggretsuko.S01E04.720p.NF.WEB-DL.x264.ESub.Dual.Audio.English+Japanese-Pahe.mkv",
+    "S1EP5": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Aggressive%20Retsuko%20(Aggretsuko)%20(2018)/Season%201/Aggretsuko.S01E05.720p.NF.WEB-DL.x264.ESub.Dual.Audio.English+Japanese-Pahe.mkv",
+    "S1EP6": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Aggressive%20Retsuko%20(Aggretsuko)%20(2018)/Season%201/Aggretsuko.S01E06.720p.NF.WEB-DL.x264.ESub.Dual.Audio.English+Japanese-Pahe.mkv",
+    "S1EP7": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Aggressive%20Retsuko%20(Aggretsuko)%20(2018)/Season%201/Aggretsuko.S01E07.720p.NF.WEB-DL.x264.ESub.Dual.Audio.English+Japanese-Pahe.mkv",
+    "S1EP8": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Aggressive%20Retsuko%20(Aggretsuko)%20(2018)/Season%201/Aggretsuko.S01E08.720p.NF.WEB-DL.x264.ESub.Dual.Audio.English+Japanese-Pahe.mkv",
+    "S1EP9": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Aggressive%20Retsuko%20(Aggretsuko)%20(2018)/Season%201/Aggretsuko.S01E09.720p.NF.WEB-DL.x264.ESub.Dual.Audio.English+Japanese-Pahe.mkv",
+    "S1EP10": "http://cdn2.discoveryftp.net/Animation%20Tv%20Series/Aggressive%20Retsuko%20(Aggretsuko)%20(2018)/Season%201/Aggretsuko.S01E10.720p.NF.WEB-DL.x264.ESub.Dual.Audio.English+Japanese-Pahe.mkv"
+  }
+},
+ {
   "name": "Adventure Time",
   "image": "https://www.commonsensemedia.org/sites/default/files/styles/ratio_2_3_xlarge/public/product-images/csm-tv/adventure-time-poster-opt.jpg",
   "category": "ANIMATION",
