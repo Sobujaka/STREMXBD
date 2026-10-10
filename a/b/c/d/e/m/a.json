@@ -1,5 +1,26 @@
  [
  {
+  "name": "Akuma no Riddle",
+  "image": "https://mediaproxy.tvtropes.org/width/1200/https://static.tvtropes.org/pmwiki/pub/images/akumanoriddle.png",
+  "category": "ANIMATION",
+  "country": "japan",
+  "language": "japanese",
+  "episodes": {
+    "S1EP1": "http://cdn2.discoveryftp.net/Animation Tv Series/Akuma no Riddle (2014)/Season 1/[AMN] Akuma no Riddle - 01 [Dual Audio][720p][SoftSub][BDRip].mkv",
+    "S1EP2": "http://cdn2.discoveryftp.net/Animation Tv Series/Akuma no Riddle (2014)/Season 1/[AMN] Akuma no Riddle - 02 [Dual Audio][720p][SoftSub][BDRip].mkv",
+    "S1EP3": "http://cdn2.discoveryftp.net/Animation Tv Series/Akuma no Riddle (2014)/Season 1/[AMN] Akuma no Riddle - 03 [Dual Audio][720p][SoftSub][BDRip].mkv",
+    "S1EP4": "http://cdn2.discoveryftp.net/Animation Tv Series/Akuma no Riddle (2014)/Season 1/[AMN] Akuma no Riddle - 04 [Dual Audio][720p][SoftSub][BDRip].mkv",
+    "S1EP5": "http://cdn2.discoveryftp.net/Animation Tv Series/Akuma no Riddle (2014)/Season 1/[AMN] Akuma no Riddle - 05 [Dual Audio][720p][SoftSub][BDRip].mkv",
+    "S1EP6": "http://cdn2.discoveryftp.net/Animation Tv Series/Akuma no Riddle (2014)/Season 1/[AMN] Akuma no Riddle - 06 [Dual Audio][720p][SoftSub][BDRip].mkv",
+    "S1EP7": "http://cdn2.discoveryftp.net/Animation Tv Series/Akuma no Riddle (2014)/Season 1/[AMN] Akuma no Riddle - 07 [Dual Audio][720p][SoftSub][BDRip].mkv",
+    "S1EP8": "http://cdn2.discoveryftp.net/Animation Tv Series/Akuma no Riddle (2014)/Season 1/[AMN] Akuma no Riddle - 08 [Dual Audio][720p][SoftSub][BDRip].mkv",
+    "S1EP9": "http://cdn2.discoveryftp.net/Animation Tv Series/Akuma no Riddle (2014)/Season 1/[AMN] Akuma no Riddle - 09 [Dual Audio][720p][SoftSub][BDRip].mkv",
+    "S1EP10": "http://cdn2.discoveryftp.net/Animation Tv Series/Akuma no Riddle (2014)/Season 1/[AMN] Akuma no Riddle - 10 [Dual Audio][720p][SoftSub][BDRip].mkv",
+    "S1EP11": "http://cdn2.discoveryftp.net/Animation Tv Series/Akuma no Riddle (2014)/Season 1/[AMN] Akuma no Riddle - 11 [Dual Audio][720p][SoftSub][BDRip].mkv",
+    "S1EP12": "http://cdn2.discoveryftp.net/Animation Tv Series/Akuma no Riddle (2014)/Season 1/[AMN] Akuma no Riddle - 12 [Dual Audio][720p][SoftSub][BDRip].mkv"
+  }
+},
+ {
   "name": "Akatsuki no Yona",
   "image": "https://wallpapercave.com/wp/wp5524415.jpg",
   "category": "ANIMATION",
