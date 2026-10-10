@@ -1,5 +1,27 @@
  [
  {
+  "name": "Amagi Brilliant Park",
+  "image": "https://images.justwatch.com/poster/307069722/s718/amagi-brilliant-park.jpg",
+  "category": "ANIMATION",
+  "country": "japan",
+  "language": "japanese",
+  "episodes": {
+    "S1EP1": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagi Brilliant Park (2014)/Season 1/(project-gxs)_Amagi_Brilliant_Park_-_01_(10bit_720p).mkv",
+    "S1EP2": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagi Brilliant Park (2014)/Season 1/(project-gxs)_Amagi_Brilliant_Park_-_02_(10bit_720p).mkv",
+    "S1EP3": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagi Brilliant Park (2014)/Season 1/(project-gxs)_Amagi_Brilliant_Park_-_03_(10bit_720p).mkv",
+    "S1EP4": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagi Brilliant Park (2014)/Season 1/(project-gxs)_Amagi_Brilliant_Park_-_04_(10bit_720p).mkv",
+    "S1EP5": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagi Brilliant Park (2014)/Season 1/(project-gxs)_Amagi_Brilliant_Park_-_05_(10bit_720p).mkv",
+    "S1EP6": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagi Brilliant Park (2014)/Season 1/(project-gxs)_Amagi_Brilliant_Park_-_06_(10bit_720p).mkv",
+    "S1EP7": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagi Brilliant Park (2014)/Season 1/(project-gxs)_Amagi_Brilliant_Park_-_07_(10bit_720p).mkv",
+    "S1EP8": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagi Brilliant Park (2014)/Season 1/(project-gxs)_Amagi_Brilliant_Park_-_08_(10bit_720p).mkv",
+    "S1EP9": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagi Brilliant Park (2014)/Season 1/(project-gxs)_Amagi_Brilliant_Park_-_09_(10bit_720p).mkv",
+    "S1EP10": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagi Brilliant Park (2014)/Season 1/(project-gxs)_Amagi_Brilliant_Park_-_10_(10bit_720p).mkv",
+    "S1EP11": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagi Brilliant Park (2014)/Season 1/(project-gxs)_Amagi_Brilliant_Park_-_11_(10bit_720p).mkv",
+    "S1EP12": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagi Brilliant Park (2014)/Season 1/(project-gxs)_Amagi_Brilliant_Park_-_12_(10bit_720p).mkv",
+    "S1EP13": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagi Brilliant Park (2014)/Season 1/(project-gxs)_Amagi_Brilliant_Park_-_13_(10bit_720p).mkv"
+  }
+},
+ {
   "name": "Amagami SS Plus",
   "image": "https://static.wikia.nocookie.net/amagami/images/e/eb/Amagami_SS_plus.jpg/revision/latest/scale-to-width-down/1200?cb=20230423091708",
   "category": "ANIMATION",
