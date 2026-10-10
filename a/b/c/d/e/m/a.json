@@ -1,5 +1,27 @@
  [
  {
+  "name": "Amagami SS Plus",
+  "image": "https://static.wikia.nocookie.net/amagami/images/e/eb/Amagami_SS_plus.jpg/revision/latest/scale-to-width-down/1200?cb=20230423091708",
+  "category": "ANIMATION",
+  "country": "japan",
+  "language": "japanese",
+  "episodes": {
+    "S1EP1": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagami SS Plus (2012)/Season 1/[NoobSubs] Amagami SS+ 01 (720p Blu-ray 8bit AAC).mp4",
+    "S1EP2": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagami SS Plus (2012)/Season 1/[NoobSubs] Amagami SS+ 02 (720p Blu-ray 8bit AAC).mp4",
+    "S1EP3": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagami SS Plus (2012)/Season 1/[NoobSubs] Amagami SS+ 03 (720p Blu-ray 8bit AAC).mp4",
+    "S1EP4": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagami SS Plus (2012)/Season 1/[NoobSubs] Amagami SS+ 04 (720p Blu-ray 8bit AAC).mp4",
+    "S1EP5": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagami SS Plus (2012)/Season 1/[NoobSubs] Amagami SS+ 05 (720p Blu-ray 8bit AAC).mp4",
+    "S1EP6": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagami SS Plus (2012)/Season 1/[NoobSubs] Amagami SS+ 06 (720p Blu-ray 8bit AAC).mp4",
+    "S1EP7": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagami SS Plus (2012)/Season 1/[NoobSubs] Amagami SS+ 07 (720p Blu-ray 8bit AAC).mp4",
+    "S1EP8": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagami SS Plus (2012)/Season 1/[NoobSubs] Amagami SS+ 08 (720p Blu-ray 8bit AAC).mp4",
+    "S1EP9": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagami SS Plus (2012)/Season 1/[NoobSubs] Amagami SS+ 09 (720p Blu-ray 8bit AAC).mp4",
+    "S1EP10": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagami SS Plus (2012)/Season 1/[NoobSubs] Amagami SS+ 10 (720p Blu-ray 8bit AAC).mp4",
+    "S1EP11": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagami SS Plus (2012)/Season 1/[NoobSubs] Amagami SS+ 11 (720p Blu-ray 8bit AAC).mp4",
+    "S1EP12": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagami SS Plus (2012)/Season 1/[NoobSubs] Amagami SS+ 12 (720p Blu-ray 8bit AAC).mp4",
+    "S1EP13": "http://cdn2.discoveryftp.net/Animation Tv Series/Amagami SS Plus (2012)/Season 1/[NoobSubs] Amagami SS+ 13 (720p Blu-ray 8bit AAC).mp4"
+  }
+},
+ {
   "name": "Amagami SS",
   "image": "https://m.media-amazon.com/images/M/MV5BMjM1NGVlYjUtZDk3My00ZTY1LTlmZjctODEyNmJkMWQ5ODhjXkEyXkFqcGdeQXVyMzgxODM4NjM@._V1_.jpg",
   "category": "ANIMATION",
