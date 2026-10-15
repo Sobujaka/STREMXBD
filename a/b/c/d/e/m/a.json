@@ -1,5 +1,26 @@
  [
  {
+  "name": "Angolmois-Genkou Kassenki",
+  "image": "https://m.media-amazon.com/images/M/MV5BMjU0ZTA0MTUtM2I1NS00NWU5LTk1ZWYtMDdmNzM0M2MxMjAyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+  "category": "ANIMATION",
+  "country": "japan",
+  "language": "japanese",
+  "episodes": {
+    "S1EP1": "http://cdn2.discoveryftp.net/Animation Tv Series/Angolmois-Genkou Kassenki (2018)/Season 1/[HorribleSubs] Angolmois - Genkou Kassenki - 01 [720p].mkv",
+    "S1EP2": "http://cdn2.discoveryftp.net/Animation Tv Series/Angolmois-Genkou Kassenki (2018)/Season 1/[HorribleSubs] Angolmois - Genkou Kassenki - 02 [720p].mkv",
+    "S1EP3": "http://cdn2.discoveryftp.net/Animation Tv Series/Angolmois-Genkou Kassenki (2018)/Season 1/[HorribleSubs] Angolmois - Genkou Kassenki - 03 [720p].mkv",
+    "S1EP4": "http://cdn2.discoveryftp.net/Animation Tv Series/Angolmois-Genkou Kassenki (2018)/Season 1/[HorribleSubs] Angolmois - Genkou Kassenki - 04 [720p].mkv",
+    "S1EP5": "http://cdn2.discoveryftp.net/Animation Tv Series/Angolmois-Genkou Kassenki (2018)/Season 1/[HorribleSubs] Angolmois - Genkou Kassenki - 05 [720p].mkv",
+    "S1EP6": "http://cdn2.discoveryftp.net/Animation Tv Series/Angolmois-Genkou Kassenki (2018)/Season 1/[HorribleSubs] Angolmois - Genkou Kassenki - 06 [720p].mkv",
+    "S1EP7": "http://cdn2.discoveryftp.net/Animation Tv Series/Angolmois-Genkou Kassenki (2018)/Season 1/[HorribleSubs] Angolmois - Genkou Kassenki - 07 [720p].mkv",
+    "S1EP8": "http://cdn2.discoveryftp.net/Animation Tv Series/Angolmois-Genkou Kassenki (2018)/Season 1/[HorribleSubs] Angolmois - Genkou Kassenki - 08 [720p].mkv",
+    "S1EP9": "http://cdn2.discoveryftp.net/Animation Tv Series/Angolmois-Genkou Kassenki (2018)/Season 1/[HorribleSubs] Angolmois - Genkou Kassenki - 09 [720p].mkv",
+    "S1EP10": "http://cdn2.discoveryftp.net/Animation Tv Series/Angolmois-Genkou Kassenki (2018)/Season 1/[HorribleSubs] Angolmois - Genkou Kassenki - 10 [720p].mkv",
+    "S1EP11": "http://cdn2.discoveryftp.net/Animation Tv Series/Angolmois-Genkou Kassenki (2018)/Season 1/[HorribleSubs] Angolmois - Genkou Kassenki - 11 [720p].mkv",
+    "S1EP12": "http://cdn2.discoveryftp.net/Animation Tv Series/Angolmois-Genkou Kassenki (2018)/Season 1/[HorribleSubs] Angolmois - Genkou Kassenki - 12 [720p].mkv"
+  }
+},
+ {
   "name": "Angel Heart",
   "image": "https://image.tmdb.org/t/p/original/5o0fpeaB5wnq8HDNMendjlJ3pzX.jpg",
   "category": "ANIMATION",
