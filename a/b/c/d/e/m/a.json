@@ -1,4 +1,25 @@
  [
+  {
+  "name": "",
+  "image": "",
+  "category": "",
+  "country": "",
+  "language": "",
+  "episodes": {
+  "S1EP1": "",
+  "S1EP2": "",
+  "S1EP3": "",
+  "S1EP4": "",
+  "S1EP5": "",
+  "S1EP6": "",
+  "S1EP7": "",
+  "S1EP8": "",
+  "S1EP9": "",
+  "S1EP10": "",
+  "S1EP11": "",
+  "S1EP12": ""
+  }
+},
  {
   "name": "The Great Cleric",
   "image": "https://ctgmovies.com/imgcache/dc/dc29ee402901b98eeda4cfaaae9aba1ebd19bb3e.webp",
