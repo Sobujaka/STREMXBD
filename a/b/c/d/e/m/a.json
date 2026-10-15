@@ -1,5 +1,26 @@
  [
  {
+  "name": "Amnesia",
+  "image": "https://image.tmdb.org/t/p/original/x7KUzl5hXPmLXK3MgWIxjr5gLwQ.jpg",
+  "category": "ANIMATION",
+  "country": "japan",
+  "language": "english",
+  "episodes": {
+    "S1EP1": "http://cdn2.discoveryftp.net/Animation Tv Series/Amnesia (2013)/Season 1/[Riyuske] Amnesia - 01 [BDRip 720 English Dub].mkv",
+    "S1EP2": "http://cdn2.discoveryftp.net/Animation Tv Series/Amnesia (2013)/Season 1/[Riyuske] Amnesia - 02 [BDRip 720 English Dub].mkv",
+    "S1EP3": "http://cdn2.discoveryftp.net/Animation Tv Series/Amnesia (2013)/Season 1/[Riyuske] Amnesia - 03 [BDRip 720 English Dub].mkv",
+    "S1EP4": "http://cdn2.discoveryftp.net/Animation Tv Series/Amnesia (2013)/Season 1/[Riyuske] Amnesia - 04 [BDRip 720 English Dub].mkv",
+    "S1EP5": "http://cdn2.discoveryftp.net/Animation Tv Series/Amnesia (2013)/Season 1/[Riyuske] Amnesia - 05 [BDRip 720 English Dub].mkv",
+    "S1EP6": "http://cdn2.discoveryftp.net/Animation Tv Series/Amnesia (2013)/Season 1/[Riyuske] Amnesia - 06 [BDRip 720 English Dub].mkv",
+    "S1EP7": "http://cdn2.discoveryftp.net/Animation Tv Series/Amnesia (2013)/Season 1/[Riyuske] Amnesia - 07 [BDRip 720 English Dub].mkv",
+    "S1EP8": "http://cdn2.discoveryftp.net/Animation Tv Series/Amnesia (2013)/Season 1/[Riyuske] Amnesia - 08 [BDRip 720 English Dub].mkv",
+    "S1EP9": "http://cdn2.discoveryftp.net/Animation Tv Series/Amnesia (2013)/Season 1/[Riyuske] Amnesia - 09 [BDRip 720 English Dub].mkv",
+    "S1EP10": "http://cdn2.discoveryftp.net/Animation Tv Series/Amnesia (2013)/Season 1/[Riyuske] Amnesia - 10 [BDRip 720 English Dub].mkv",
+    "S1EP11": "http://cdn2.discoveryftp.net/Animation Tv Series/Amnesia (2013)/Season 1/[Riyuske] Amnesia - 11 [BDRip 720 English Dub].mkv",
+    "S1EP12": "http://cdn2.discoveryftp.net/Animation Tv Series/Amnesia (2013)/Season 1/[Riyuske] Amnesia - 12 [BDRip 720 English Dub].mkv"
+  }
+},
+ {
   "name": "Delicious in Dungeon",
   "image": "https://ctgmovies.com/imgcache/0f/0f9e481725168c6cc177b015ef638edf4ba35ac4.webp",
   "category": "Animation",
