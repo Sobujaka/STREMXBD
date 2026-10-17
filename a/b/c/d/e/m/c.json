@@ -106,6 +106,12 @@
         "group": "Bangla",
         "url": "https://5dd3981940faa.streamlock.net:443/thikanatv/thikanatv/playlist.m3u8"
       },
+       "star jolsha": {
+        "name": "star jolsha",
+        "tvglogo": "https://yt3.ggpht.com/a/AATXAJx1FFUOgyw37wr2lxM7uV7LpZI5cN1Fhp3ImQ=s900-c-k-c0xffffffff-no-rj-mo",
+        "group": "Bangla",
+        "url": "https://da86m1sqpm3o0.cloudfront.net/28072023/smil:starjalsha.smil/chunklist_b1928000.m3u8"
+      },
       "zee_bangla_hd": {
         "name": "Zee Bangla",
         "tvglogo": "https://tse1.mm.bing.net/th/id/OIP.ksnD5W5tbRfqTNQuTLg9WAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
