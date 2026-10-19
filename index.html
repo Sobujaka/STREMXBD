@@ -692,13 +692,20 @@
             .episodes-grid { grid-template-columns: repeat(4, 1fr); }
             .brand-title { font-size: 22px; }
             
-            .nav-top-row { flex-wrap: wrap; }
+            /* Mobile e download buttons gulo upore full width ba nicely stack korar jonno */
+            .nav-top-row {
+                flex-wrap: wrap;
+            }
             .download-cards-container {
                 width: 100%;
                 justify-content: space-between;
                 margin-left: 0;
             }
-            .download-card { flex: 1; justify-content: center; padding: 6px 4px; }
+            .download-card {
+                flex: 1;
+                justify-content: center;
+                padding: 6px 4px;
+            }
             .download-info .app-title { font-size: 10px; }
             .download-info .app-sub { font-size: 8px; }
         }
@@ -708,7 +715,7 @@
 
     <div id="adblock-overlay">
         <div class="adblock-box">
-            22AdBlocker Detected!22
+            <h2>AdBlocker Detected!</h2>
             <p>আপনার ব্রাউজারে অ্যাড ব্লকার চালু রয়েছে। দয়া করে অ্যাড ব্লকার ডিজেবল করুন এবং রিফ্রেশ দিন।</p>
             <button onclick="window.location.reload()">Refresh Page</button>
         </div>
@@ -744,6 +751,7 @@
                 </div>
             </div>
 
+            <!-- Download buttons gulo ekhon search bar-er opore shundor vabe rakha hoyeche -->
             <div class="download-cards-container" style="width: 100%; margin-left: 0;">
                 <a href="https://your-domain.com/downloads/stremxbd-tv.apk" class="download-card" title="Download Android TV App" style="flex: 1; justify-content: center;">
                     <svg viewBox="0 0 24 24" fill="#3b82f6"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
@@ -1070,39 +1078,16 @@
 
         window.addEventListener('load', checkAdBlocker);
 
-        // ==================== DYNAMIC JSON SOURCES CONFIGURATION ====================
-        // Apni apnar sob JSON URL ekhane add/modify korben.
-        // Dynamic dynamic language url add korar jonno ekhane custom keys dite paren.
-        const languageSources = {
-            "Anime": [
-                { language: "Japanese", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/a/b/c/d/e/m/a.json" },
-                { language: "English", url: "" }
-            ],
-            "Movie": [
-                { language: "English", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/a/b/c/d/e/m/m/en.json" },
-                { language: "Hindi", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/a/b/c/d/e/m/m/hi.json" },
-                { language: "Tamil", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/a/b/c/d/e/m/m/ta.json" }
-            ],
-            "TV Series": [
-                { language: "bangla", url: "" },
-                { language: "English", url: "" }
-            ],
-            "Live TV": [
-                { language: "All", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/a/b/c/d/e/m/c.json" }
-            ],
-            "Music": [
-                { language: "All", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/music.json" }
-            ],
-            "Sports": [
-                { language: "All", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/sports.json" }
-            ],
-            "Kids": [
-                { language: "All", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/kids.json" }
-            ],
-            "Education": [
-                { language: "All", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/education.json" }
-            ]
-        };
+        const jsonSources = [
+            { name: "Anime", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/a/b/c/d/e/m/a.json" },
+            { name: "Movie", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/a/b/c/d/e/m/m.json" },
+            { name: "TV Series", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/a/b/c/d/e/m/s.json" },
+            { name: "Live TV", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/a/b/c/d/e/m/c.json" },
+            { name: "Music", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/music.json" },
+            { name: "Sports", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/sports.json" },
+            { name: "Kids", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/kids.json" },
+            { name: "Education", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/education.json" }
+        ];
 
         let loadedData = {}, currentTab = 'All', artInstance = null, hlsInstance = null, streamTimeout = null;
         let previousScrollPosition = 0;
@@ -1133,45 +1118,17 @@
         }
 
         async function loadAllJSON() {
-            const fetchPromises = [];
-
-            Object.keys(languageSources).forEach(categoryName => {
-                const sources = languageSources[categoryName];
-                sources.forEach(src => {
-                    fetchPromises.push(
-                        fetch(src.url)
-                            .then(res => res.text())
-                            .then(textData => ({
-                                category: categoryName,
-                                lang: src.language,
-                                data: repairAndParseJSON(textData)
-                            }))
-                            .catch(err => ({ category: categoryName, lang: src.language, data: [] }))
-                    );
-                });
-            });
+            const fetchPromises = jsonSources.map(source => 
+                fetch(source.url)
+                    .then(res => res.text())
+                    .then(textData => ({ category: source.name, data: repairAndParseJSON(textData) }))
+                    .catch(err => ({ category: source.name, data: [] }))
+            );
 
             const results = await Promise.allSettled(fetchPromises);
-            
-            // Clear existing loadedData structure
-            loadedData = {};
-
             results.forEach(result => {
                 if (result.status === 'fulfilled' && result.value.data) {
-                    const { category, lang, data } = result.value;
-                    if (!loadedData[category]) {
-                        loadedData[category] = [];
-                    }
-                    
-                    let parsedList = Array.isArray(data) ? data : [data];
-                    parsedList.forEach(item => {
-                        if(item && typeof item === 'object') {
-                            if (!item.language && lang !== "All" && lang !== "Main") {
-                                item.language = lang;
-                            }
-                            loadedData[category].push(item);
-                        }
-                    });
+                    loadedData[result.value.category] = result.value.data;
                 }
             });
 
