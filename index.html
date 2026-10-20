@@ -692,6 +692,7 @@
             .episodes-grid { grid-template-columns: repeat(4, 1fr); }
             .brand-title { font-size: 22px; }
             
+            /* Mobile e download buttons gulo upore full width ba nicely stack korar jonno */
             .nav-top-row {
                 flex-wrap: wrap;
             }
@@ -750,6 +751,7 @@
                 </div>
             </div>
 
+            <!-- Download buttons gulo ekhon search bar-er opore shundor vabe rakha hoyeche -->
             <div class="download-cards-container" style="width: 100%; margin-left: 0;">
                 <a href="https://your-domain.com/downloads/stremxbd-tv.apk" class="download-card" title="Download Android TV App" style="flex: 1; justify-content: center;">
                     <svg viewBox="0 0 24 24" fill="#3b82f6"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
@@ -1563,8 +1565,7 @@
                         if (idx === currentEpisodeIndex) b.classList.add('active');
                         else b.classList.remove('active');
                     });
-                    // Auto-change/next trigger off করা হয়েছে (false পাস করা হয়েছে)
-                    loadVideo(songs[songName], `${item.name || item.title} - ${songName.trim()}`, null, false);
+                    loadVideo(songs[songName], `${item.name || item.title} - ${songName.trim()}`, handleAutoPlayNext, true);
                 };
                 epGrid.appendChild(btn);
                 if (index === 0) btn.click();
@@ -1640,8 +1641,7 @@
                                 if (idx === currentEpisodeIndex) b.classList.add('active');
                                 else b.classList.remove('active');
                             });
-                            // Auto-change/next trigger off করা হয়েছে (ফাঁকা callback এবং false পাঠানো হয়েছে)
-                            loadVideo(epData.url, `${activeItem.title || activeItem.name} - ${selectedSeason} ${epData.epName} (${selectedLang})`, null, false);
+                            loadVideo(epData.url, `${activeItem.title || activeItem.name} - ${selectedSeason} ${epData.epName} (${selectedLang})`, handleAutoPlayNext, true);
                         };
                         epGrid.appendChild(btn);
                         if (index === 0) btn.click();
@@ -1652,6 +1652,16 @@
             }
             langSelect.onchange = (e) => loadSeriesContent(e.target.value);
             if (langKeys.length > 0) loadSeriesContent(langKeys[0]);
+        }
+
+        function handleAutoPlayNext() {
+            if (currentPlaylistEpisodes && currentEpisodeIndex < currentPlaylistEpisodes.length - 1) {
+                currentEpisodeIndex++;
+                const buttons = document.querySelectorAll('.ep-btn, .music-ep-btn');
+                if (buttons[currentEpisodeIndex]) {
+                    buttons[currentEpisodeIndex].click();
+                }
+            }
         }
 
         function setupLiveTVPlayer(item, sidebar) {
@@ -1740,7 +1750,9 @@
                 playChannelWithButtons(urls, title, index);
             };
 
-            loadVideo(urls[activeIndex], `${title} (Server ${activeIndex + 1})`, null, false);
+            loadVideo(urls[activeIndex], `${title} (Server ${activeIndex + 1})`, () => {
+                console.log(`Server ${activeIndex + 1} failed.`);
+            }, false);
         }
 
         function togglePlayerFavorite() {
@@ -1885,7 +1897,6 @@
                     }
                 });
 
-                // enableAutoNext অফ থাকার কারণে ভিডিও শেষ হলে অটোমেটিক অন্য এপিসোড বা ভিডিওতে সুইচ হবে না
                 if (enableAutoNext) {
                     artInstance.on('video:ended', () => {
                         if (onErrorCallback) onErrorCallback();
