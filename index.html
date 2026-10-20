@@ -692,6 +692,7 @@
             .episodes-grid { grid-template-columns: repeat(4, 1fr); }
             .brand-title { font-size: 22px; }
             
+            /* Mobile e download buttons gulo upore full width ba nicely stack korar jonno */
             .nav-top-row {
                 flex-wrap: wrap;
             }
@@ -750,6 +751,7 @@
                 </div>
             </div>
 
+            <!-- Download buttons gulo ekhon search bar-er opore shundor vabe rakha hoyeche -->
             <div class="download-cards-container" style="width: 100%; margin-left: 0;">
                 <a href="https://your-domain.com/downloads/stremxbd-tv.apk" class="download-card" title="Download Android TV App" style="flex: 1; justify-content: center;">
                     <svg viewBox="0 0 24 24" fill="#3b82f6"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
@@ -1816,7 +1818,7 @@
             }
 
             const isProxyStream = lowerUrl.includes('workers.dev') || lowerUrl.includes('/stream') || lowerUrl.includes('.m3u8');
-            const isDirectVideo = lowerUrl.includes('.mp4') || lowerUrl.includes('.mkv') || lowerUrl.includes('circleftp.net');
+            const isDirectVideo = lowerUrl.includes('.mp4') || lowerUrl.includes('.mkv');
 
             if (isProxyStream || isDirectVideo) {
                 iframe.style.display = 'none';
