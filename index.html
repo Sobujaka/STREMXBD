@@ -692,6 +692,7 @@
             .episodes-grid { grid-template-columns: repeat(4, 1fr); }
             .brand-title { font-size: 22px; }
             
+            /* Mobile e download buttons gulo upore full width ba nicely stack korar jonno */
             .nav-top-row {
                 flex-wrap: wrap;
             }
@@ -750,6 +751,7 @@
                 </div>
             </div>
 
+            <!-- Download buttons gulo ekhon search bar-er opore shundor vabe rakha hoyeche -->
             <div class="download-cards-container" style="width: 100%; margin-left: 0;">
                 <a href="https://your-domain.com/downloads/stremxbd-tv.apk" class="download-card" title="Download Android TV App" style="flex: 1; justify-content: center;">
                     <svg viewBox="0 0 24 24" fill="#3b82f6"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
@@ -1076,37 +1078,16 @@
 
         window.addEventListener('load', checkAdBlocker);
 
-        // Updated jsonSources with multi-link support (urls array) for Anime, Movie, TV Series, and Live TV
-        const jsonSources = {
-            "Movie": [
-                { language: "Bangla", urls: [""] },
-                { language: "Hindi", urls: ["https://raw.githubusercontent.com/Sobujaka/akjfjfhejnhdkjs/refs/heads/main/bot/server/app/1/00001.json"] }
-            ],
-            "TV Series": [
-                { language: "English", urls: [""] }
-            ],
-            "Anime": [
-                { language: "English", urls: ["https://raw.githubusercontent.com/Sobujaka/akjfjfhejnhdkjs/refs/heads/main/bot/server/app/2/00003.json"] },
-                { language: "Japanese", urls: ["https://raw.githubusercontent.com/Sobujaka/akjfjfhejnhdkjs/refs/heads/main/bot/server/app/2/00002.json"] },
-                { language: "Hindi", urls: ["https://raw.githubusercontent.com/Sobujaka/akjfjfhejnhdkjs/refs/heads/main/bot/server/app/2/00001"] }
-            ],
-            "Live TV": [
-                { country: "Bangladesh", urls: ["https://raw.githubusercontent.com/Sobujaka/akjfjfhejnhdkjs/refs/heads/main/bot/server/app/4/00001.json"] },
-                { country: "India", urls: [""] }
-            ],
-            "Music": [
-                { urls: [""] }
-            ],
-            "Sports": [
-                { urls: [""] }
-            ],
-            "Kids": [
-                { urls: [""] }
-            ],
-            "Education": [
-                { urls: [""] }
-            ]
-        };
+        const jsonSources = [
+            { name: "Anime", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/a/b/c/d/e/m/a.json" },
+            { name: "Movie", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/a/b/c/d/e/m/m.json" },
+            { name: "TV Series", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/a/b/c/d/e/m/s.json" },
+            { name: "Live TV", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/a/b/c/d/e/m/c.json" },
+            { name: "Music", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/music.json" },
+            { name: "Sports", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/sports.json" },
+            { name: "Kids", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/kids.json" },
+            { name: "Education", url: "https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/education.json" }
+        ];
 
         let loadedData = {}, currentTab = 'All', artInstance = null, hlsInstance = null, streamTimeout = null;
         let previousScrollPosition = 0;
@@ -1137,47 +1118,17 @@
         }
 
         async function loadAllJSON() {
-            const fetchPromises = [];
-
-            Object.keys(jsonSources).forEach(category => {
-                const sources = jsonSources[category];
-                sources.forEach(source => {
-                    // Support both `urls` array and fallback single `url`
-                    const urlList = source.urls ? source.urls : (source.url ? [source.url] : []);
-
-                    urlList.forEach(singleUrl => {
-                        fetchPromises.push(
-                            fetch(singleUrl)
-                                .then(res => res.text())
-                                .then(textData => {
-                                    let parsed = repairAndParseJSON(textData);
-                                    if (Array.isArray(parsed)) {
-                                        parsed = parsed.map(item => ({
-                                            ...item,
-                                            ...(source.language && { language: source.language }),
-                                            ...(source.country && { country: source.country })
-                                        }));
-                                    }
-                                    return { category: category, data: parsed };
-                                })
-                                .catch(err => ({ category: category, data: [] }))
-                        );
-                    });
-                });
-            });
+            const fetchPromises = jsonSources.map(source => 
+                fetch(source.url)
+                    .then(res => res.text())
+                    .then(textData => ({ category: source.name, data: repairAndParseJSON(textData) }))
+                    .catch(err => ({ category: source.name, data: [] }))
+            );
 
             const results = await Promise.allSettled(fetchPromises);
             results.forEach(result => {
                 if (result.status === 'fulfilled' && result.value.data) {
-                    const cat = result.value.category;
-                    if (!loadedData[cat]) {
-                        loadedData[cat] = [];
-                    }
-                    if (Array.isArray(result.value.data)) {
-                        loadedData[cat].push(...result.value.data);
-                    } else {
-                        loadedData[cat].push(result.value.data);
-                    }
+                    loadedData[result.value.category] = result.value.data;
                 }
             });
 
