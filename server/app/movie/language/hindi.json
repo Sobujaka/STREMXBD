@@ -1,1 +1,58 @@
-1
+[
+  {
+    "title": "Gone with the Wind",
+    "image": "http://172.16.50.7/DHAKA-FLIX-7/English%20Movies/%281960-1994%29/Gone%20with%20the%20Wind%20%281939%29%20720p%20%5BDual%20Audio%5D/a11.jpg",
+    "category": "drama,romance,war,history",
+    "country": "usa",
+    "language": "Hindi",
+    "Movie link": "http://172.16.50.7/DHAKA-FLIX-7/English%20Movies/%281960-1994%29/Gone%20with%20the%20Wind%20%281939%29%20720p%20%5BDual%20Audio%5D/Gone%20with%20the%20Wind%20%281939%29%20720p%20BluRay%20x264%20ESub%20%5BDual%20Audio%5D%5BHindi%202.0%2BEnglish%205.1%5D%20-mkvC.mkv"
+  },
+  {
+    "title": "20,000 Leagues Under the Sea",
+    "image": "https://image.tmdb.org/t/p/original/heAEH85fdxEgV98LizHbQCL95iZ.jpg",
+    "category": "adventure,science-fiction,family",
+    "country": "usa",
+    "language": "Hindi",
+    "Movie link": "http://172.16.50.7/DHAKA-FLIX-7/English%20Movies/%281960-1994%29/20%2C000%20Leagues%20Under%20the%20Sea%20%281954%29%20720p%20%5BDual%20Audio%5D/20%2C000%20Leagues%20Under%20the%20Sea%20%281954%29%20720p%20BluRay%20x264%20ESub%20%5BDual%20Audio%5D%5BHindi%202.0%2BEnglish%205.1%5D%20-mkvC.mkv"
+  },
+  {
+    "title": "The Ten Commandments",
+    "image": "http://172.16.50.7/DHAKA-FLIX-7/English%20Movies/%281960-1994%29/The%20Ten%20Commandments%20%281956%29%20720p%20%5BDual%20Audio%5D/a_AL_.jpg",
+    "category": "drama,adventure,history",
+    "country": "usa",
+    "language": "Hindi",
+    "Movie link": "http://172.16.50.7/DHAKA-FLIX-7/English%20Movies/%281960-1994%29/The%20Ten%20Commandments%20%281956%29%20720p%20%5BDual%20Audio%5D/The%20Ten%20Commandments%20%281956%29%20720p%20BluRay%20x264%20ESub%20%5BDual%20Audio%5D%5BHindi%202.0%2BEnglish%205.1%5D%20-mkvC.mkv"
+  },
+  {
+    "title": "Ben-Hur",
+    "image": "http://172.16.50.7/DHAKA-FLIX-7/English%20Movies/%281960-1994%29/Ben-Hur%20%281959%29%20720p%20%5BDual%20Audio%5D/1ter.jpg",
+    "category": "adventure,drama,history",
+    "country": "usa",
+    "language": "Hindi",
+    "Movie link": "http://172.16.50.7/DHAKA-FLIX-7/English%20Movies/%281960-1994%29/Ben-Hur%20%281959%29%20720p%20%5BDual%20Audio%5D/Ben-Hur%20%281959%29%20720p%20BluRay%20x264%20ESub%20%5BDual%20Audio%5D%5BHindi%202.0%2BEnglish%205.1%5D%20-%20mkvC.mkv"
+  },
+  {
+    "title": "Spartacus",
+    "image": "http://172.16.50.7/DHAKA-FLIX-7/English%20Movies/%281960-1994%29/Spartacus%20%281960%29%20720p%20%5BDual%20Audio%5D/a_AL_.jpg",
+    "category": "drama,adventure,history,war",
+    "country": "usa",
+    "language": "Hindi",
+    "Movie link": "http://172.16.50.7/DHAKA-FLIX-7/English%20Movies/%281960-1994%29/Spartacus%20%281960%29%20720p%20%5BDual%20Audio%5D/Spartacus%20%281960%29%20REMASTERED%20720p%20BluRay%20x264%20ESub%20%5BDual%20Audio%5D%5BHindi%205.1%2BEnglish%205.1%5D%20-mkvC.mkv"
+  },
+  {
+    "title": "Lawrence of Arabia",
+    "image": "http://172.16.50.7/DHAKA-FLIX-7/English%20Movies/%281960-1994%29/Lawrence%20of%20Arabia%20%281962%29%20720p%20%5BDual%20Audio%5D/a_AL_.jpg",
+    "category": "adventure,drama,war,history",
+    "country": "uk",
+    "language": "Hindi",
+    "Movie link": "http://172.16.50.7/DHAKA-FLIX-7/English%20Movies/%281960-1994%29/Lawrence%20of%20Arabia%20%281962%29%20720p%20%5BDual%20Audio%5D/Lawrence%20of%20Arabia%20%281962%29%20720p%20BluRay%20x264%20ESub%20%5BDual%20Audio%5D%5BHindi%205.1%2BEnglish%205.1%5D%20-mkvC.mkv"
+  },
+  {
+    "title": "The Curse of the Mummy's Tomb",
+    "image": "http://172.16.50.7/DHAKA-FLIX-7/English%20Movies/%281960-1994%29/The%20Curse%20of%20the%20Mummy%27s%20Tomb%20%281964%29%20720p%20%5BDual%20Audio%5D/a_AL_.jpg",
+    "category": "horror",
+    "country": "uk",
+    "language": "Hindi",
+    "Movie link": "http://172.16.50.7/DHAKA-FLIX-7/English%20Movies/%281960-1994%29/The%20Curse%20of%20the%20Mummy%27s%20Tomb%20%281964%29%20720p%20%5BDual%20Audio%5D/The%20Curse%20of%20the%20Mummys%20Tomb%20%281964%29%20720p%20BluRay%20x264%20ESub%20%5BDual%20Audio%5D%5BHindi%202.0%2BEnglish%202.0%5D%20-mkvC.mkv"
+  }
+]
