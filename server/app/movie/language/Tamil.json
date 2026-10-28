@@ -1,5 +1,509 @@
 [
   {
+    "title": "Naayaadi",
+    "image": "https://www.5movierulz.kitchen/uploads/Naayaadi-Tamil.jpg",
+    "category": "Drama",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FamJ5YzROdlZaMFkvQW9mUm9RVVNGdz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Love",
+    "image": "https://www.5movierulz.kitchen/uploads/Love-Tamil.jpg",
+    "category": "Thriller,Romance",
+    "country": "India",
+    "Date": "2023-07-28",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2Fc3JJbmFQN2Y4K04vTUVMRmtzSlhaUT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Nangal Famous",
+    "image": "https://www.5movierulz.kitchen/uploads/Nangal-Famous-Tamil.jpg",
+    "category": "Comedy",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FYTVCK2FVajVoeUtCSmZQcE1oY3lhZz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Salmon 3D",
+    "image": "https://www.5movierulz.kitchen/uploads/Salmon-3D-Tamil.jpg",
+    "category": "Thriller",
+    "country": "India",
+    "Date": "2023-06-30",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FLzlkNTM2U3NxSkl5dy9HaTY3aVpWUT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Kadavulukku Oru Kaditham",
+    "image": "https://www.5movierulz.kitchen/uploads/Kadavulukku-Oru-Kaditham-Tamil.jpg",
+    "category": "Drama",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FbS9FMEhhQTZEVktMNTRUYzVmazVNQT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "DD Returns",
+    "image": "https://www.5movierulz.kitchen/uploads/DD-Returns-Tamil.jpg",
+    "category": "Horror,Comedy",
+    "country": "India",
+    "Date": "2023-07-28",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FKy9oK0RzT3BZN0szaEh1YW1zbnB5Zz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Yaadhum Oore Yaavarum Kelir",
+    "image": "https://www.5movierulz.kitchen/uploads/Yaadhum-Oore-Yaavarum-Kelir-Tamil.jpg",
+    "category": "Action,Drama",
+    "country": "India",
+    "Date": "2023-05-19",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2Fb2kwMCtPdWFIeHFWbHlvdVNIMkYyUT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Antique Part 1",
+    "image": "https://www.5movierulz.kitchen/uploads/Antique-Part-1-Tamil.jpg",
+    "category": "Thriller",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FOEpPb3ltSlhRMlc1TXFoZS9qTUxWZz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Infinity",
+    "image": "https://www.5movierulz.kitchen/uploads/Infinity-Tamil.jpg",
+    "category": "Thriller",
+    "country": "India",
+    "Date": "2023-07-07",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FdllFUUhPZVk4MDBwb2FreFQvd3hQdz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Jailer",
+    "image": "https://www.5movierulz.kitchen/uploads/Jailer-Tamil.jpg",
+    "category": "Action,Comedy,Crime",
+    "country": "India",
+    "Date": "2023-08-10",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FT2pjNmhGQnZncC9RZnBpeEJKQVJoQT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Baba Black Sheep",
+    "image": "https://www.5movierulz.kitchen/uploads/Baba-Black-Sheep-Tamil.jpg",
+    "category": "Comedy",
+    "country": "India",
+    "Date": "2023-07-14",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FaE5ETVlHa1N4L3h2UEh1K0Y5S1hoZz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Secret Ingredient Part 1",
+    "image": "https://www.5movierulz.kitchen/uploads/Secret-Ingredient-Part-1-Tamil.jpg",
+    "category": "Drama",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FSUZJTVlXV0k0cGhuRTV1RXRkY01Wdz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "O Saathiya",
+    "image": "https://www.5movierulz.kitchen/uploads/O-Saathiya-Tamil.jpg",
+    "category": "Romance,Drama",
+    "country": "India",
+    "Date": "2023-07-07",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FakswZE9kUEdEY0xkWVZpOW9aaFRPdz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Black N White",
+    "image": "https://www.5movierulz.kitchen/uploads/Black-n-White-Tamil.jpg",
+    "category": "Thriller",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2Fc3c5bHBsanpkZ1FUdVQ5c29GVVptUT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Thuritham",
+    "image": "https://www.5movierulz.kitchen/uploads/Thuritham-Tamil.jpg",
+    "category": "Action,Thriller",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FTTJIdERDS1pHVHByTklOMTF2UWw5UT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Roberrt",
+    "image": "https://www.5movierulz.kitchen/uploads/Roberrt-Tamil.jpg",
+    "category": "Action,Drama",
+    "country": "India",
+    "Date": "2021-03-11",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FckJFcjFYSXZoQ0IvajVoMVhGTXpRdz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Garam Masala Part 2",
+    "image": "https://www.5movierulz.kitchen/uploads/Garam-Masala-Part-2-Tamil.jpg",
+    "category": "Comedy",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FdjJ0cWNZcUxrajIwWkltNHdjbWlpZz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Bro",
+    "image": "https://www.5movierulz.kitchen/uploads/Bro-Tamil.jpg",
+    "category": "Fantasy,Comedy",
+    "country": "India",
+    "Date": "2023-07-28",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FVmVESFJndjl2bWhCYWEvRGNhL28rdz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Kadhal Rewind",
+    "image": "https://www.5movierulz.kitchen/uploads/Kadhal-Rewind-Tamil.jpg",
+    "category": "Romance",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FYmFXTUtCeG1tMzVzWEFTNjdSVktEZz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Pizza 3: The Mummy",
+    "image": "https://www.5movierulz.kitchen/uploads/Pizza-3-The-Mummy-Tamil.jpg",
+    "category": "Horror,Thriller",
+    "country": "India",
+    "Date": "2023-08-18",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FU3RHUGhZRHZPN2pWTU5nRzNoS0s2UT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Neetho",
+    "image": "https://www.5movierulz.kitchen/uploads/Neetho-Tamil.jpg",
+    "category": "Romance,Drama",
+    "country": "India",
+    "Date": "2022-10-14",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2Fa1kvWENUbWQyNEVkMWdyRlBUaW1VZz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Aamras Part 2",
+    "image": "https://www.5movierulz.kitchen/uploads/Aamras-Part-2-Tamil.jpg",
+    "category": "Drama",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FSGt2c1NITU1GUGliMDNTQXVJVUFIQT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Padaippalan",
+    "image": "https://www.5movierulz.kitchen/uploads/Padaippalan-Tamil.jpg",
+    "category": "Drama",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FaFlRRmtUU1JEMlMvZ2ExYlZ0ZmFrZz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Raniin Aranmanai",
+    "image": "https://www.5movierulz.kitchen/uploads/Raniin-Aranmanai-Tamil.jpg",
+    "category": "Horror,Mystery",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FeG5IcnN4WEl0S1gzdFhRQUNjRGM3UT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Katchikkaran",
+    "image": "https://www.5movierulz.kitchen/uploads/Katchikkaran-Tamil.jpg",
+    "category": "Action,Drama",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FOWRMRE1BV2ZWajM4Rkh5WENIYU9yZz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Rudrangi",
+    "image": "https://www.5movierulz.kitchen/uploads/Rudrangi-Tamil.jpg",
+    "category": "Action,Drama",
+    "country": "India",
+    "Date": "2023-07-07",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FL1hCMEQza1Z1SmZNMjFwY2E2aU1UZz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Mathagam",
+    "image": "https://www.5movierulz.kitchen/uploads/Mathagam-Tamil.jpg",
+    "category": "Crime,Thriller",
+    "country": "India",
+    "Date": "2023-08-18",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FNnRUT2l5T2xWckVnU01mQkczYWZHdz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Hidimbha",
+    "image": "https://www.5movierulz.kitchen/uploads/Hidimbha-Tamil.jpg",
+    "category": "Action,Thriller",
+    "country": "India",
+    "Date": "2023-07-20",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FNzZlaGhLcHdKejhnTzhlWlc5QU8rZz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Puncture Ramendran",
+    "image": "https://www.5movierulz.kitchen/uploads/Puncture-Ramendran-Tamil.jpg",
+    "category": "Comedy",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FOGxHRE9weEI5d045d3NUSXJZaVZNQT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Katha Kanchiki Manam Intiki",
+    "image": "https://www.5movierulz.kitchen/uploads/Katha-Kanchiki-Manam-Intiki-Tamil.jpg",
+    "category": "Comedy,Horror",
+    "country": "India",
+    "Date": "2022-04-08",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FY0JuU0I2RzRPY3p3MFprd2FOUWc3QT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Love Mocktail 2",
+    "image": "https://www.5movierulz.kitchen/uploads/Love-Mocktail-2-Tamil.jpg",
+    "category": "Romance,Drama",
+    "country": "India",
+    "Date": "2022-02-11",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FMk1nMjJwTUIvQ01QK25NT3g5YlhLZz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Maayon",
+    "image": "https://www.5movierulz.kitchen/uploads/Maayon-Tamil.jpg",
+    "category": "Mystery,Adventure",
+    "country": "India",
+    "Date": "2022-06-24",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FWTI0cDJmYnk0MkdJSG1hYTBMUXczUT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Por Thozhil",
+    "image": "https://www.5movierulz.kitchen/uploads/Por-Thozhil-Tamil.jpg",
+    "category": "Action,Crime,Thriller",
+    "country": "India",
+    "Date": "2023-06-09",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FcFFXQXR0NkZlM1RqblBTUENLN2M1Zz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Alluri",
+    "image": "https://www.5movierulz.kitchen/uploads/Alluri-Tamil.jpg",
+    "category": "Action,Drama",
+    "country": "India",
+    "Date": "2022-09-23",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FQW84eEU1TXNDZTZZVW1JdGhxSVljZz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Parugu",
+    "image": "https://www.5movierulz.kitchen/uploads/Parugu-Tamil.jpg",
+    "category": "Action,Romance",
+    "country": "India",
+    "Date": "2008-05-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FTWtsWElzbVR5U05aUkgzUUJKTWJCZz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Manu Charitra",
+    "image": "https://www.5movierulz.kitchen/uploads/Manu-Charitra-Tamil.jpg",
+    "category": "Romance,Drama",
+    "country": "India",
+    "Date": "2023-06-23",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FdVpBVFFSZ1o1NitJM0JwV0pZWVdLUT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Aswathama",
+    "image": "https://www.5movierulz.kitchen/uploads/Aswathama-Tamil.jpg",
+    "category": "Action,Thriller",
+    "country": "India",
+    "Date": "2020-01-31",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FS1h2cjArV1d6Yy9KekRVS0VFK3REQT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Pareshan",
+    "image": "https://www.5movierulz.kitchen/uploads/Pareshan-Tamil.jpg",
+    "category": "Comedy,Drama",
+    "country": "India",
+    "Date": "2023-06-02",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FQUpFMFA3M29OQTVPVzdoaTBEbW1xUT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Kolai",
+    "image": "https://www.5movierulz.kitchen/uploads/Kolai-Tamil.jpg",
+    "category": "Crime,Thriller",
+    "country": "India",
+    "Date": "2023-07-21",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FS2VHTXRlMXVwQUV5WStsQjEzUi9TUT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Kadukka",
+    "image": "https://www.5movierulz.kitchen/uploads/Kadukka-Tamil.jpg",
+    "category": "Action,Thriller",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FOE4zc0ZnRDVQaWZLVDRCbEkyTHF4QT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "NOTA",
+    "image": "https://www.5movierulz.kitchen/uploads/Nota-Tamil.jpg",
+    "category": "Political,Thriller",
+    "country": "India",
+    "Date": "2018-10-05",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FRnoxZHh1VTBOOEY1RjBXNkMrSGlXUT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Shikaaru",
+    "image": "https://www.5movierulz.kitchen/uploads/Shikaaru-Tamil.jpg",
+    "category": "Drama,Romance",
+    "country": "India",
+    "Date": "2022-07-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FQkZNYk1PQUFwd2l0M0w2a3BGSDNTUT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Racer",
+    "image": "https://www.5movierulz.kitchen/uploads/Racer-Tamil.jpg",
+    "category": "Action",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FeFM4YzhLMHhMdkNHL3pxbHVzdW96UT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Erumbu",
+    "image": "https://www.5movierulz.kitchen/uploads/Erumbu-Tamil.jpg",
+    "category": "Family,Drama",
+    "country": "India",
+    "Date": "2023-06-16",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FRURFVURFQUhaRW53SU8rUURjb1ArQT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Maamannan",
+    "image": "https://www.5movierulz.kitchen/uploads/Maamannan-Tamil.jpg",
+    "category": "Political,Drama",
+    "country": "India",
+    "Date": "2023-06-29",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FN3lJcUNSMFhuNXpvdlgzNVV0Qm5EUT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Regina",
+    "image": "https://www.5movierulz.kitchen/uploads/Regina-Tamil.jpg",
+    "category": "Crime,Thriller",
+    "country": "India",
+    "Date": "2023-06-23",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FdWJHa2Z1bGJ3SEFVTDZ4Q2VTRUU2Zz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Bomma Blockbuster",
+    "image": "https://www.5movierulz.kitchen/uploads/Bomma-Blockbuster-Tamil.jpg",
+    "category": "Comedy,Drama",
+    "country": "India",
+    "Date": "2022-11-04",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FSjBWa2VyQzIvWmt5UjdvQTMwc0M3UT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Iravin Vizhigal",
+    "image": "https://www.5movierulz.kitchen/uploads/Iravin-Vizhigal-Tamil.jpg",
+    "category": "Thriller",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FMVJjc0JSMk9BbjhNaXNWV0RuNUVQUT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Naangal",
+    "image": "https://www.5movierulz.kitchen/uploads/Naangal-Tamil.jpg",
+    "category": "Drama",
+    "country": "India",
+    "Date": "1992-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FYUVaaGE4aCs5UUt3cHdXQVhvZmFHZz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Sarkeet",
+    "image": "https://www.5movierulz.kitchen/uploads/Sarkeet-Tamil.jpg",
+    "category": "Comedy,Drama",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FS3dZeSsvQ1ByQVkvWGVvMGJhZTVSZz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Thadai Athai Udai",
+    "image": "https://www.5movierulz.kitchen/uploads/Thadai-Athai-Uda-Tamil.jpg",
+    "category": "Action",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FcEQ5VHlhakpHK0ZGQ0ltVFlJWDgzUT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Konja Naal Poru Thalaiva",
+    "image": "https://www.5movierulz.kitchen/uploads/Konja-Naal-Poru-Thalaiva-Tamil.jpg",
+    "category": "Comedy",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FS2tXcXJtZUkrS2RoZUpUa2tmaUlhdz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Eesha",
+    "image": "https://www.5movierulz.kitchen/uploads/Eesha-Tamil.jpg",
+    "category": "Horror,Thriller",
+    "country": "India",
+    "Date": "2021-11-12",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FekNiNmN4aW41SDVOS0UrUEpvdWtiUT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "2 Friends",
+    "image": "https://www.5movierulz.kitchen/uploads/2-Friends-Tamil.jpg",
+    "category": "Drama,Comedy",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FT0huWkFxRm1oNWJXTkNMdENkTGNyUT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Will",
+    "image": "https://www.5movierulz.kitchen/uploads/Will-Tamil.jpg",
+    "category": "Thriller",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FaFZyeXRGNm9EdDM4L1BEbTZIZGYrdz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "The Intruders",
+    "image": "https://www.5movierulz.kitchen/uploads/The-Intruders-Tamil.jpg",
+    "category": "Thriller",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FV3N2MlFKODgvSnpNQTZ6STFXdzZtQT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Abinaya",
+    "image": "https://www.5movierulz.kitchen/uploads/Abinaya-Tamil.jpg",
+    "category": "Drama",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FY1ZEdGxOUU14ZUlreDE4ZkJnNnpOdz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Sabdham",
+    "image": "https://www.5movierulz.kitchen/uploads/Sabdham-Tamil.jpg",
+    "category": "Horror,Thriller",
+    "country": "India",
+    "Date": "2024-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FOXIzdzV3akpzUVRONTNWS0tnMjZ5Zz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Friday",
+    "image": "https://www.5movierulz.kitchen/uploads/Friday-Tamil.jpg",
+    "category": "Comedy",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FakJWVUhLeDk5N1pLRXhZWEZ2V2JXdz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Ram Abdullah Antony",
+    "image": "https://www.5movierulz.kitchen/uploads/Ram-Abdullah-Antony-Tamil.jpg",
+    "category": "Drama",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FQTJ1NXFwVzlGenB6MUpYNnE4WXRFQT09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Honey",
+    "image": "https://www.5movierulz.kitchen/uploads/Honey-Tamil.jpg",
+    "category": "Romance,Drama",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FSDVhM09melRRUmVKcTY3Vk9wbE5Ddz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Hero Friend U",
+    "image": "https://www.5movierulz.kitchen/uploads/Hero-Friend-U-Tamil.jpg",
+    "category": "Comedy,Drama",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2Fd1N4S2k5STBDcU45ejViT1VMWHBiZz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
+    "title": "Ondimuniyum Nallapaadanum",
+    "image": "https://www.5movierulz.kitchen/uploads/Ondimuniyum-Nallapaadanum-Tamil.jpg",
+    "category": "Drama",
+    "country": "India",
+    "Date": "2023-01-01",
+    "Movie link": "https://movierulz.babuperumana.workers.dev/proxy?url=https%3A%2F%2Fhls2.vcdnx.com%2Fhls%2FUG9DcmVEMXo4ZDNGTGluNEFVVk81dz09%2FxfgdYshjhYhj%3D%21sdsHsyG"
+  },
+  {
     "title": "Samara",
     "image": "https://www.5movierulz.kitchen/uploads/Samara-Tamil.jpg",
     "category": "Mystery,Thriller",
