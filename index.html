@@ -1076,12 +1076,13 @@
 
         window.addEventListener('load', checkAdBlocker);
 
+        // Updated jsonSources with multi-link support (urls array) for Anime, Movie, TV Series, and Live TV
         const jsonSources = {
             "Movie": [
                 { language: "English", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/movie/language/English.json"] },
                 { language: "Tamil", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/movie/language/Tamil.json"] },
-                { language: "Hindi", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/movie/language/hindi.json"] },
-                { language: "Telugu", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/movie/language/Telugu.json"] }
+                { language: "", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/movie/language/Telugu.json"] },
+                { language: "Hindi", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/movie/language/hindi.json"] }
             ],
             "TV Series": [
                 { language: "Bangla", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/tv-sriese/language/bangla.json"] }
@@ -1143,6 +1144,7 @@
             Object.keys(jsonSources).forEach(category => {
                 const sources = jsonSources[category];
                 sources.forEach(source => {
+                    // Support both `urls` array and fallback single `url`
                     const urlList = source.urls ? source.urls : (source.url ? [source.url] : []);
 
                     urlList.forEach(singleUrl => {
@@ -1357,24 +1359,7 @@
 
             const grouped = groupItemsByName(filtered);
             allFlatItems = grouped;
-
-            // Updated sorting: Date onujaye sort hobe (latest/update date sobar opore) ebong baki gulo random vabe load hobe
-            let sortedItems = grouped;
-            if (currentTab !== 'Live TV') {
-                sortedItems.sort((a, b) => {
-                    const dateA = new Date(a.Date || a.date || 0);
-                    const dateB = new Date(b.Date || b.date || 0);
-                    return dateB - dateA; // Descending order: newest/update date on top
-                });
-
-                // Top item(s) ke date onujaye rekhe baki item gulo randomized korar jonno
-                let dateSortedPart = sortedItems.slice(0, 5); // Sobar oporer update date-er gulo fix rakhar jonno (optional, ekhane full date sort rakha holo)
-                let remainingPart = shuffleArray(sortedItems);
-                // Date onujaye properly sajano thakbe, kintu same date ba general items er moddhe random layout asbe
-                sortedItems = remainingPart.sort((a, b) => new Date(b.Date || b.date || 0) - new Date(a.Date || a.date || 0));
-            }
-
-            setupInfiniteScroll(sortedItems, false);
+            setupInfiniteScroll(currentTab !== 'Live TV' ? shuffleArray(grouped) : grouped, false);
         }
 
         function groupItemsByName(items) {
