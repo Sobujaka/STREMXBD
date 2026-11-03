@@ -8,7 +8,7 @@
         "name": "BTV CTG",
         "tvglogo": "https://s3.aynaott.com/storage/00da8a07fb26b2fb79359ee535e4c7bc",
         "group": "Bangla",
-        "url": "https://tvsen6.aynaott.com/TjGR1GcxKetHNVcMVxbq/index.m3u8?e=1784102576&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=901c0ca2f1ba54041a543dce43641c12"
+        "url": "https://tvsen6.aynaott.com/TjGR1GcxKetHNVcMVxbq/index.m3u8"
       },
       "ananda_tv": {
         "name": "Ananda TV",
@@ -40,6 +40,12 @@
         "group": "Bangla",
         "url": "https://tvsen6.aynaott.com/pKb5k6NnzxsKpWUs6E8M/index.m3u8?e=1784102565&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=e4293f68c5bc8aa8e6ac3e088ca754f4"
       },
+	   "asian_tv1": {
+        "name": "Asian TV",
+        "tvglogo": "https://s3.aynaott.com/storage/5282cec3a2e9349b750540d658cf1b6c",
+        "group": "Bangla",
+        "url": "https://tvsen6.aynaott.com/pKb5k6NnzxsKpWUs6E8M/tracks-v1a1/mono.ts.m3u8"
+      },
       "sa_tv": {
         "name": "SA TV",
         "tvglogo": "https://yt3.googleusercontent.com/HL5ttqw9g34gVINtqq3rCoAyofPFsJg98YkuNz-GB0V8J28HyqIpkjW76AcYNFBol6Nn6zjmDw=s900-c-k-c0x00ffffff-no-rj",
@@ -62,7 +68,7 @@
         "name": "DBC News",
         "tvglogo": "https://s3.aynaott.com/storage/2c5a73ac3f9772a9cb2d18df1b152545",
         "group": "News",
-        "url": "https://tvsen6.aynaott.com/pF66Tkz0qFwP2aMMqHyt/index.m3u8?e=1784102535&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=d1848b7fd84cef719a89b61f0f5704ee"
+        "url": "https://tvsen6.aynaott.com/pF66Tkz0qFwP2aMMqHyt/index.m3u8"
       },
       "news_24_bd": {
         "name": "News 24 BD",
@@ -369,7 +375,73 @@
         "tvglogo": "https://i1.sndcdn.com/avatars-000120257144-5fcxjn-t500x500.jpg",
         "group": "SONG",
         "url": "https://dai.google.com/linear/hls/event/JCAm25qkRXiKcK1AJMlvKQ/master.m3u8"
-      }
+      },
+	  "atn_news": {
+    "name": "ATN News",
+    "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/atn-news-e0442addb4.png",
+    "group": "Bangladesh",
+    "url": "https://tvsen6.aynaott.com/da6WMXAk/index.m3u8"
+  },
+  "bijoy_tv": {
+    "name": "Bijoy TV",
+    "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/bijoy-tv.png",
+    "group": "Bangladesh",
+    "url": "https://tvsen6.aynaott.com/N8Xbo5vdwVU6sF43RsW0/index.m3u8"
+  },
+  "channel_1": {
+    "name": "Channel 1",
+    "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/channel-1.png",
+    "group": "Bangladesh",
+    "url": "https://stream.ottplus.live/live/channel_1_hd_abr/index.m3u8"
+  },
+  "channel_24": {
+    "name": "Channel 24",
+    "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/channel-24.png",
+    "group": "Bangladesh",
+    "url": "https://tvsen6.aynaott.com/YrVDF8gujkdh/index.m3u8"
+  },
+  "channel_s": {
+    "name": "Channel S",
+    "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/channel-s.png",
+    "group": "Bangladesh",
+    "url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/channels.stream/live-orgin/channels.stream/playlist.m3u8"
+  },
+  "deshe_bideshe": {
+    "name": "Deshe Bideshe",
+    "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/deshe-bideshe.png",
+    "group": "Bangladesh",
+    "url": "https://dbcanada.sonarbanglatv.com/deshebideshe/dbtv/index.m3u8"
+  },
+  "ekhon_tv": {
+    "name": "Ekhon TV",
+    "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/ekhon-tv.png",
+    "group": "Bangladesh",
+    "url": "https://drk6xq0vhn.gpcdn.net/live/ekhon_tv_abr/index.m3u8"
+  },
+  "ekushey_tv": {
+    "name": "Ekushey TV",
+    "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/ekushey-tv-d9479035b4.png",
+    "group": "Bangladesh",
+    "url": "https://tvsen5.aynaott.com/SyQuXz8sC3TB/index.m3u8"
+  },
+  "enter_tv": {
+    "name": "Enter TV",
+    "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/enter-tv.png",
+    "group": "Bangladesh",
+    "url": "https://live1.entertv.com.bd/entertv/tracks-v1a1/mono.m3u8"
+  },
+  "global_tv": {
+    "name": "global_tv",
+    "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/global-tv-1080p-5ffc043912.png",
+    "group": "all",
+    "url": "https://stream.ottplus.live/live/global_tv_abr/index.m3u8"
+  },
+  "independent_tv": {
+    "name": "Independent TV",
+    "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/independent-tv.png",
+    "group": "Bangladesh",
+    "url": "https://drk6xq0vhn.gpcdn.net/live/independent_tv_abr/index.m3u8"
+     }
     }
   }
 ]
