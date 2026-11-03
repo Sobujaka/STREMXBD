@@ -7,7 +7,7 @@
     "discovery_kids": {
     "name": "Discovery Kids",
     "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/discovery-kids.png",
-    "group": "Backup",
+    "group": "KIDS",
     "url": "https://drk6xq0vhn.gpcdn.net/live/discovery_kids_abr/index.m3u8"
       }
     }
