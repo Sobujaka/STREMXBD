@@ -20,3 +20,14 @@ anime
   "S1EP12": ""
   }
 },
+live tv
+[
+  {
+    "type": "tv-channel",
+    "country": "Bangladesh",
+    "image": "https://cdn.webshopapp.com/shops/94414/files/51865518/flag-of-bangladesh.jpg",
+    "CN": {
+          
+    }
+  }
+]
