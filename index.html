@@ -1099,8 +1099,8 @@
                 { language: "Hindi", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/anime/language/hindi.json"] }
             ],
             "Live TV": [
-                { country: "Bangladesh", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/live-tv/country/bangladesh.json"] },
-                { country: "India", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/live-tv/country/india.json"] }
+                { country: "bangladesh", image: "", m3u_file_link: "YOUR_BANGLADESH_M3U_OR_JSON_LINK" },
+                { country: "india", image: "", m3u_file_link: "YOUR_INDIA_M3U_OR_JSON_LINK" }
             ],
             "Music": [
                 { urls: [""] }
@@ -1135,6 +1135,34 @@
             }
         }
 
+        // Helper function to parse M3U playlist format into channel objects
+        function parseM3U(m3uText) {
+            let channels = [];
+            let lines = m3uText.split(/\r?\n/);
+            let currentChannel = {};
+
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i].trim();
+                if (line.startsWith('#EXTINF:')) {
+                    currentChannel = {};
+                    let tvgLogoMatch = line.match(/tvg-logo="([^"]*)"/i);
+                    let groupMatch = line.match(/group-title="([^"]*)"/i);
+                    let nameMatch = line.match(/,(.+)$/);
+
+                    currentChannel.tvglogo = tvgLogoMatch ? tvgLogoMatch[1] : '';
+                    currentChannel.group = groupMatch ? groupMatch[1] : 'General';
+                    currentChannel.name = nameMatch ? nameMatch[1].trim() : 'Unknown Channel';
+                } else if (line && !line.startsWith('#')) {
+                    currentChannel.url = line;
+                    if (currentChannel.name) {
+                        channels.push(currentChannel);
+                    }
+                    currentChannel = {};
+                }
+            }
+            return channels;
+        }
+
         function shuffleArray(array) {
             let shuffled = [...array];
             for (let i = shuffled.length - 1; i > 0; i--) {
@@ -1150,26 +1178,70 @@
             Object.keys(jsonSources).forEach(category => {
                 const sources = jsonSources[category];
                 sources.forEach(source => {
-                    const urlList = source.urls ? source.urls : (source.url ? [source.url] : []);
+                    if (category === 'Live TV') {
+                        // Handling Live TV m3u_file_link parsing
+                        if (source.m3u_file_link) {
+                            fetchPromises.push(
+                                fetch(source.m3u_file_link)
+                                    .then(res => res.text())
+                                    .then(async textData => {
+                                        let parsedChannels = [];
+                                        if (source.m3u_file_link.endsWith('.json') || textData.trim().startsWith('[') || textData.trim().startsWith('{')) {
+                                            try {
+                                                let parsedJson = repairAndParseJSON(textData);
+                                                if (Array.isArray(parsedJson)) parsedChannels = parsedJson;
+                                            } catch(err) {}
+                                        }
+                                        
+                                        if (parsedChannels.length === 0) {
+                                            parsedChannels = parseM3U(textData);
+                                        }
 
-                    urlList.forEach(singleUrl => {
-                        fetchPromises.push(
-                            fetch(singleUrl)
-                                .then(res => res.text())
-                                .then(textData => {
-                                    let parsed = repairAndParseJSON(textData);
-                                    if (Array.isArray(parsed)) {
-                                        parsed = parsed.map(item => ({
-                                            ...item,
-                                            ...(source.language && { language: source.language }),
-                                            ...(source.country && { country: source.country })
-                                        }));
-                                    }
-                                    return { category: category, data: parsed };
-                                })
-                                .catch(err => ({ category: category, data: [] }))
-                        );
-                    });
+                                        let cnMap = {};
+                                        parsedChannels.forEach((ch, idx) => {
+                                            cnMap[idx] = {
+                                                name: ch.name || ch.title || "Channel",
+                                                tvglogo: ch.tvglogo || ch.image || source.image || "",
+                                                group: ch.group || ch.category || "General",
+                                                url: ch.url || ch.link || ""
+                                            };
+                                        });
+
+                                        return {
+                                            category: category,
+                                            data: {
+                                                type: "tv-channel",
+                                                country: source.country,
+                                                image: source.image || (parsedChannels[0] ? (parsedChannels[0].tvglogo || parsedChannels[0].image) : ""),
+                                                CN: cnMap
+                                            }
+                                        };
+                                    })
+                                    .catch(err => ({ category: category, data: null }))
+                            );
+                        }
+                    } else {
+                        const urlList = source.urls ? source.urls : (source.url ? [source.url] : []);
+                        urlList.forEach(singleUrl => {
+                            if (!singleUrl) return;
+                            fetchPromises.push(
+                                fetch(singleUrl)
+                                    .then(res => res.text())
+                                    .then(textData => {
+                                        let parsed = repairAndParseJSON(textData);
+                                        if (Array.isArray(parsed)) {
+                                            parsed = parsed.map(item => ({
+                                                ...item,
+                                                ...(source.language && { language: source.language }),
+                                                ...(source.country && { country: source.country })
+                                            }));
+                                        }
+                                        return { category: category, data: parsed };
+                                    })
+                                    .catch(err => ({ category: category, data: [] }))
+                            );
+                        });
+                    }
                 });
             });
 
@@ -1365,19 +1437,15 @@
             const grouped = groupItemsByName(filtered);
             allFlatItems = grouped;
 
-            // Updated sorting: Date onujaye sort hobe (latest/update date sobar opore) ebong baki gulo random vabe load hobe
             let sortedItems = grouped;
             if (currentTab !== 'Live TV') {
                 sortedItems.sort((a, b) => {
                     const dateA = new Date(a.Date || a.date || 0);
                     const dateB = new Date(b.Date || b.date || 0);
-                    return dateB - dateA; // Descending order: newest/update date on top
+                    return dateB - dateA;
                 });
 
-                // Top item(s) ke date onujaye rekhe baki item gulo randomized korar jonno
-                let dateSortedPart = sortedItems.slice(0, 5); // Sobar oporer update date-er gulo fix rakhar jonno (optional, ekhane full date sort rakha holo)
                 let remainingPart = shuffleArray(sortedItems);
-                // Date onujaye properly sajano thakbe, kintu same date ba general items er moddhe random layout asbe
                 sortedItems = remainingPart.sort((a, b) => new Date(b.Date || b.date || 0) - new Date(a.Date || a.date || 0));
             }
 
