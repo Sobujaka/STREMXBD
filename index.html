@@ -1076,6 +1076,7 @@
 
         window.addEventListener('load', checkAdBlocker);
 
+        // Updated JSON Sources with 1 Master JSON link for Live TV
         const jsonSources = {
             "Movie": [
                 { language: "English", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/movie/language/English.json"] },
@@ -1099,8 +1100,7 @@
                 { language: "Hindi", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/anime/language/hindi.json"] }
             ],
             "Live TV": [
-                { country: "bangladesh", image: "", m3u_file_link: "YOUR_BANGLADESH_M3U_OR_JSON_LINK" },
-                { country: "india", image: "", m3u_file_link: "YOUR_INDIA_M3U_OR_JSON_LINK" }
+                { urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/live-tv/master.json"] }
             ],
             "Music": [
                 { urls: [""] }
@@ -1135,7 +1135,6 @@
             }
         }
 
-        // Helper function to parse M3U playlist format into channel objects
         function parseM3U(m3uText) {
             let channels = [];
             let lines = m3uText.split(/\r?\n/);
@@ -1172,76 +1171,73 @@
             return shuffled;
         }
 
+        async function fetchM3UChannels(m3uUrl) {
+            if (!m3uUrl) return {};
+            try {
+                const res = await fetch(m3uUrl);
+                const textData = await res.text();
+                let parsedChannels = [];
+
+                if (m3uUrl.endsWith('.json') || textData.trim().startsWith('[') || textData.trim().startsWith('{')) {
+                    try {
+                        let parsedJson = repairAndParseJSON(textData);
+                        if (Array.isArray(parsedJson)) parsedChannels = parsedJson;
+                    } catch(err) {}
+                }
+                
+                if (parsedChannels.length === 0) {
+                    parsedChannels = parseM3U(textData);
+                }
+
+                let cnMap = {};
+                parsedChannels.forEach((ch, idx) => {
+                    cnMap[idx] = {
+                        name: ch.name || ch.title || "Channel",
+                        tvglogo: ch.tvglogo || ch.image || "",
+                        group: ch.group || ch.category || "General",
+                        url: ch.url || ch.link || ""
+                    };
+                });
+                return cnMap;
+            } catch (e) {
+                return {};
+            }
+        }
+
         async function loadAllJSON() {
             const fetchPromises = [];
 
             Object.keys(jsonSources).forEach(category => {
                 const sources = jsonSources[category];
                 sources.forEach(source => {
-                    if (category === 'Live TV') {
-                        // Handling Live TV m3u_file_link parsing
-                        if (source.m3u_file_link) {
-                            fetchPromises.push(
-                                fetch(source.m3u_file_link)
-                                    .then(res => res.text())
-                                    .then(async textData => {
-                                        let parsedChannels = [];
-                                        if (source.m3u_file_link.endsWith('.json') || textData.trim().startsWith('[') || textData.trim().startsWith('{')) {
-                                            try {
-                                                let parsedJson = repairAndParseJSON(textData);
-                                                if (Array.isArray(parsedJson)) parsedChannels = parsedJson;
-                                            } catch(err) {}
-                                        }
-                                        
-                                        if (parsedChannels.length === 0) {
-                                            parsedChannels = parseM3U(textData);
-                                        }
+                    const urlList = source.urls ? source.urls : (source.url ? [source.url] : []);
 
-                                        let cnMap = {};
-                                        parsedChannels.forEach((ch, idx) => {
-                                            cnMap[idx] = {
-                                                name: ch.name || ch.title || "Channel",
-                                                tvglogo: ch.tvglogo || ch.image || source.image || "",
-                                                group: ch.group || ch.category || "General",
-                                                url: ch.url || ch.link || ""
-                                            };
-                                        });
-
-                                        return {
-                                            category: category,
-                                            data: {
-                                                type: "tv-channel",
-                                                country: source.country,
-                                                image: source.image || (parsedChannels[0] ? (parsedChannels[0].tvglogo || parsedChannels[0].image) : ""),
-                                                CN: cnMap
-                                            }
-                                        };
-                                    })
-                                    .catch(err => ({ category: category, data: null }))
-                            );
-                        }
-                    } else {
-                        const urlList = source.urls ? source.urls : (source.url ? [source.url] : []);
-                        urlList.forEach(singleUrl => {
-                            if (!singleUrl) return;
-                            fetchPromises.push(
-                                fetch(singleUrl)
-                                    .then(res => res.text())
-                                    .then(textData => {
-                                        let parsed = repairAndParseJSON(textData);
-                                        if (Array.isArray(parsed)) {
-                                            parsed = parsed.map(item => ({
-                                                ...item,
-                                                ...(source.language && { language: source.language }),
-                                                ...(source.country && { country: source.country })
-                                            }));
-                                        }
-                                        return { category: category, data: parsed };
-                                    })
-                                    .catch(err => ({ category: category, data: [] }))
-                            );
-                        });
-                    }
+                    urlList.forEach(singleUrl => {
+                        if (!singleUrl) return;
+                        fetchPromises.push(
+                            fetch(singleUrl)
+                                .then(res => res.text())
+                                .then(async textData => {
+                                    let parsed = repairAndParseJSON(textData);
+                                    if (category === "Live TV" && Array.isArray(parsed)) {
+                                        parsed = parsed.map(countryItem => ({
+                                            type: "tv-channel",
+                                            country: countryItem.country,
+                                            image: countryItem.image || "",
+                                            m3u_file_link: countryItem.m3u_file_link || ""
+                                        }));
+                                    } else if (Array.isArray(parsed)) {
+                                        parsed = parsed.map(item => ({
+                                            ...item,
+                                            ...(source.language && { language: source.language }),
+                                            ...(source.country && { country: source.country })
+                                        }));
+                                    }
+                                    return { category: category, data: parsed };
+                                })
+                                .catch(err => ({ category: category, data: [] }))
+                        );
+                    });
                 });
             });
 
@@ -1594,7 +1590,7 @@
             }
         }
 
-        function openPlayerPage(item, updateHash = true) {
+        async function openPlayerPage(item, updateHash = true) {
             if (!isPremium) {
                 openPayment();
                 return;
@@ -1616,6 +1612,10 @@
             sidebar.innerHTML = '';
 
             if (item.type === "tv-channel") {
+                if (!item.CN && item.m3u_file_link) {
+                    sidebar.innerHTML = '<div style="color: #94a3b8; font-size: 13px;">Loading channels...</div>';
+                    item.CN = await fetchM3UChannels(item.m3u_file_link);
+                }
                 setupLiveTVPlayer(item, sidebar);
             } else if (item.song) {
                 setupMusicPlayer(item, sidebar);
@@ -1636,7 +1636,7 @@
             const favStatus = isFavorite(idKey);
 
             const heartFill = favStatus ? '#ef4444' : 'none';
-            const heartStroke = favStatus ? '#ef4444' : '#ffffff';
+            const heartStroke = favStatus ? '#ffffff' : '#ffffff';
 
             favBtn.innerHTML = `
                 <svg viewBox="0 0 24 24" fill="${heartFill}" stroke="${heartStroke}" stroke-width="2">
