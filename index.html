@@ -867,6 +867,27 @@
         }
         const myDeviceId = localStorage.getItem('deviceId');
 
+        function fixImageUrl(url) {
+            if (!url) return 'https://via.placeholder.com/300x300/0f172a/ffffff?text=No+Image';
+            let clean = url.trim();
+            if (clean.startsWith('http://')) {
+                clean = 'https://images.weserv.nl/?url=' + encodeURIComponent(clean);
+            }
+            return clean;
+        }
+
+        function getProxiedStreamUrl(url) {
+            if (!url) return '';
+            let clean = url.trim();
+            if (clean.includes('workers.dev') || clean.includes('corsproxy.io')) {
+                return clean;
+            }
+            if (clean.startsWith('http://') || clean.includes('.m3u8')) {
+                return 'https://corsproxy.io/?' + encodeURIComponent(clean);
+            }
+            return clean;
+        }
+
         function openAdForPremium() {
             const adLink = "https://www.profitableratecpmnetwork.com/kysef0cy?key=899c3e306436d2a84d7b185f398f16bf"; 
             const openTime = Date.now();
@@ -1076,7 +1097,6 @@
 
         window.addEventListener('load', checkAdBlocker);
 
-        // Updated JSON Sources with 1 Master JSON link for Live TV
         const jsonSources = {
             "Movie": [
                 { language: "English", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/movie/language/English.json"] },
@@ -1088,8 +1108,7 @@
                 { language: "hindi3", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/movie/language/hindi-on.json"] },
                 { language: "Kannada", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/movie/language/Kannada.json"] },
                 { language: "panjabi", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/movie/language/panjabi.json"] },
-                { language: "hindi2", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/movie/language/hindi2.json"] },
-                { language: "Kannada", urls: [""] }
+                { language: "hindi2", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/movie/language/hindi2.json"] }
             ],
             "TV Series": [
                 { language: "Bangla", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/tv-sriese/language/bangla.json"] }
@@ -1102,18 +1121,10 @@
             "Live TV": [
                 { urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/live-tv/country/all%20country.json"] }
             ],
-            "Music": [
-                { urls: [""] }
-            ],
-            "Sports": [
-                { urls: [""] }
-            ],
-            "Kids": [
-                { urls: [""] }
-            ],
-            "Education": [
-                { urls: [""] }
-            ]
+            "Music": [{ urls: [""] }],
+            "Sports": [{ urls: [""] }],
+            "Kids": [{ urls: [""] }],
+            "Education": [{ urls: [""] }]
         };
 
         let loadedData = {}, currentTab = 'All', artInstance = null, hlsInstance = null, streamTimeout = null;
@@ -1138,25 +1149,34 @@
         function parseM3U(m3uText) {
             let channels = [];
             let lines = m3uText.split(/\r?\n/);
-            let currentChannel = {};
+            let currentChannel = null;
 
             for (let i = 0; i < lines.length; i++) {
                 let line = lines[i].trim();
+                if (!line) continue;
+
                 if (line.startsWith('#EXTINF:')) {
                     currentChannel = {};
                     let tvgLogoMatch = line.match(/tvg-logo="([^"]*)"/i);
                     let groupMatch = line.match(/group-title="([^"]*)"/i);
                     let nameMatch = line.match(/,(.+)$/);
 
-                    currentChannel.tvglogo = tvgLogoMatch ? tvgLogoMatch[1] : '';
-                    currentChannel.group = groupMatch ? groupMatch[1] : 'General';
+                    currentChannel.tvglogo = tvgLogoMatch ? fixImageUrl(tvgLogoMatch[1]) : '';
+                    currentChannel.group = groupMatch ? groupMatch[1].trim() : 'General';
                     currentChannel.name = nameMatch ? nameMatch[1].trim() : 'Unknown Channel';
-                } else if (line && !line.startsWith('#')) {
-                    currentChannel.url = line;
-                    if (currentChannel.name) {
+                } else if (!line.startsWith('#')) {
+                    if (currentChannel) {
+                        currentChannel.url = line;
                         channels.push(currentChannel);
+                        currentChannel = null;
+                    } else {
+                        channels.push({
+                            name: 'Channel ' + (channels.length + 1),
+                            tvglogo: '',
+                            group: 'General',
+                            url: line
+                        });
                     }
-                    currentChannel = {};
                 }
             }
             return channels;
@@ -1174,11 +1194,28 @@
         async function fetchM3UChannels(m3uUrl) {
             if (!m3uUrl) return {};
             try {
-                const res = await fetch(m3uUrl);
-                const textData = await res.text();
-                let parsedChannels = [];
+                let targetUrl = m3uUrl.trim();
+                let fetchUrls = [
+                    targetUrl,
+                    'https://corsproxy.io/?' + encodeURIComponent(targetUrl),
+                    'https://api.allorigins.win/raw?url=' + encodeURIComponent(targetUrl)
+                ];
 
-                if (m3uUrl.endsWith('.json') || textData.trim().startsWith('[') || textData.trim().startsWith('{')) {
+                let textData = "";
+                for (let url of fetchUrls) {
+                    try {
+                        let res = await fetch(url);
+                        if (res.ok) {
+                            textData = await res.text();
+                            if (textData && textData.trim().length > 0) break;
+                        }
+                    } catch(err) {}
+                }
+
+                if (!textData) return {};
+
+                let parsedChannels = [];
+                if (targetUrl.endsWith('.json') || textData.trim().startsWith('[') || textData.trim().startsWith('{')) {
                     try {
                         let parsedJson = repairAndParseJSON(textData);
                         if (Array.isArray(parsedJson)) parsedChannels = parsedJson;
@@ -1192,14 +1229,15 @@
                 let cnMap = {};
                 parsedChannels.forEach((ch, idx) => {
                     cnMap[idx] = {
-                        name: ch.name || ch.title || "Channel",
-                        tvglogo: ch.tvglogo || ch.image || "",
+                        name: ch.name || ch.title || "Channel " + (idx + 1),
+                        tvglogo: fixImageUrl(ch.tvglogo || ch.image || ch.logo || ""),
                         group: ch.group || ch.category || "General",
                         url: ch.url || ch.link || ""
                     };
                 });
                 return cnMap;
             } catch (e) {
+                console.error("M3U fetch Error:", e);
                 return {};
             }
         }
@@ -1223,12 +1261,13 @@
                                         parsed = parsed.map(countryItem => ({
                                             type: "tv-channel",
                                             country: countryItem.country,
-                                            image: countryItem.image || "",
+                                            image: fixImageUrl(countryItem.image || ""),
                                             m3u_file_link: countryItem.m3u_file_link || ""
                                         }));
                                     } else if (Array.isArray(parsed)) {
                                         parsed = parsed.map(item => ({
                                             ...item,
+                                            image: fixImageUrl(item.image || item.poster || ""),
                                             ...(source.language && { language: source.language }),
                                             ...(source.country && { country: source.country })
                                         }));
@@ -1538,12 +1577,13 @@
                 }
 
                 const langBadgeHTML = langText ? `<div class="card-lang-badge">${langText}</div>` : '';
+                const imgSrc = fixImageUrl(item.image);
 
                 card.innerHTML = `
                     <div class="card-image-wrapper ${isSquare ? 'square-box' : ''}">
                         ${actionBtnHTML}
                         ${langBadgeHTML}
-                        <img src="${item.image || ''}" alt="${displayTitle}" loading="lazy" decoding="async">
+                        <img src="${imgSrc}" alt="${displayTitle}" loading="lazy" decoding="async" onerror="this.src='https://via.placeholder.com/300x300/0f172a/ffffff?text=Image+Error'">
                     </div>
                     <div class="card-info">
                         <div class="card-title">${displayTitle}</div>
@@ -1612,8 +1652,8 @@
             sidebar.innerHTML = '';
 
             if (item.type === "tv-channel") {
-                if (!item.CN && item.m3u_file_link) {
-                    sidebar.innerHTML = '<div style="color: #94a3b8; font-size: 13px;">Loading channels...</div>';
+                sidebar.innerHTML = '<div style="color: #94a3b8; font-size: 13px;">Loading channels...</div>';
+                if (item.m3u_file_link) {
                     item.CN = await fetchM3UChannels(item.m3u_file_link);
                 }
                 setupLiveTVPlayer(item, sidebar);
@@ -1706,7 +1746,7 @@
                         if (idx === currentEpisodeIndex) b.classList.add('active');
                         else b.classList.remove('active');
                     });
-                    loadVideo(songs[songName], `${item.name || item.title} - ${songName.trim()}`, handleAutoPlayNext, true);
+                    loadVideo(songs[songName], `${item.name || item.title} - ${songName.trim()}`, handleAutoPlayNext, false);
                 };
                 epGrid.appendChild(btn);
                 if (index === 0) btn.click();
@@ -1782,7 +1822,7 @@
                                 if (idx === currentEpisodeIndex) b.classList.add('active');
                                 else b.classList.remove('active');
                             });
-                            loadVideo(epData.url, `${activeItem.title || activeItem.name} - ${selectedSeason} ${epData.epName} (${selectedLang})`, handleAutoPlayNext, true);
+                            loadVideo(epData.url, `${activeItem.title || activeItem.name} - ${selectedSeason} ${epData.epName} (${selectedLang})`, handleAutoPlayNext, false);
                         };
                         epGrid.appendChild(btn);
                         if (index === 0) btn.click();
@@ -1817,7 +1857,7 @@
                     if (!uniqueChannels[chNameKey]) {
                         uniqueChannels[chNameKey] = {
                             name: ch.name,
-                            tvglogo: ch.tvglogo,
+                            tvglogo: fixImageUrl(ch.tvglogo),
                             group: ch.group,
                             links: [ch.url]
                         };
@@ -1849,7 +1889,14 @@
             container.innerHTML = '';
             let isFirst = true;
 
-            Object.values(window.currentChannels).forEach(ch => {
+            const channelKeys = Object.keys(window.currentChannels);
+            if (channelKeys.length === 0) {
+                container.innerHTML = '<div style="color: #ef4444; font-size: 12px; padding: 10px;">No channels found in this M3U file!</div>';
+                return;
+            }
+
+            channelKeys.forEach(key => {
+                const ch = window.currentChannels[key];
                 if (group === 'all' || ch.group === group) {
                     const div = document.createElement('div');
                     div.className = 'channel-item';
@@ -1858,7 +1905,8 @@
                         div.classList.add('active');
                         playChannelWithButtons(ch.links, ch.name, 0);
                     };
-                    div.innerHTML = `<img src="${ch.tvglogo}" alt="${ch.name}" loading="lazy"><span>${ch.name}</span>`;
+                    const imgSrc = fixImageUrl(ch.tvglogo);
+                    div.innerHTML = `<img src="${imgSrc}" alt="${ch.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/50x50/0f172a/ffffff?text=TV'"><span>${ch.name}</span>`;
                     container.appendChild(div);
                     if (isFirst) { div.click(); isFirst = false; }
                 }
@@ -1948,109 +1996,101 @@
                 return;
             }
 
-            const cleanUrl = url.trim();
-            const lowerUrl = cleanUrl.toLowerCase();
+            const rawUrl = url.trim();
+            const lowerUrl = rawUrl.toLowerCase();
 
             if (lowerUrl.includes('youtube.com') || lowerUrl.includes('youtu.be')) {
                 artContainer.style.display = 'none';
                 iframe.style.display = 'block';
-                iframe.src = getYouTubeEmbedUrl(cleanUrl);
+                iframe.src = getYouTubeEmbedUrl(rawUrl);
                 return;
             }
 
-            const isProxyStream = lowerUrl.includes('workers.dev') || lowerUrl.includes('/stream') || lowerUrl.includes('.m3u8');
-            const isDirectVideo = lowerUrl.includes('.mp4') || lowerUrl.includes('.mkv');
+            const playStreamUrl = getProxiedStreamUrl(rawUrl);
 
-            if (isProxyStream || isDirectVideo) {
-                iframe.style.display = 'none';
-                iframe.src = '';
-                artContainer.style.display = 'block';
+            iframe.style.display = 'none';
+            iframe.src = '';
+            artContainer.style.display = 'block';
 
-                let hasTriggeredError = false;
-                const handleError = () => {
-                    if (!hasTriggeredError) {
-                        hasTriggeredError = true;
-                        destroyPlayers();
-                        if (onErrorCallback) onErrorCallback();
-                    }
-                };
-
-                streamTimeout = setTimeout(() => {
-                    handleError();
-                }, 8000);
-
-                artInstance = new Artplayer({
-                    container: '#artPlayerContainer',
-                    url: cleanUrl,
-                    type: lowerUrl.includes('.m3u8') ? 'm3u8' : 'auto',
-                    customType: {
-                        m3u8: function (video, videoUrl) {
-                            if (Hls.isSupported()) {
-                                hlsInstance = new Hls({
-                                    enableWorker: true,
-                                    lowLatencyMode: false,
-                                    maxBufferLength: 60,
-                                    maxMaxBufferLength: 120,
-                                    maxBufferSize: 60 * 1024 * 1024,
-                                    maxBufferHole: 0.5,
-                                    highBufferWatchdogPeriod: 2,
-                                    nudgeMaxRetry: 5
-                                });
-                                hlsInstance.loadSource(videoUrl);
-                                hlsInstance.attachMedia(video);
-                                
-                                hlsInstance.on(Hls.Events.MANIFEST_PARSED, function () {
-                                    if (streamTimeout) {
-                                        clearTimeout(streamTimeout);
-                                        streamTimeout = null;
-                                    }
-                                });
-
-                                hlsInstance.on(Hls.Events.ERROR, function (event, data) {
-                                    if (data.fatal) {
-                                        handleError();
-                                    }
-                                });
-                            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                                video.src = videoUrl;
-                                video.addEventListener('loadedmetadata', () => {
-                                    if (streamTimeout) {
-                                        clearTimeout(streamTimeout);
-                                        streamTimeout = null;
-                                    }
-                                });
-                                video.addEventListener('error', handleError);
-                            }
-                        },
-                    },
-                    autoplay: true,
-                    pip: true,
-                    screenshot: true,
-                    fullscreen: true,
-                    fullscreenWeb: true,
-                    theme: '#3b82f6',
-                });
-
-                artInstance.on('video:playing', () => {
-                    if (streamTimeout) {
-                        clearTimeout(streamTimeout);
-                        streamTimeout = null;
-                    }
-                });
-
-                if (enableAutoNext) {
-                    artInstance.on('video:ended', () => {
-                        if (onErrorCallback) onErrorCallback();
-                    });
+            let hasTriggeredError = false;
+            const handleError = () => {
+                if (!hasTriggeredError) {
+                    hasTriggeredError = true;
+                    destroyPlayers();
+                    if (onErrorCallback) onErrorCallback();
                 }
+            };
 
-                artInstance.on('error', handleError);
+            streamTimeout = setTimeout(() => {
+                handleError();
+            }, 12000);
 
-            } else {
-                artContainer.style.display = 'none';
-                iframe.style.display = 'block';
-                iframe.src = cleanUrl;
+            artInstance = new Artplayer({
+                container: '#artPlayerContainer',
+                url: playStreamUrl,
+                type: (lowerUrl.includes('.m3u8') || playStreamUrl.includes('.m3u8')) ? 'm3u8' : 'auto',
+                customType: {
+                    m3u8: function (video, videoUrl) {
+                        if (Hls.isSupported()) {
+                            hlsInstance = new Hls({
+                                enableWorker: true,
+                                lowLatencyMode: false,
+                                maxBufferLength: 60,
+                                maxMaxBufferLength: 120,
+                                maxBufferSize: 60 * 1024 * 1024,
+                                maxBufferHole: 0.5,
+                                highBufferWatchdogPeriod: 2,
+                                nudgeMaxRetry: 5
+                            });
+                            hlsInstance.loadSource(videoUrl);
+                            hlsInstance.attachMedia(video);
+                            
+                            hlsInstance.on(Hls.Events.MANIFEST_PARSED, function () {
+                                if (streamTimeout) {
+                                    clearTimeout(streamTimeout);
+                                    streamTimeout = null;
+                                }
+                            });
+
+                            hlsInstance.on(Hls.Events.ERROR, function (event, data) {
+                                if (data.fatal) {
+                                    handleError();
+                                }
+                            });
+                        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                            video.src = videoUrl;
+                            video.addEventListener('loadedmetadata', () => {
+                                if (streamTimeout) {
+                                    clearTimeout(streamTimeout);
+                                    streamTimeout = null;
+                                }
+                            });
+                            video.addEventListener('error', handleError);
+                        }
+                    },
+                },
+                autoplay: true,
+                pip: true,
+                screenshot: true,
+                fullscreen: true,
+                fullscreenWeb: true,
+                theme: '#3b82f6',
+            });
+
+            artInstance.on('video:playing', () => {
+                if (streamTimeout) {
+                    clearTimeout(streamTimeout);
+                    streamTimeout = null;
+                }
+            });
+
+            if (enableAutoNext) {
+                artInstance.on('video:ended', () => {
+                    if (onErrorCallback) onErrorCallback();
+                });
             }
+
+            artInstance.on('error', handleError);
         }
 
         function closePlayerPage() {
