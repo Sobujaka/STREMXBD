@@ -882,10 +882,7 @@
             if (clean.includes('workers.dev') || clean.includes('corsproxy.io')) {
                 return clean;
             }
-            if (clean.startsWith('http://') || clean.includes('.m3u8')) {
-                return 'https://corsproxy.io/?' + encodeURIComponent(clean);
-            }
-            return clean;
+            return 'https://corsproxy.io/?' + encodeURIComponent(clean);
         }
 
         function openAdForPremium() {
@@ -1940,7 +1937,9 @@
             };
 
             loadVideo(urls[activeIndex], `${title} (Server ${activeIndex + 1})`, () => {
-                console.log(`Server ${activeIndex + 1} failed.`);
+                if (activeIndex + 1 < urls.length) {
+                    playChannelWithButtons(urls, title, activeIndex + 1);
+                }
             }, false);
         }
 
@@ -2023,24 +2022,20 @@
 
             streamTimeout = setTimeout(() => {
                 handleError();
-            }, 12000);
+            }, 10000);
 
             artInstance = new Artplayer({
                 container: '#artPlayerContainer',
                 url: playStreamUrl,
-                type: (lowerUrl.includes('.m3u8') || playStreamUrl.includes('.m3u8')) ? 'm3u8' : 'auto',
+                type: 'm3u8',
                 customType: {
                     m3u8: function (video, videoUrl) {
                         if (Hls.isSupported()) {
                             hlsInstance = new Hls({
+                                debug: false,
                                 enableWorker: true,
-                                lowLatencyMode: false,
-                                maxBufferLength: 60,
-                                maxMaxBufferLength: 120,
-                                maxBufferSize: 60 * 1024 * 1024,
-                                maxBufferHole: 0.5,
-                                highBufferWatchdogPeriod: 2,
-                                nudgeMaxRetry: 5
+                                lowLatencyMode: true,
+                                backBufferLength: 90
                             });
                             hlsInstance.loadSource(videoUrl);
                             hlsInstance.attachMedia(video);
@@ -2050,11 +2045,22 @@
                                     clearTimeout(streamTimeout);
                                     streamTimeout = null;
                                 }
+                                video.play().catch(e => console.log("Autoplay prevented:", e));
                             });
 
                             hlsInstance.on(Hls.Events.ERROR, function (event, data) {
                                 if (data.fatal) {
-                                    handleError();
+                                    switch (data.type) {
+                                        case Hls.ErrorTypes.NETWORK_ERROR:
+                                            hlsInstance.startLoad();
+                                            break;
+                                        case Hls.ErrorTypes.MEDIA_ERROR:
+                                            hlsInstance.recoverMediaError();
+                                            break;
+                                        default:
+                                            handleError();
+                                            break;
+                                    }
                                 }
                             });
                         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
@@ -2064,6 +2070,7 @@
                                     clearTimeout(streamTimeout);
                                     streamTimeout = null;
                                 }
+                                video.play();
                             });
                             video.addEventListener('error', handleError);
                         }
