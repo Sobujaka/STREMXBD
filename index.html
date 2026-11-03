@@ -1099,13 +1099,21 @@
                 { language: "Hindi", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/anime/language/hindi.json"] }
             ],
             "Live TV": [
-                { country: "Bangladesh", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/live-tv/country/bangladesh.m3u"] },
-                { country: "India", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/live-tv/country/india.m3u"] }
+                { country: "Bangladesh", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/live-tv/country/bangladesh.json"] },
+                { country: "India", urls: ["https://raw.githubusercontent.com/Sobujaka/STREMXBD/refs/heads/main/server/app/live-tv/country/india.json"] }
             ],
-            "Music": [ { urls: [""] } ],
-            "Sports": [ { urls: [""] } ],
-            "Kids": [ { urls: [""] } ],
-            "Education": [ { urls: [""] } ]
+            "Music": [
+                { urls: [""] }
+            ],
+            "Sports": [
+                { urls: [""] }
+            ],
+            "Kids": [
+                { urls: [""] }
+            ],
+            "Education": [
+                { urls: [""] }
+            ]
         };
 
         let loadedData = {}, currentTab = 'All', artInstance = null, hlsInstance = null, streamTimeout = null;
@@ -1127,50 +1135,6 @@
             }
         }
 
-        function parseM3UPlaylist(m3uText, countryName) {
-            const lines = m3uText.split(/\r?\n/);
-            const channels = {};
-            let currentMeta = {};
-
-            lines.forEach(line => {
-                line = line.trim();
-                if (line.startsWith('#EXTINF:')) {
-                    const tvgLogoMatch = line.match(/tvg-logo="([^"]+)"/i);
-                    const groupTitleMatch = line.match(/group-title="([^"]+)"/i);
-                    
-                    const nameParts = line.split(',');
-                    const channelName = nameParts.length > 1 ? nameParts[nameParts.length - 1].trim() : 'Unknown Channel';
-
-                    currentMeta = {
-                        name: channelName,
-                        tvglogo: tvgLogoMatch ? tvgLogoMatch[1] : '',
-                        group: groupTitleMatch ? groupTitleMatch[1] : 'General'
-                    };
-                } else if (line && !line.startsWith('#')) {
-                    if (currentMeta.name) {
-                        currentMeta.url = line;
-                        const key = currentMeta.name.toLowerCase();
-                        if (!channels[key]) {
-                            channels[key] = {
-                                name: currentMeta.name,
-                                tvglogo: currentMeta.tvglogo,
-                                group: currentMeta.group,
-                                url: currentMeta.url
-                            };
-                        }
-                        currentMeta = {};
-                    }
-                }
-            });
-
-            return {
-                type: "tv-channel",
-                country: countryName,
-                image: Object.values(channels)[0] ? Object.values(channels)[0].tvglogo : '',
-                CN: channels
-            };
-        }
-
         function shuffleArray(array) {
             let shuffled = [...array];
             for (let i = shuffled.length - 1; i > 0; i--) {
@@ -1189,24 +1153,17 @@
                     const urlList = source.urls ? source.urls : (source.url ? [source.url] : []);
 
                     urlList.forEach(singleUrl => {
-                        if(!singleUrl) return;
-                        
                         fetchPromises.push(
                             fetch(singleUrl)
                                 .then(res => res.text())
                                 .then(textData => {
-                                    let parsed;
-                                    if (singleUrl.endsWith('.m3u') || singleUrl.endsWith('.m3u8')) {
-                                        parsed = parseM3UPlaylist(textData, source.country || 'Live TV');
-                                    } else {
-                                        parsed = repairAndParseJSON(textData);
-                                        if (Array.isArray(parsed)) {
-                                            parsed = parsed.map(item => ({
-                                                ...item,
-                                                ...(source.language && { language: source.language }),
-                                                ...(source.country && { country: source.country })
-                                            }));
-                                        }
+                                    let parsed = repairAndParseJSON(textData);
+                                    if (Array.isArray(parsed)) {
+                                        parsed = parsed.map(item => ({
+                                            ...item,
+                                            ...(source.language && { language: source.language }),
+                                            ...(source.country && { country: source.country })
+                                        }));
                                     }
                                     return { category: category, data: parsed };
                                 })
@@ -1408,15 +1365,19 @@
             const grouped = groupItemsByName(filtered);
             allFlatItems = grouped;
 
+            // Updated sorting: Date onujaye sort hobe (latest/update date sobar opore) ebong baki gulo random vabe load hobe
             let sortedItems = grouped;
             if (currentTab !== 'Live TV') {
                 sortedItems.sort((a, b) => {
                     const dateA = new Date(a.Date || a.date || 0);
                     const dateB = new Date(b.Date || b.date || 0);
-                    return dateB - dateA;
+                    return dateB - dateA; // Descending order: newest/update date on top
                 });
 
+                // Top item(s) ke date onujaye rekhe baki item gulo randomized korar jonno
+                let dateSortedPart = sortedItems.slice(0, 5); // Sobar oporer update date-er gulo fix rakhar jonno (optional, ekhane full date sort rakha holo)
                 let remainingPart = shuffleArray(sortedItems);
+                // Date onujaye properly sajano thakbe, kintu same date ba general items er moddhe random layout asbe
                 sortedItems = remainingPart.sort((a, b) => new Date(b.Date || b.date || 0) - new Date(a.Date || a.date || 0));
             }
 
