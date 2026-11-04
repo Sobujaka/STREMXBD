@@ -65,7 +65,7 @@
         "tvglogo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIW2cmHrqPB7qsoxGygOhrTzOCN91qSBeg5hM0xS0xfIEdHuvSgVdojfnU&s=10",
         "group": "ALL",
         "url-server1": "https://catchup.yuppcdn.net/amazonv2/36/preview/colorsbanglahd/master/chunklist.m3u8",
-        "url-server2": "",
+        "url-server2": "https://yupptvcatchupire.yuppcdn.net/preview/colorsbanglahd/2500.m3u8",
         "url-server3": ""
       },
       {
@@ -312,7 +312,15 @@
         "name": "Sangeet Bangla",
         "tvglogo": "https://tse4.mm.bing.net/th/id/OIP.okCk_qj7uP1HZkpbkp5cowAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "SONG",
-        "url-server1": "https://tvsen6.aynaott.com/hT5jHczt/index.m3u8",
+        "url-server1": "https://mumt05.tangotv.in/87NeALx2SANGEETBANGLA/index.m3u8",
+        "url-server2": "",
+        "url-server3": ""
+      },
+	  {
+        "name": "Movie Bangla",
+        "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/movie-bangla.png",
+        "group": "ALL",
+        "url-server1": "https://stream.ottplus.live/live/movie_bangla_abr/index.m3u8",
         "url-server2": "",
         "url-server3": ""
       },
@@ -377,6 +385,14 @@
         "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/animal-planet.png",
         "group": "ALL",
         "url-server1": "https://drk6xq0vhn.gpcdn.net/live/animal_planet_sd_abr/index.m3u8",
+        "url-server2": "",
+        "url-server3": ""
+      },
+	  {
+        "name": "Sony Max",
+        "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/sony-max.png",
+        "group": "ALL",
+        "url-server1": "https://drk6xq0vhn.gpcdn.net/live/sony_max_sd_abr/index.m3u8",
         "url-server2": "",
         "url-server3": ""
       },
@@ -452,12 +468,20 @@
         "url-server2": "https://stream.ottplus.live/live/discovery_kids_abr/index.m3u8",
         "url-server3": ""
       },
+	  {
+        "name": "Pogo",
+        "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/pogo.png",
+        "group": "ALL",
+        "url-server1": "https://stream.ottplus.live/live/pogo_sd_abr/index.m3u8",
+        "url-server2": "",
+        "url-server3": ""
+      },
       {
         "name": "Cartoon Network",
         "tvglogo": "https://i.ibb.co.com/8B0Lpzd/1000021166.png",
         "group": "KIDS",
         "url-server1": "https://vodzong.mjunoon.tv:8087/streamtest/cartoon-network-87/playlist.m3u8",
-        "url-server2": "https://tvsen5.aynaott.com/cartoonnetwork/index.m3u8",
+        "url-server2": "https://drk6xq0vhn.gpcdn.net/live/cn_hd_abr/index.m3u8",
         "url-server3": "https://drk6xq0vhn.gpcdn.net/live/cn_sd_abr/index.m3u8"
       },
       {
