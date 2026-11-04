@@ -3,8 +3,8 @@
     "type": "tv-channel",
     "country": "Bangladesh",
     "image": "https://cdn.webshopapp.com/shops/94414/files/51865518/flag-of-bangladesh.jpg",
-    "CN": {
-      "btv_ctg": {
+    "CN": [
+      {
         "name": "BTV CTG",
         "tvglogo": "https://s3.aynaott.com/storage/00da8a07fb26b2fb79359ee535e4c7bc",
         "group": "Bangla",
@@ -12,7 +12,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "ananda_tv": {
+      {
         "name": "Ananda TV",
         "tvglogo": "https://tse4.mm.bing.net/th/id/OIP.3Hmvj3Qx8TktwIIf5YZh6gHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "ALL",
@@ -20,7 +20,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "bijoy_tv": {
+      {
         "name": "Bijoy TV",
         "tvglogo": "https://tse3.mm.bing.net/th/id/OIP.A4MMLFNJeqBCbORttvHQ3gHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "Bangladesh",
@@ -28,7 +28,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "desh_tv": {
+      {
         "name": "Desh TV",
         "tvglogo": "https://images.seeklogo.com/logo-png/60/1/desh-tv-logo-png_seeklogo-606364.png",
         "group": "Bangladesh",
@@ -36,7 +36,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "bangla_tv": {
+      {
         "name": "Bangla TV",
         "tvglogo": "https://s3.aynaott.com/storage/e42ecfa90e3d6b15bdb7fea5ef673864",
         "group": "Bangla",
@@ -44,7 +44,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "asian_tv": {
+      {
         "name": "Asian TV",
         "tvglogo": "https://s3.aynaott.com/storage/5282cec3a2e9349b750540d658cf1b6c",
         "group": "Bangla",
@@ -52,7 +52,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "sa_tv": {
+      {
         "name": "SA TV",
         "tvglogo": "https://yt3.googleusercontent.com/HL5ttqw9g34gVINtqq3rCoAyofPFsJg98YkuNz-GB0V8J28HyqIpkjW76AcYNFBol6Nn6zjmDw=s900-c-k-c0x00ffffff-no-rj",
         "group": "Bangladesh",
@@ -60,7 +60,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "etv": {
+      {
         "name": "ETV",
         "tvglogo": "https://s3.aynaott.com/storage/8a1af81802b0728c064c2adabcdc72c8",
         "group": "Bangla",
@@ -68,7 +68,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "channel_i": {
+      {
         "name": "Channel I",
         "tvglogo": "https://images.seeklogo.com/logo-png/53/1/channel-i-logo-png_seeklogo-532023.png",
         "group": "Bangladesh",
@@ -76,7 +76,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "dbc_news": {
+      {
         "name": "DBC News",
         "tvglogo": "https://s3.aynaott.com/storage/2c5a73ac3f9772a9cb2d18df1b152545",
         "group": "News",
@@ -84,7 +84,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "news_24_bd": {
+      {
         "name": "News 24 BD",
         "tvglogo": "https://s3.aynaott.com/storage/7c002f22c02096b0d1ba833ae9ea6d5b",
         "group": "News",
@@ -92,7 +92,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "ekattor_tv": {
+      {
         "name": "Ekattor TV",
         "tvglogo": "https://tse3.mm.bing.net/th/id/OIP.L8WzhR3z5NThNdSDB8CX2wAAAA?r=0&w=400&h=415&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "Bangladesh",
@@ -100,7 +100,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "jamuna_tv": {
+      {
         "name": "Jamuna TV",
         "tvglogo": "https://s3.aynaott.com/storage/aac6488b68844e5756ab46eb79659de8",
         "group": "News",
@@ -108,7 +108,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "atn_bangla": {
+      {
         "name": "ATN Bangla",
         "tvglogo": "https://images.seeklogo.com/logo-png/53/1/atn-bangla-logo-png_seeklogo-537053.png",
         "group": "ALL",
@@ -116,7 +116,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "deepto_tv": {
+      {
         "name": "Deepto TV",
         "tvglogo": "https://tse4.mm.bing.net/th/id/OIP.rpzxn2ed6nyI2TEAIs8GtwAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "ALL",
@@ -124,7 +124,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "zee_bangla": {
+      {
         "name": "Zee Bangla",
         "tvglogo": "https://tse1.mm.bing.net/th/id/OIP.ksnD5W5tbRfqTNQuTLg9WAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "TV SHOW",
@@ -132,7 +132,7 @@
         "url-server2": "https://raw.githubusercontent.com/amazeyourself/adaptive-streams/refs/heads/main/streams/in/YuppTV/ZeeBanglaHD.m3u8",
         "url-server3": ""
       },
-      "thikana": {
+      {
         "name": "Thikana",
         "tvglogo": "https://s3.aynaott.com/storage/6d1aaa03b84a69992940873fc11af8fc",
         "group": "Bangla",
@@ -140,7 +140,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "star_jolsha": {
+      {
         "name": "Star Jolsha",
         "tvglogo": "https://yt3.ggpht.com/a/AATXAJx1FFUOgyw37wr2lxM7uV7LpZI5cN1Fhp3ImQ=s900-c-k-c0xffffffff-no-rj-mo",
         "group": "Bangla",
@@ -148,7 +148,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "maasranga_tv": {
+      {
         "name": "Maasranga TV",
         "tvglogo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiwgQtP2TuwjgIQUhmb4D8IGcdEpaP0Xl8CwcYeP5_dF7KyrbAlWr0692nCd_K5IbKdI2ownF2_fOlNYmP_mk-G78Kc1yBbW9MdhLFK8ZiG48UoQmYZNl67Di6JPFekkWZxZlU14mP2E-Hs/s1600/Maasranga_Television_Logo.jpg",
         "group": "KIDS",
@@ -156,7 +156,7 @@
         "url-server2": "https://tvsen5.aynaott.com/maasrangatv/index.m3u8",
         "url-server3": ""
       },
-      "bangla_vision": {
+      {
         "name": "Bangla Vision",
         "tvglogo": "https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Banglavision.svg/1280px-Banglavision.svg.png",
         "group": "ALL",
@@ -164,7 +164,7 @@
         "url-server2": "https://tvsen5.aynaott.com/tgUzpPc9r6xw/index.m3u8",
         "url-server3": ""
       },
-      "boishakhi_tv": {
+      {
         "name": "Boishakhi TV",
         "tvglogo": "https://tse1.mm.bing.net/th/id/OIP.bSQ98D4_cesXxTMC_R_MDAHaG3?r=0&w=860&h=797&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "Bangladesh",
@@ -172,7 +172,7 @@
         "url-server2": "https://boishakhi.sonarbanglatv.com/boishakhi/boishakhitv/index.m3u8",
         "url-server3": ""
       },
-      "rtv": {
+      {
         "name": "RTV",
         "tvglogo": "https://rtvonline.com/templates/web-view/images/rtv-logo.svg",
         "group": "ALL",
@@ -180,7 +180,7 @@
         "url-server2": "https://tvsen6.aynaott.com/rtv/index.m3u8",
         "url-server3": ""
       },
-      "ntv": {
+      {
         "name": "NTV",
         "tvglogo": "https://www.ntvbd.com/sites/all/themes/sloth/images/ntv-facebook.jpg",
         "group": "ALL",
@@ -188,7 +188,7 @@
         "url-server2": "https://tvsen5.aynaott.com/JHPxHAWonztVucyc4GzF/index.m3u8",
         "url-server3": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/ntvuk00332211.stream/playlist.m3u8"
       },
-      "my_tv": {
+      {
         "name": "My TV",
         "tvglogo": "https://tse2.mm.bing.net/th/id/OIP.9G4Ro1q2UWrNsZMb7fxPdQHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "ALL",
@@ -196,7 +196,7 @@
         "url-server2": "https://app24.jagobd.com.bd/c3VydmVyX8RpbEU9Mi8xNy8yMFDEEHGcfRgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcEdsEfeDeKiNkVN3PTOmdFseWRtaW51aiPhnPTI2/mytv-up-off.stream/tracks-v1a1/mono.m3u8",
         "url-server3": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/mytv-up-off.stream/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9MTAvMTQvMjAyNCAyOjE4OjU2IFBNJmhhc2hfdmFsdWU9a3lza1NOUVpsQlQ3TWQyS1VRSnBuQT09JnZhbGlkbWludXRlcz00MA=="
       },
-      "mohona_tv": {
+      {
         "name": "Mohona TV",
         "tvglogo": "https://tse1.mm.bing.net/th/id/OIP.9CQHmAfcuOc-J8Yq2RU84wAAAA?r=0&w=200&h=160&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "Bangladesh",
@@ -204,7 +204,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "jungle_book": {
+      {
         "name": "Jungle Book",
         "tvglogo": "https://pash.ink/storage/uploads/JungleBook_Logo.png",
         "group": "KIDS",
@@ -212,7 +212,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "bangla_plus": {
+      {
         "name": "Bangla +",
         "tvglogo": "https://copilot.microsoft.com/th/id/BCO.9ebcdfed-6110-4ae4-8290-074aaf03e509.png",
         "group": "MOVIE",
@@ -220,7 +220,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "me_tv": {
+      {
         "name": "Me-tv",
         "tvglogo": "https://th.bing.com/th/id/OIP.8GLNEcaUbZmiWdnTkTAeGQHaHa?w=108&h=108&c=1&bgcl=78167d&r=0&o=7&pid=ImgRC&rm=3",
         "group": "ALL",
@@ -228,7 +228,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "rajdhani_tv": {
+      {
         "name": "Rajdhani TV",
         "tvglogo": "https://www.jagobd.com/wp-content/uploads/2024/08/rajdhani.jpeg",
         "group": "MOVIE",
@@ -236,7 +236,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "sangeet_bangla": {
+      {
         "name": "Sangeet Bangla",
         "tvglogo": "https://tse4.mm.bing.net/th/id/OIP.okCk_qj7uP1HZkpbkp5cowAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "SONG",
@@ -244,7 +244,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "g_series": {
+      {
         "name": "G Series",
         "tvglogo": "https://th.bing.com/th/id/OIP.OFA2CI3juA9d_xBpO14WSgHaHa?r=0&o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "TV SHOW",
@@ -252,7 +252,7 @@
         "url-server2": "https://vods2.aynaott.com/gseriesDrama/index.m3u8",
         "url-server3": ""
       },
-      "rongeen_tv": {
+      {
         "name": "Rongeen TV",
         "tvglogo": "https://s3.aynaott.com/storage/296b530024a470f52313692636810e04",
         "group": "KIDS",
@@ -260,7 +260,7 @@
         "url-server2": "https://server.thelegitpro.in/rongeentv/rongeentv/tracks-v1a1/mono.m3u8",
         "url-server3": ""
       },
-      "t_sports": {
+      {
         "name": "T Sports",
         "tvglogo": "https://yt3.googleusercontent.com/bFiobvUTC9dzqtqmHrGpMvIlQ2SpWYVKQFd3M8iP0hKqENuPOUNNVzaQQoJufoIFH-_M0UYn7w=s900-c-k-c0x00ffffff-no-rj",
         "group": "SPORTS",
@@ -268,7 +268,7 @@
         "url-server2": "https://tvsen3.aynaott.com/Sports1/mono.m3u",
         "url-server3": ""
       },
-      "star_sports_2": {
+      {
         "name": "STAR SPORTS 2",
         "tvglogo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj0064pLJvc46RZ0FYAFmsC6tPmvlzUj5wkGFCsr5LgZlMXLxfc4aVF6Tn4n1J7dqOQNQLFRG3fyEHZ7YY0CFjXO09Gh_NbEqtSaE6vgwADi3pMuZoJc8ACnh8d0CrO8Q6MdWniInhpx2WmXPJGooUzwemj8U2bLVJWbwqsXIO9xroAm32VZln7cK-JllY/s900/channels4_profile.jpg",
         "group": "",
@@ -276,7 +276,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "goldmines": {
+      {
         "name": "Goldmines",
         "tvglogo": "https://yt3.googleusercontent.com/9Zj92XUc49-6bZbcy2J4bbZJ_TEaTX5CKXv3KWGbXNeKc2qrg8jUhvCjNAyTjn17BciCSmlpAg=s900-c-k-c0x00ffffff-no-rj",
         "group": "MOVIE",
@@ -284,7 +284,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "zee_cinema": {
+      {
         "name": "Zee Cinema",
         "tvglogo": "https://tse3.mm.bing.net/th/id/OIP.TlF1fbh1RjeecKIEwdxMEAAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "MOVIE",
@@ -292,7 +292,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "goldmines_movies": {
+      {
         "name": "Goldmines Movies",
         "tvglogo": "https://yt3.googleusercontent.com/d66J-MMZ06-55gkF5maclPGB5f5j1L0SAs3iWnl3lhoswlWrJ67wD2a3mZGkgHgt-W3kMrIT=s900-c-k-c0x00ffffff-no-rj",
         "group": "MOVIE",
@@ -300,7 +300,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "zee_classic": {
+      {
         "name": "Zee Classic",
         "tvglogo": "https://th.bing.com/th/id/OIP.lfN5wtegJ1qgmS_aqBi_IgHaHa?w=108&h=108&c=1&bgcl=6d19c8&r=0&o=7&pid=ImgRC&rm=3",
         "group": "MOVIE",
@@ -308,7 +308,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "the_movie_club": {
+      {
         "name": "THE MOVIE CLUB",
         "tvglogo": "https://cdn.tvivu.com/logos/the-movie-club-160.webp",
         "group": "MOVIE",
@@ -316,7 +316,7 @@
         "url-server2": "https://d3gnyty2vddhsg.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/pb-ytipwjqub3kf8/TMC2_IN.m3u8?ads.ads_cdn=cf&ads.cdn=cf",
         "url-server3": ""
       },
-      "peace_tv": {
+      {
         "name": "Peace TV",
         "tvglogo": "https://tse2.mm.bing.net/th/id/OIP.0f4NmGaHkaxeA-iV6hqXXAHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "ISLAMIC CHANNELS",
@@ -324,7 +324,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "wow_kidz_720p": {
+      {
         "name": "WOW Kidz (720p)",
         "tvglogo": "https://d229kpbsb5jevy.cloudfront.net/yupptvnew/content/common/channel/logos/mjvezt.png",
         "group": "Animation;Kids",
@@ -332,7 +332,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "sony_yay": {
+      {
         "name": "Sony Yay",
         "tvglogo": "https://tse3.mm.bing.net/th/id/OIP.HX74tYQ2garyYz_SdRdBXgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "KIDS",
@@ -340,7 +340,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "discovery_kids": {
+      {
         "name": "Discovery Kids",
         "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/discovery-kids.png",
         "group": "KIDS",
@@ -348,7 +348,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "cartoon_network": {
+      {
         "name": "Cartoon Network",
         "tvglogo": "https://i.ibb.co.com/8B0Lpzd/1000021166.png",
         "group": "KIDS",
@@ -356,7 +356,7 @@
         "url-server2": "https://tvsen5.aynaott.com/cartoonnetwork/index.m3u8",
         "url-server3": ""
       },
-      "music_india": {
+      {
         "name": "Music india",
         "tvglogo": "https://dtil.tmsimg.com/assets/s143563_ld_h15_aa.png?lock=720x540",
         "group": "Music",
@@ -364,7 +364,7 @@
         "url-server2": "",
         "url-server3": ""
       },
-      "zoom": {
+      {
         "name": "Zoom",
         "tvglogo": "https://i1.sndcdn.com/avatars-000120257144-5fcxjn-t500x500.jpg",
         "group": "SONG",
@@ -372,6 +372,6 @@
         "url-server2": "https://dai.google.com/linear/hls/event/JCAm25qkRXiKcK1AJMlvKQ/master.m3u8",
         "url-server3": ""
       }
-    }
+    ]
   }
 ]
