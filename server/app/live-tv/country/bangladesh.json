@@ -20,12 +20,28 @@
         "url-server2": "",
         "url-server3": ""
       },
+	  {
+        "name": "Channel 24",
+        "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/channel-24.png",
+        "group": "ALL",
+        "url-server1": "https://tvsen6.aynaott.com/YrVDF8gujkdh/index.m3u8",
+        "url-server2": "",
+        "url-server3": ""
+      },
+	   {
+        "name": "Channel 1",
+        "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/channel-1.png",
+        "group": "ALL",
+        "url-server1": "https://stream.ottplus.live/live/channel_1_hd_abr/index.m3u8",
+        "url-server2": "",
+        "url-server3": ""
+      },
       {
         "name": "Bijoy TV",
         "tvglogo": "https://tse3.mm.bing.net/th/id/OIP.A4MMLFNJeqBCbORttvHQ3gHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "Bangladesh",
         "url-server1": "https://stream.ottplus.live/live/bijoy_tv_abr/live/bijoy_tv_720/chunks.m3u8",
-        "url-server2": "",
+        "url-server2": "https://tvsen6.aynaott.com/N8Xbo5vdwVU6sF43RsW0/index.m3u8",
         "url-server3": ""
       },
       {
@@ -33,7 +49,7 @@
         "tvglogo": "https://images.seeklogo.com/logo-png/60/1/desh-tv-logo-png_seeklogo-606364.png",
         "group": "Bangladesh",
         "url-server1": "https://tvsen6.aynaott.com/ryFkXfd1a4CQ7mMdc820/index.m3u8",
-        "url-server2": "",
+        "url-server2": "https://stream.ottplus.live/live/desh_tv_abr/index.m3u8",
         "url-server3": ""
       },
       {
@@ -48,8 +64,8 @@
         "name": "Asian TV",
         "tvglogo": "https://s3.aynaott.com/storage/5282cec3a2e9349b750540d658cf1b6c",
         "group": "Bangla",
-        "url-server1": "https://tvsen6.aynaott.com/pKb5k6NnzxsKpWUs6E8M/index.m3u8?e=1784102565&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=e4293f68c5bc8aa8e6ac3e088ca754f4",
-        "url-server2": "",
+        "url-server1": "https://tvsen6.aynaott.com/pKb5k6NnzxsKpWUs6E8M/index.m3u8",
+        "url-server2": "https://tvsen6.aynaott.com/pKb5k6NnzxsKpWUs6E8M/tracks-v1a1/mono.ts.m3u8",
         "url-server3": ""
       },
       {
@@ -76,11 +92,19 @@
         "url-server2": "",
         "url-server3": ""
       },
+	  {
+        "name": "Channel s",
+        "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/channel-s.png",
+        "group": "ALL",
+        "url-server1": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/channels.stream/live-orgin/channels.stream/playlist.m3u8",
+        "url-server2": "",
+        "url-server3": ""
+      },
       {
         "name": "DBC News",
         "tvglogo": "https://s3.aynaott.com/storage/2c5a73ac3f9772a9cb2d18df1b152545",
         "group": "News",
-        "url-server1": "https://tvsen6.aynaott.com/pF66Tkz0qFwP2aMMqHyt/index.m3u8?e=1784102535&u=ee5437a7-c16b-4700-b317-a41b77d5cba9&token=d1848b7fd84cef719a89b61f0f5704ee",
+        "url-server1": "https://tvsen6.aynaott.com/pF66Tkz0qFwP2aMMqHyt/index.m3u8",
         "url-server2": "",
         "url-server3": ""
       },
@@ -105,6 +129,14 @@
         "tvglogo": "https://s3.aynaott.com/storage/aac6488b68844e5756ab46eb79659de8",
         "group": "News",
         "url-server1": "https://tvsen6.aynaott.com/KGdZEdA7qQ43dmPkgk1j/index.m3u8",
+        "url-server2": "",
+        "url-server3": ""
+      },
+	  {
+        "name": "ATN News",
+        "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/atn-news-e0442addb4.png",
+        "group": "News",
+        "url-server1": "https://tvsen6.aynaott.com/da6WMXAk/index.m3u8",
         "url-server2": "",
         "url-server3": ""
       },
