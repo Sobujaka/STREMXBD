@@ -1365,19 +1365,15 @@
             const grouped = groupItemsByName(filtered);
             allFlatItems = grouped;
 
-            // Updated sorting: Date onujaye sort hobe (latest/update date sobar opore) ebong baki gulo random vabe load hobe
             let sortedItems = grouped;
             if (currentTab !== 'Live TV') {
                 sortedItems.sort((a, b) => {
                     const dateA = new Date(a.Date || a.date || 0);
                     const dateB = new Date(b.Date || b.date || 0);
-                    return dateB - dateA; // Descending order: newest/update date on top
+                    return dateB - dateA;
                 });
 
-                // Top item(s) ke date onujaye rekhe baki item gulo randomized korar jonno
-                let dateSortedPart = sortedItems.slice(0, 5); // Sobar oporer update date-er gulo fix rakhar jonno (optional, ekhane full date sort rakha holo)
                 let remainingPart = shuffleArray(sortedItems);
-                // Date onujaye properly sajano thakbe, kintu same date ba general items er moddhe random layout asbe
                 sortedItems = remainingPart.sort((a, b) => new Date(b.Date || b.date || 0) - new Date(a.Date || a.date || 0));
             }
 
@@ -1744,19 +1740,29 @@
             if (item.CN) {
                 Object.values(item.CN).forEach(ch => {
                     if (ch.group) groups.add(ch.group);
-                    const chNameKey = ch.name.trim().toLowerCase();
+                    const chNameKey = (ch.name || '').trim().toLowerCase();
+
+                    // Server URLs extract kora (url-server1, url-server2, url-server3, url)
+                    const serverUrls = [];
+                    ['url-server1', 'url-server2', 'url-server3', 'url'].forEach(serverKey => {
+                        if (ch[serverKey] && ch[serverKey].trim() !== "") {
+                            serverUrls.push(ch[serverKey].trim());
+                        }
+                    });
 
                     if (!uniqueChannels[chNameKey]) {
                         uniqueChannels[chNameKey] = {
                             name: ch.name,
                             tvglogo: ch.tvglogo,
                             group: ch.group,
-                            links: [ch.url]
+                            links: serverUrls
                         };
                     } else {
-                        if (!uniqueChannels[chNameKey].links.includes(ch.url)) {
-                            uniqueChannels[chNameKey].links.push(ch.url);
-                        }
+                        serverUrls.forEach(u => {
+                            if (!uniqueChannels[chNameKey].links.includes(u)) {
+                                uniqueChannels[chNameKey].links.push(u);
+                            }
+                        });
                     }
                 });
             }
