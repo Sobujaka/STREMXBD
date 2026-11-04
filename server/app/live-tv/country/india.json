@@ -3,8 +3,8 @@
     "type": "tv-channel",
     "country": "Bangladesh",
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaH006yfbc-IEhzRhIjI5ZR9OjgqbM6ZyAAsx4Fg43Fg&s",
-    "CN": {
-    "discovery_kids": {
+    "CN": [
+    {
     "name": "Discovery Kids",
     "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/discovery-kids.png",
     "group": "KIDS",
