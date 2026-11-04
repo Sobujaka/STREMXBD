@@ -1733,22 +1733,26 @@
             }
         }
 
+        // Updated function to handle Array-based "CN" structure
         function setupLiveTVPlayer(item, sidebar) {
             const groups = new Set();
             const uniqueChannels = {};
 
-            if (item.CN) {
-                Object.values(item.CN).forEach(ch => {
+            if (Array.isArray(item.CN)) {
+                item.CN.forEach(ch => {
                     if (ch.group) groups.add(ch.group);
                     const chNameKey = (ch.name || '').trim().toLowerCase();
 
-                    // Server URLs extract kora (url-server1, url-server2, url-server3, url)
+                    // Collect all server URLs from url-server1, url-server2, url-server3, etc.
                     const serverUrls = [];
-                    ['url-server1', 'url-server2', 'url-server3', 'url'].forEach(serverKey => {
-                        if (ch[serverKey] && ch[serverKey].trim() !== "") {
-                            serverUrls.push(ch[serverKey].trim());
+                    Object.keys(ch).forEach(key => {
+                        if (key.startsWith('url-server') && ch[key] && ch[key].trim() !== "") {
+                            serverUrls.push(ch[key].trim());
                         }
                     });
+                    if (ch.url && ch.url.trim() !== "" && !serverUrls.includes(ch.url.trim())) {
+                        serverUrls.push(ch.url.trim());
+                    }
 
                     if (!uniqueChannels[chNameKey]) {
                         uniqueChannels[chNameKey] = {
