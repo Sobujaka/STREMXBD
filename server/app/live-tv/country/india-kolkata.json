@@ -43,14 +43,6 @@
         "url-server1": "https://mumt05.tangotv.in/87NeALx2SANGEETBANGLA/index.m3u8",
         "url-server2": "",
         "url-server3": ""
-      },
-       {
-        "name": "Jalsha Bangla BD",
-        "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/jalsha-bangla-bd.png",
-        "group": "ALL",
-        "url-server1": "https://dish.porosh.com.bd/hls/jalshabangla.m3u8",
-        "url-server2": "",
-        "url-server3": ""
       }
     ]
   }
