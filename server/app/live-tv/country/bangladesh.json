@@ -176,7 +176,7 @@
         "name": "Deepto TV",
         "tvglogo": "https://tse4.mm.bing.net/th/id/OIP.rpzxn2ed6nyI2TEAIs8GtwAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
         "group": "ALL",
-        "url-server1": "https://byphdgllyk.gpcdn.net/hls/deeptotv/0_1/index.m3u8",
+        "url-server1": "https://byphdgllyk.gpcdn.net/hls/deeptotv/index.m3u8",
         "url-server2": "",
         "url-server3": ""
       },
