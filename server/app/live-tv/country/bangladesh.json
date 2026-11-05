@@ -275,7 +275,7 @@
         "group": "Bangladesh",
         "url-server1": "https://stream.ottplus.live/live/mohona_tv_abr/index.m3u8",
         "url-server2": "https://tvsen6.aynaott.com/AkyX5dunzju4cpo26dr7/tracks-v1a1/mono.ts.m3u8",
-        "url-server3": ""
+        "url-server3": "https://tvsen6.aynaott.com/AkyX5dunzju4cpo26dr7/index.m3u8"
       },
       {
         "name": "Jungle Book",
