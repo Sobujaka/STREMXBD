@@ -1,0 +1,17 @@
+ [
+  {
+    "type": "tv-channel",
+    "country": "India (kolkata)",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaH006yfbc-IEhzRhIjI5ZR9OjgqbM6ZyAAsx4Fg43Fg&s",
+    "CN": [
+       {
+        "name": "ABP Ananda",
+        "tvglogo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/ABP_Ananda_logo.svg/500px-ABP_Ananda_logo.svg.png",
+        "group": "News",
+        "url-server1": "https://d2l4ar6y3mrs4k.cloudfront.net/live-streaming/ananda-livetv/master.m3u8",
+        "url-server2": "",
+        "url-server3": ""
+      }
+    ]
+  }
+]
