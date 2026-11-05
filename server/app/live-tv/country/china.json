@@ -1,0 +1,57 @@
+[
+    {
+        "type": "tv-channel",
+        "country": "China",
+        "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Flag_of_the_People%27s_Republic_of_China.svg/330px-Flag_of_the_People%27s_Republic_of_China.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+        "CN": [
+            {
+                "name": "Harbin Movie Channel",
+                "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/harbin-movie-channel-41537a954e.png",
+                "group": "China",
+                "url-server1": "https://stream.hrbtv.net/yspd/playlist.m3u8",
+                "url-server2": "",
+                "url-server3": ""
+            },
+            {
+                "name": "CCTV-9",
+                "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/cctv-9-9b5936f400.png",
+                "group": "Documentary & Wildlife",
+                "url-server1": "https://xykt-fix.github.io/Y77.m3u8",
+                "url-server2": "",
+                "url-server3": ""
+            },
+            {
+                "name": "CGTN Documentary",
+                "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/cgtn-documentary.png",
+                "group": "Documentary & Wildlife",
+                "url-server1": "https://amg00405-rakutentv-cgtndocumentary-rakuten-0ql8j.amagi.tv/master.m3u8",
+                "url-server2": "",
+                "url-server3": ""
+            },
+            {
+                "name": "China Travel",
+                "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/china-travel-15839ad67c.png",
+                "group": "Documentary & Wildlife",
+                "url-server1": "https://fastlive.cctvplus.com/out/v1/ca6f9297b7314a63959435028af287fc/index.m3u8",
+                "url-server2": "",
+                "url-server3": ""
+            },
+            {
+                "name": "Discovering China",
+                "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/discovering-china-7465b835f4.png",
+                "group": "Documentary & Wildlife",
+                "url-server1": "https://fastlive.cctvplus.com/out/v1/8442c3bfd4c64a3984389328f6087879/index.m3u8",
+                "url-server2": "",
+                "url-server3": ""
+            },
+            {
+                "name": "CGTN Documentary",
+                "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/cgtn-documentary.png",
+                "group": "Documentary & Wildlife",
+                "url-server1": "https://english-livebkali.cgtn.com/live/doccgtn_1.m3u8",
+                "url-server2": "",
+                "url-server3": ""
+            }
+        ]
+    }
+]
