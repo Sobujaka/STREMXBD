@@ -372,6 +372,14 @@
         "url-server2": "https://tvsen3.aynaott.com/Sports1/mono.m3u",
         "url-server3": ""
       },
+	   {
+        "name": "Zee Cinema hd",
+        "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/zee-cinema.png",
+        "group": "Indian Movies",
+        "url-server1": "https://raw.githubusercontent.com/amazeyourself/adaptive-streams/refs/heads/main/streams/sg/YuppTV/ZeeCinemaAPAC.m3u8",
+        "url-server2": "",
+        "url-server3": ""
+      },
       {
         "name": "STAR SPORTS 2",
         "tvglogo": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj0064pLJvc46RZ0FYAFmsC6tPmvlzUj5wkGFCsr5LgZlMXLxfc4aVF6Tn4n1J7dqOQNQLFRG3fyEHZ7YY0CFjXO09Gh_NbEqtSaE6vgwADi3pMuZoJc8ACnh8d0CrO8Q6MdWniInhpx2WmXPJGooUzwemj8U2bLVJWbwqsXIO9xroAm32VZln7cK-JllY/s900/channels4_profile.jpg",
