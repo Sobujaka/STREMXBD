@@ -1,1 +1,17 @@
-
+ [
+  {
+    "type": "tv-channel",
+    "country": "india (Telugu)",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaH006yfbc-IEhzRhIjI5ZR9OjgqbM6ZyAAsx4Fg43Fg&s",
+    "CN": [
+       {
+        "name": "TV9 (Telugu)",
+        "tvglogo": "https://i.imgur.com/oHAdC30.png",
+        "group": "News",
+        "url-server1": "https://dyjmyiv3bp2ez.cloudfront.net/pub-iotv9telcmjhcs/liveabr/playlist.m3u8",
+        "url-server2": "",
+        "url-server3": ""
+      }
+    ]
+  }
+]
