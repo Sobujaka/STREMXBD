@@ -21,13 +21,20 @@ anime
   }
 },
 live tv
-[
+ [
   {
     "type": "tv-channel",
-    "country": "Bangladesh",
-    "image": "https://cdn.webshopapp.com/shops/94414/files/51865518/flag-of-bangladesh.jpg",
-    "CN": {
-          
-    }
+    "country": "",
+    "image": "",
+    "CN": [
+       {
+        "name": "",
+        "tvglogo": "",
+        "group": "News",
+        "url-server1": "",
+        "url-server2": "",
+        "url-server3": ""
+      }
+    ]
   }
 ]
