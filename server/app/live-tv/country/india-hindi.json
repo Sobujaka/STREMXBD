@@ -12,14 +12,6 @@
         "url-server2": "",
         "url-server3": ""
       },
-		{
-        "name": "STAR SPORTS 1 hd",
-        "tvglogo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/star-sports-1-hindi.png",
-        "group": "",
-        "url-server1": "https://starsportshindiii.pages.dev/index.m3u8",
-        "url-server2": "",
-        "url-server3": ""
-      },
 	  {
         "name": "NDTV India",
         "tvglogo": "https://i.imgur.com/QjJYohG.png",
